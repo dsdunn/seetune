@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { getUser } from '../apiCalls';
 import './App.css';
 
 import Login from '../Login/Login'
@@ -9,15 +10,17 @@ class App extends Component {
     accesstoken: ''
   }
 
-  componentDidMount() {
-    console.log('mount', window.location.href)
+  async componentDidMount() {
+
+    let accesstoken = window.location.href.split('=')[1] || '';
+    let user = await getUser(accesstoken);
+
+    this.setState({ accesstoken, user });
   }
-
-
 
   render() {
     return (
-      <Route path="/" component={Login} />
+      !this.state.accesstoken && <Login/>  
     );
   }
 }
