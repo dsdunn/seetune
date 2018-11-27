@@ -3,7 +3,8 @@ import { Route } from 'react-router-dom';
 import { getUser } from '../apiCalls';
 import './App.css';
 
-import Login from '../Login/Login'
+import Login from '../Login/Login';
+import User from '../User/User';
 
 class App extends Component {
   state = {
@@ -20,7 +21,11 @@ class App extends Component {
 
   render() {
     return (
-      !this.state.accesstoken && <Login/>  
+      <div>
+        <h1>SeeTune</h1>
+        { !this.state.accesstoken && <Login/> }
+        {this.state.user && <User user={this.state.user} />}
+      </div>
     );
   }
 }

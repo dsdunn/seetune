@@ -7,9 +7,8 @@ const Login = () => {
   }
 
   return (
-    <div className="App">
-    hellaaaa?
-      <button onClick={handleLogin}>login</button>
+    <div className="Login">
+      <button onClick={handleLogin}>login with spotify</button>
     </div>
     )
 }
