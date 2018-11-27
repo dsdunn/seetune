@@ -11,3 +11,9 @@ export const getUser = async (token) => {
 
   return response.json();
 }
+
+export const getTopTracks = async (token) => {
+  let response = await fetch(url + 'me/albums', options(token));
+
+  return response.json();
+}
