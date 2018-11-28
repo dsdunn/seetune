@@ -1,4 +1,4 @@
-import { getTopTracks, getGenres, getAudioFeatures } from './apiCalls';
+import { getTopTracks, getGenres, getAudioFeatures } from './helper';
 
 export const topTracksCleaner = async (token, rawTracks) => {
   rawTracks = await rawTracks;
@@ -23,6 +23,23 @@ export const topTracksCleaner = async (token, rawTracks) => {
       }
     })
   });
+
+  return trackSet;
+}
+
+export const tracksByGenre = (tracks) => {
+  let trackSet = tracks.reduce(async (trackSet, track) => {
+    let genres = await track.genres;
+
+    genres.forEach(genre => {
+      if (!trackSet[genre]){
+        trackSet[genre] = [];
+      }
+      trackSet[genre].push(track)
+    })
+    // console.log(trackSet)
+    return trackSet;
+  }, {}); 
 
   return trackSet;
 }

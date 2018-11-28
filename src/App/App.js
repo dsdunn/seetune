@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { getUser, getTopTracks } from '../apiCalls';
+import { getUser, getTopTracks } from '../helper';
+import { tracksByGenre } from '../dataCleaners';
 import './App.css';
 
 import Login from '../Login/Login';
@@ -23,12 +24,16 @@ class App extends Component {
     let user = await getUser(token);
 
     this.setState({token, user})
-    this.getTopData(token);
+    this.getTopTracks(token);
   }
 
-  async getTopData (token) {
+  async getTopTracks (token) {
     let topTracks = await getTopTracks(token);
-    console.log(topTracks)
+    // let tracks = tracksByGenre(topTracks);
+    // this.setState({ 
+    //   tracks
+    // });
+
     // let topArtists = awain getTopArtists(token);
   }
 
