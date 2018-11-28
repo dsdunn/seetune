@@ -1,23 +1,12 @@
 import { getTopTracks } from './apiCalls';
 // import getGenres from './apiCalls';
 
-export const topTracksCleaner = async (tracksPromise, token) => {
-  let cleanTopTracks = [];
-  let rawTracks = await tracksPromise;
-
-  // if (rawTracks.next) {
-  //   let response = await getTopTracks(rawTracks.next, token);
-  //   let result = response.json();
-
-  //   cleanTopTracks = [...cleanTopTracks, ...topTracksCleaner(result, token)]
-
-  //   return cleanTopTracks;
-  // }
-
+export const topTracksCleaner = async (rawTracks, token) => {
+  rawTracks = await rawTracks;
   let trackSet = rawTracks.items.map(track => {
     //get track's artist's genres
     //get audio-features for track: tempo, danceability, energy, time_signature
-    let { name, album, popularity, duration_ms } = track;
+  let { name, album, popularity, duration_ms } = track;
 
     return ({
       title: name,
@@ -31,9 +20,7 @@ export const topTracksCleaner = async (tracksPromise, token) => {
       energy: null,
       time_signature: null
     })
-  })
+  });
 
-  cleanTopTracks = [...cleanTopTracks, ...trackSet];
-
-  return cleanTopTracks;
+  return trackSet;
 }

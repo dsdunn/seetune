@@ -7,19 +7,35 @@ const options = (token) => ({
       "Content-Type": "application/json"    
     }
   })
+const fetchData = async (url, token) => {
+  let result = await fetch(url, options(token));
+  return result.json();
+}
 
 export const getUser = async (token) => {
-  let response = await fetch(baseUrl + 'me', options(token));
+  let url = baseUrl + 'me';
+  let user = await fetchData(url, token);
 
-  return response.json();
+  return user;
 }
 
-export const getTopTracks = async (token, nextUrl=null) => {
+export const getTopTracks = async (token, nextUrl) => {
+  let topTracks = [];
   let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks';
-  let response = await fetch(url, options(token));
+  let rawTracks = await fetchData(url, token);
+  let trackSet = await topTracksCleaner(rawTracks, token);
+  
+  topTracks = [...topTracks, ...trackSet];
 
-  return topTracksCleaner(response.json(), token);
+  if (rawTracks.next){
+    trackSet = await getTopTracks(token, rawTracks.next);
+    topTracks = [...topTracks, ...trackSet];
+  }
+  return topTracks
 }
+
+
+
 
 //getGenres
 
