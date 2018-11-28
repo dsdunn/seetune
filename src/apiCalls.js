@@ -1,4 +1,6 @@
-const url = 'https://api.spotify.com/v1/';
+import { topTracksCleaner } from './dataCleaners'
+
+const baseUrl = 'https://api.spotify.com/v1/';
 const options = (token) => ({
     "headers": {
       "Authorization": "Bearer " + token,
@@ -7,13 +9,19 @@ const options = (token) => ({
   })
 
 export const getUser = async (token) => {
-  let response = await fetch(url + 'me', options(token));
+  let response = await fetch(baseUrl + 'me', options(token));
 
   return response.json();
 }
 
-export const getTopTracks = async (token) => {
-  let response = await fetch(url + 'me/albums', options(token));
+export const getTopTracks = async (token, nextUrl=null) => {
+  let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks';
+  let response = await fetch(url, options(token));
 
-  return response.json();
+  return topTracksCleaner(response.json(), token);
 }
+
+//getGenres
+
+//getAudioFeatures
+

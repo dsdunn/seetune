@@ -28,6 +28,7 @@ class App extends Component {
 
   async getTopData (token) {
     let topTracks = await getTopTracks(token);
+    console.log(topTracks)
     // let topArtists = awain getTopArtists(token);
   }
 
