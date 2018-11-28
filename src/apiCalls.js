@@ -32,6 +32,9 @@ export const getGenres = async (token, id) => {
 }
 
 
+export const getAudioFeatures = async (token, id) => {
+  let features = await fetchData(baseUrl + 'audio-features/' + id, token);
 
-//getAudioFeatures
+  return features;
+}
 
