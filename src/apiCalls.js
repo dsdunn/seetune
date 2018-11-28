@@ -1,16 +1,7 @@
+import  { fetchData } from './fetch'
 import { topTracksCleaner } from './dataCleaners'
 
 const baseUrl = 'https://api.spotify.com/v1/';
-const options = (token) => ({
-    "headers": {
-      "Authorization": "Bearer " + token,
-      "Content-Type": "application/json"    
-    }
-  })
-const fetchData = async (url, token) => {
-  let result = await fetch(url, options(token));
-  return result.json();
-}
 
 export const getUser = async (token) => {
   let url = baseUrl + 'me';
@@ -23,7 +14,7 @@ export const getTopTracks = async (token, nextUrl) => {
   let topTracks = [];
   let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks';
   let rawTracks = await fetchData(url, token);
-  let trackSet = await topTracksCleaner(rawTracks, token);
+  let trackSet = await topTracksCleaner(token, rawTracks);
   
   topTracks = [...topTracks, ...trackSet];
 
@@ -34,10 +25,13 @@ export const getTopTracks = async (token, nextUrl) => {
   return topTracks
 }
 
+export const getGenres = async (token, id) => {
+  let artist = await fetchData(baseUrl + 'artists/' + id, token);
+
+  return artist.genres;
+}
 
 
-
-//getGenres
 
 //getAudioFeatures
 
