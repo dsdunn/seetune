@@ -1,4 +1,4 @@
-import { getTopTracks, getGenres, getAudioFeatures } from './helper';
+import { getTopTracks, getGenres, getAudioFeatures } from './apiCalls';
 
 export const topTracksCleaner = async (token, rawTracks) => {
   rawTracks = await rawTracks;
@@ -28,18 +28,35 @@ export const topTracksCleaner = async (token, rawTracks) => {
 }
 
 export const tracksByGenre = (tracks) => {
-  let trackSet = tracks.reduce(async (trackSet, track) => {
+  let trackSet = asyncReduce(tracks, async (set, track) => {
     let genres = await track.genres;
 
-    genres.forEach(genre => {
-      if (!trackSet[genre]){
-        trackSet[genre] = [];
+    asyncForEach(genres, (genre) => {
+      if (!set[genre]) {
+        set[genre] = [];
       }
-      trackSet[genre].push(track)
+      set[genre].push(track)
     })
-    // console.log(trackSet)
-    return trackSet;
-  }, {}); 
+    return set;
+  }, {})
+  return trackSet
+}
 
-  return trackSet;
+const asyncReduce = async (array, callback, startValue) => {
+  let accumulator = startValue || 0;
+
+  for (let i = 0; i < array.length; i++) {
+    accumulator = await callback(accumulator, array[i])
+  }
+  return accumulator;
+}
+
+const asyncForEach = async (array, callback) => {
+  for (let i = 0; i < array.length; i++) {
+    await callback(array[i]);
+  }
+}
+
+export const cleanUser = (user) => {
+
 }

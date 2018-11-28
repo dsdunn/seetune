@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { getUser, getTopTracks } from '../helper';
-import { tracksByGenre } from '../dataCleaners';
+import { getUser, getTopTracks } from '../apiCalls';
+import { tracksByGenre } from '../utilities';
 import './App.css';
 
 import Login from '../Login/Login';
@@ -20,6 +20,10 @@ class App extends Component {
     }
   }
 
+  componentDidUpdate () {
+
+  }
+
   async setUser (token) {
     let user = await getUser(token);
 
@@ -29,10 +33,11 @@ class App extends Component {
 
   async getTopTracks (token) {
     let topTracks = await getTopTracks(token);
-    // let tracks = tracksByGenre(topTracks);
-    // this.setState({ 
-    //   tracks
-    // });
+    let tracks = await tracksByGenre(topTracks);
+
+    this.setState({ 
+      tracks
+    });
 
     // let topArtists = awain getTopArtists(token);
   }

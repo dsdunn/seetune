@@ -1,5 +1,5 @@
 import  { fetchData } from './fetch'
-import { topTracksCleaner } from './dataCleaners'
+import { topTracksCleaner } from './utilities'
 
 const baseUrl = 'https://api.spotify.com/v1/';
 
