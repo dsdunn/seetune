@@ -9,6 +9,7 @@ import User from '../User/User';
 
 class App extends Component {
   state = {
+    loading: false,
     token: '',
     genres: {},
     user: {},
@@ -26,7 +27,7 @@ class App extends Component {
   async setUser (token) {
     let user = await getUser(token);
 
-    this.setState({token, user})
+    this.setState({ token, user, loading: true })
     this.setTopTracks(token);
   }
 
@@ -39,6 +40,7 @@ class App extends Component {
         this.setState({topTracks});
         this.setGenres(topTracks);
         window.clearInterval(interval);
+        this.setState({ loading: false });
       };
     }, 500)
   }
