@@ -27,7 +27,7 @@ export const getTopTracks = async (token, nextUrl) => {
 
 export const getGenres = async (token, id) => {
   let artist = await fetchData(baseUrl + 'artists/' + id, token);
-
+  
   return artist.genres;
 }
 

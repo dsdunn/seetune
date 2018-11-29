@@ -9,9 +9,9 @@ import User from '../User/User';
 
 class App extends Component {
   state = {
-    token: null,
-    genres: null,
-    user: null,
+    token: '',
+    genres: {},
+    user: {},
     topTracks: []
   }
 
@@ -32,29 +32,29 @@ class App extends Component {
 
   async setTopTracks (token) {
     let topTracks = await getTopTracks(token);
+    topTracks = await this.setTrackDetails(topTracks);
 
-    this.setState({ 
-      topTracks
-    });
-    this.setTrackDetails();
+    let interval = setInterval(() => {
+      if (topTracks[topTracks.length - 1].genres) {     
+        this.setState({topTracks});
+        this.setGenres(topTracks);
+        window.clearInterval(interval);
+      };
+    }, 500)
   }
 
-  async setTrackDetails () {
-    let topTracks = this.state.topTracks;
-
+  async setTrackDetails (topTracks) {
     asyncForEach(topTracks, async (track) => {
-      track.audioFeatures = await getAudioFeatures(this.state.token, track.id);
-      track.genres = await getGenres(this.state.token, track.artistId);
+      let audioFeatures = await getAudioFeatures(this.state.token, track.id);
+      track.audioFeatures = await audioFeatures;
+      let genres = await getGenres(this.state.token, track.artistId);
+      track.genres = await genres;
     })
-    this.setState({topTracks})
-    setTimeout( () => this.setGenres(), 3000)
-    // this.setGenres(); 
-    // there MUST be a better way than waiting for the genre promises in state.topTracks.[n] to resolve like this
+    return topTracks;
   }
 
-  async setGenres () {
-    let tracks = this.state.topTracks;
-    let genres = tracksByGenre(tracks);
+  async setGenres (topTracks) {
+    let genres = tracksByGenre(topTracks);
 
     this.setState({genres});
   }
