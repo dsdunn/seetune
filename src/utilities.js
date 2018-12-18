@@ -29,7 +29,7 @@ export const tracksByGenre = (tracks) => {
       if (!genreObj[genre]) {
         genreObj[genre] = [];
       }
-      genreObj[genre].push(genre);
+      genreObj[genre].push(track.artistName);
       })
       return genreObj;
     }, {});
