@@ -68,8 +68,8 @@ class App extends Component {
         <h1>SeeTune</h1>
         { !this.state.token && <Login/> }
         {this.state.user && <User user={this.state.user} />}
-        <section class='visualizations'></section>
-        <TempoGraph/>
+        <section className='visualizations'></section>
+        <TempoGraph topTracks={ this.state.topTracks }/>
       </div>
     );
   }
