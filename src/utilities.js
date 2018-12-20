@@ -37,22 +37,6 @@ export const tracksByGenre = (tracks) => {
   return set;
 }
 
-// export const tracksByGenre = async (tracks) => {
-//   let set =  await tracks.reduce(async (genreObj, track) => {
-//     let genres = await track.genres;
-
-//     asyncForEach(genres, async (genre) => {
-//       if (!genreObj[genre]) {
-//         genreObj[genre] = [];
-//       }
-//       genreObj[genre].push(track)
-//     })
-//     return genreObj;
-//   }, {})
-//   console.log(set)
-//   return set;
-// }
-
 const asyncReduce = async (array, callback, startValue) => {
   let accumulator = startValue || 0;
 
@@ -71,3 +55,24 @@ export const asyncForEach = async (array, callback) => {
 export const cleanUser = (user) => {
 
 }
+
+
+
+
+
+
+// export const tracksByGenre = async (tracks) => {
+//   let set =  await tracks.reduce(async (genreObj, track) => {
+//     let genres = await track.genres;
+
+//     asyncForEach(genres, async (genre) => {
+//       if (!genreObj[genre]) {
+//         genreObj[genre] = [];
+//       }
+//       genreObj[genre].push(track)
+//     })
+//     return genreObj;
+//   }, {})
+//   console.log(set)
+//   return set;
+// }

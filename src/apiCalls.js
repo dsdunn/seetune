@@ -12,7 +12,7 @@ export const getUser = async (token) => {
 
 export const getTopTracks = async (token, nextUrl) => {
   let topTracks = [];
-  let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks';
+  let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks?time_range=long_term';
   let rawTracks = await fetchData(url, token);
   let trackSet = await topTracksCleaner(token, rawTracks);
   

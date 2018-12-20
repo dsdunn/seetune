@@ -6,6 +6,7 @@ import './App.css';
 
 import Login from '../Login/Login';
 import User from '../User/User';
+import TempoGraph from '../Visualizations/TempoGraph';
 
 class App extends Component {
   state = {
@@ -67,6 +68,8 @@ class App extends Component {
         <h1>SeeTune</h1>
         { !this.state.token && <Login/> }
         {this.state.user && <User user={this.state.user} />}
+        <section class='visualizations'></section>
+        <TempoGraph/>
       </div>
     );
   }
