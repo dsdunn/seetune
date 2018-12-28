@@ -49,7 +49,8 @@ class App extends Component {
   async setTrackDetails (topTracks) {
     asyncForEach(topTracks, async (track) => {
       let audioFeatures = await getAudioFeatures(this.state.token, track.id);
-      track.audioFeatures = await audioFeatures;
+      // track.audioFeatures = await audioFeatures;
+      Object.assign(track, await audioFeatures);
       let genres = await getGenres(this.state.token, track.artistId);
       track.genres = await genres;
     })
