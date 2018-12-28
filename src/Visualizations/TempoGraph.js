@@ -54,7 +54,7 @@ class TempoGraph extends Component {
         .attr('transform', 'translate(0,' + (this.height + 5) + ')')
         .call(d3.axisBottom(x))
       .selectAll('text')
-        .attr('transform', 'rotate(290)')
+        .attr('transform', 'translate(-11,3) rotate(290)')
         .style('text-anchor', 'end');
 
     this.svgContainer.append('g')
