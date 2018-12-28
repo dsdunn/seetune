@@ -25,6 +25,10 @@ class TempoGraph extends Component {
 
   componentDidUpdate(prevProps, nextProps) {
 
+    let sortedTracks = this.props.topTracks.sort((a,b) => {
+      return a.popularity - b.popularity;
+    })
+
     let height = this.height;
 
     let x = d3.scaleBand()
@@ -36,12 +40,12 @@ class TempoGraph extends Component {
       .range([this.height, 0])
     
 
-    x.domain(this.props.topTracks.map(function(d){ return d.title }))
+    x.domain(sortedTracks.map(function(d){ return d.title }))
 
-    y.domain([0, d3.max(this.props.topTracks, function(d) { return d.popularity })])
+    y.domain([0, d3.max(sortedTracks, function(d) { return d.popularity }) + 20])
 
     this.svgContainer.selectAll('.bar')
-      .data(this.props.topTracks)
+      .data(sortedTracks)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', function(d) { return x(d.title); })
@@ -49,6 +53,7 @@ class TempoGraph extends Component {
       .attr('y', function(d) { return y(d.popularity); })
       .attr('height', function(d) { 
         return height - y(d.popularity); })
+      .style('fill', 'steelblue')
 
     this.svgContainer.append('g')
         .attr('transform', 'translate(0,' + (this.height + 5) + ')')
@@ -63,7 +68,7 @@ class TempoGraph extends Component {
 
 
     // let circles = this.svgContainer.selectAll("circle")
-    //                        .data(this.props.topTracks)
+    //                        .data(sortedTracks)
     //                        .enter()
     //                        .append("circle")
 
