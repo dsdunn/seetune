@@ -21,15 +21,29 @@ class TempoGraph extends Component {
     let circles = this.svgContainer.selectAll("circle")
                            .data(this.props.topTracks)
                            .enter()
-                           .append("circle");
+                           .append("circle")
+
+    let text = this.svgContainer.selectAll("text")
+                          .data(this.props.topTracks)
+                          .enter()
+                          .append("text")
+                          .text( function(d) { return d.title })
+
+    let textAttributes = text
+                          .attr("x", function(d) { return d.popularity * 3 + 3})
+                          .attr("y", function(d) { return d.audioFeatures.tempo * 3 - 3})
+                          .attr("font-size", "12px")
+                          .attr("font-family", "sans-serif")
+                          .attr("fill", "red")
 
     let circleAttributes = circles
                             .attr("cx", function (d) { 
-                              return d.popularity; 
+                              return d.popularity * 3; 
                             })
-                            .attr("cy", function (d) { return d.audioFeatures.tempo })
+                            .attr("cy", function (d) { return d.audioFeatures.tempo * 3 })
                             .attr("r", function (d) { return 8; })
-                            .style("fill", 'steele blue');
+                            // .style("fill", 'blue')
+                            
 
   }
 
