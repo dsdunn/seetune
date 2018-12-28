@@ -6,10 +6,16 @@ class TempoGraph extends Component {
   constructor(props){
     super(props);
     this.viz = React.createRef();
+    this.state = {
+      param: 'popularity'
+    }
   }
 
   componentDidMount() {
+    this.makeSvg();
+  }
 
+  makeSvg = () => {
     this.margin = {top: 20, right: 20, bottom: 200, left: 40};
     this.width = 1000 - this.margin.left - this.margin.right;
     this.height = 650 - this.margin.top - this.margin.bottom;
@@ -20,40 +26,38 @@ class TempoGraph extends Component {
       .append('g')
         .attr('transform', 
           'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
   }
 
   componentDidUpdate(prevProps, nextProps) {
 
+    let param = this.state.param;
     let sortedTracks = this.props.topTracks.sort((a,b) => {
-      return a.popularity - b.popularity;
+      return a[param] - b[param];
     })
-
     let height = this.height;
-
     let x = d3.scaleBand()
       .range([0, this.width])
       .padding(0.1);
-    
-
     let y = d3.scaleLinear()
       .range([this.height, 0])
     
 
     x.domain(sortedTracks.map(function(d){ return d.title }))
 
-    y.domain([0, d3.max(sortedTracks, function(d) { return d.popularity }) + 20])
+    y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
     this.svgContainer.selectAll('.bar')
+      .remove().exit()
       .data(sortedTracks)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', function(d) { return x(d.title); })
       .attr('width', x.bandwidth())
-      .attr('y', function(d) { return y(d.popularity); })
-      .attr('height', function(d) { 
-        return height - y(d.popularity); })
+      .attr('y', function(d) { return y(d[param]); })
+      .attr('height', function(d) { return height - y(d[param]); })
       .style('fill', 'steelblue')
+
+    this.svgContainer.selectAll('g').remove().exit();
 
     this.svgContainer.append('g')
         .attr('transform', 'translate(0,' + (this.height + 5) + ')')
@@ -64,45 +68,28 @@ class TempoGraph extends Component {
 
     this.svgContainer.append('g')
         .call(d3.axisLeft(y))
-      
-
-
-    // let circles = this.svgContainer.selectAll("circle")
-    //                        .data(sortedTracks)
-    //                        .enter()
-    //                        .append("circle")
-
-    // let text = this.svgContainer.selectAll("text")
-    //                       .data(this.props.topTracks)
-    //                       .enter()
-    //                       .append("text")
-    //                       .text( function(d) { return d.title })
-
-    // let textAttributes = text
-    //                       .attr("x", function(d) { return d.popularity * 3 + 3})
-    //                       .attr("y", function(d) { return d.audioFeatures.tempo * 3 - 3})
-    //                       .attr("font-size", "12px")
-    //                       .attr("font-family", "sans-serif")
-    //                       .attr("fill", "red")
-
-    // let circleAttributes = circles
-    //                         .attr("cx", function (d) { 
-    //                           return d.popularity * 3; 
-    //                         })
-    //                         .attr("cy", function (d) { return d.audioFeatures.tempo * 3 })
-    //                         .attr("r", function (d) { return 8; })
-                            // .style("fill", 'blue')
                             
+  }
 
+  handleParamChange = (event) => {
+    let param = event.target.value;
+    this.svgContainer.selectAll('axis').remove().exit();
+    this.setState({ param });
   }
 
 
 
 
   render(){
-    return (      
-      <div ref={ this.viz }>
-      </div>  
+    return (
+      <div className='TempoGraph'>
+        <select name='graph_parameter' value={this.param} onChange={this.handleParamChange}>
+          <option value='popularity' >Popularity</option>
+          <option value='tempo'>Tempo</option>   
+        </select>
+        <div ref={ this.viz }>
+        </div> 
+      </div> 
     )
   }
 }
