@@ -51,6 +51,7 @@ class TempoGraph extends Component {
       .data(sortedTracks)
       .enter().append('rect')
       .attr('class', 'bar')
+      .transition()
       .attr('x', function(d) { return x(d.title); })
       .attr('width', x.bandwidth())
       .attr('y', function(d) { return y(d[param]); })
