@@ -1,13 +1,17 @@
+
 const express = require('express');
 const querystring = require('querystring');
 const request = require('request');
 const cors = require('cors');
 
+const credentials =  require('./credentials.js');
+console.log(credentials.SPOTIFY_CLIENT_ID);
+
 const app = express();
 
 const redirect_uri = process.env.REDIRECT_URI || 'http://localhost:8888/callback';
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const client_id = process.env.SPOTIFY_CLIENT_ID || credentials.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET || credentials.SPOTIFY_CLIENT_SECRET;
 
 app.use(cors())
 
