@@ -88,6 +88,7 @@ class TempoGraph extends Component {
           <option value='popularity' >Popularity</option>
           <option value='tempo'>Tempo</option>   
         </select>
+        <h4>Top Tracks sorted by {this.state.param}</h4>
         <div ref={ this.viz }>
         </div> 
       </div> 
