@@ -66,9 +66,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>SeeTune</h1>
         { !this.state.token && <Login/> }
         {this.state.user && <User user={this.state.user} />}
+        <h1 className='title'>SeeTune</h1>
+        <p className='subtitle'>Graphs to visualize your listening habits and preferences.</p>
+
         <section className='visualizations'></section>
         <TempoGraph topTracks={ this.state.topTracks }/>
       </div>
