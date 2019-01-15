@@ -39,7 +39,7 @@ class App extends Component {
     let interval = setInterval(() => {
       if (topTracks[topTracks.length - 1].genres) {     
         this.setState({topTracks});
-        this.setGenres(topTracks);
+        // this.setGenres(topTracks);
         window.clearInterval(interval);
         this.setState({ loading: false });
       };
@@ -72,7 +72,7 @@ class App extends Component {
         <p className='subtitle'>Graphs to visualize your listening habits and preferences.</p>
 
         <section className='visualizations'></section>
-        <TempoGraph topTracks={ this.state.topTracks }/>
+        <TempoGraph topTracks={ this.state.topTracks.length && this.state.topTracks[59].tempo ? this.state.topTracks : null }/>
       </div>
     );
   }

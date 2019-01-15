@@ -7,7 +7,7 @@ class TempoGraph extends Component {
     super(props);
     this.viz = React.createRef();
     this.state = {
-      param: 'popularity'
+      param: 'popularity',
     }
   }
 
@@ -30,8 +30,17 @@ class TempoGraph extends Component {
 
   componentDidUpdate(prevProps, nextProps) {
 
-    let param = this.state.param;
-    let sortedTracks = this.props.topTracks.sort((a,b) => {
+    if (!this.state.topTracks && this.props.topTracks && this.props.topTracks[59].tempo) {
+      this.setState({
+        topTracks: this.props.topTracks
+      })
+      this.drawGraph();
+    }               
+  }
+
+  drawGraph = (topTracks = this.props.topTracks, param = this.state.param) => {
+
+    let sortedTracks = topTracks.sort((a,b) => {
       return a[param] - b[param];
     })
     let height = this.height;
@@ -47,11 +56,12 @@ class TempoGraph extends Component {
     y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
     this.svgContainer.selectAll('.bar')
-      .remove().exit()
+      .exit().remove()
       .data(sortedTracks)
       .enter().append('rect')
       .attr('class', 'bar')
       .transition()
+      .duration(2000)
       .attr('x', function(d) { return x(d.title); })
       .attr('width', x.bandwidth())
       .attr('y', function(d) { return y(d[param]); })
@@ -69,12 +79,13 @@ class TempoGraph extends Component {
 
     this.svgContainer.append('g')
         .call(d3.axisLeft(y))
-                            
+
   }
 
   handleParamChange = (event) => {
     let param = event.target.value;
-    this.svgContainer.selectAll('axis').remove().exit();
+    // this.svgContainer.selectAll('axis').remove().exit();
+    this.drawGraph(this.state.topTracks, param);
     this.setState({ param });
   }
 
