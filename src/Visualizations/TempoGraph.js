@@ -13,7 +13,6 @@ class TempoGraph extends Component {
 
   componentDidMount() {
     this.makeSvg();
-    console.log('fuuuck')
   }
 
   makeSvg = () => {
@@ -29,9 +28,9 @@ class TempoGraph extends Component {
           'translate(' + this.margin.left + ',' + this.margin.top + ')');
   }
 
-  componentDidUpdate(prevProps, nextProps) {
+  componentDidUpdate(prevProps, prevState) {
 
-    if (!this.state.topTracks && this.props.topTracks && this.props.topTracks[59].tempo) {
+    if (!prevProps.topTracks && this.props.topTracks) {
       this.setState({
         topTracks: this.props.topTracks
       })
@@ -47,7 +46,7 @@ class TempoGraph extends Component {
   }
 
   drawGraph = (topTracks = this.props.topTracks, param = this.state.param) => {
-
+    console.log('drawGraph')
     let sortedTracks = this.sortTracks(topTracks, param);
     let height = this.height;
     let x = d3.scaleBand()
@@ -71,7 +70,7 @@ class TempoGraph extends Component {
       .attr('height', function(d) { return height - y(d[param]); })
       .style('fill', 'steelblue')
 
-    this.svgContainer.selectAll('g').remove().exit();
+    // this.svgContainer.selectAll('g').remove().exit();
 
     this.svgContainer.append('g')
         .attr('transform', 'translate(0,' + (this.height + 5) + ')')
@@ -87,28 +86,30 @@ class TempoGraph extends Component {
 
   handleParamChange = (event) => {
     let param = event.target.value;
-    // this.svgContainer.selectAll('axis').remove().exit();
-    // this.drawGraph(this.state.topTracks, param);
+
+    this.drawGraph(this.state.topTracks, param);
     this.setState({ param });
 
     let sortedTracks = this.sortTracks(this.state.topTracks, param);
 
     // this.drawGraph()
 
-    let x = d3.scaleBand()
-      .range([0, this.width])
-      .padding(0.1);
-    let y = d3.scaleLinear()
-      .range([this.height, 0])
+    // this.svgContainer.selectAll('.bar').sort((a,b) => {
+    //   return a[param] - b[param];
+    // })
+    // let x = d3.scaleBand()
+    //   .range([0, this.width])
+    //   .padding(0.1);
+    // let y = d3.scaleLinear()
+    //   .range([this.height, 0])
     
 
-    x.domain(sortedTracks.map(function(d){ return d.title }))
+    // x.domain(sortedTracks.map(function(d){ return d.title }))
 
-    y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
+    // y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
-    d3.selectAll('bar').transition()
-    .duration(2000)
-    .attr('height', 200)
+    // this.svgContainer.selectAll('.bar')
+    // .data(sortedTracks)
 
   }
 
