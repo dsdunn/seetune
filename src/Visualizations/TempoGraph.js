@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import * as d3 from 'd3';
 
+import './Visualizations.css';
+
 class TempoGraph extends Component {
   constructor(props){
     super(props);
@@ -42,6 +44,7 @@ class TempoGraph extends Component {
   }
 
   drawGraph = (topTracks = this.props.topTracks, param = this.state.param) => {
+
     let sortedTracks = this.sortTracks(topTracks, param);
     let height = this.height;
     let x = d3.scaleBand()
@@ -51,20 +54,40 @@ class TempoGraph extends Component {
       .range([this.height, 0])
     let graph = this.svgContainer.selectAll('.bar')
       .data(sortedTracks, d => { return d.title; });
+    // let toolTip = this.svgContainer.append('g')
+    //   .attr('class', 'tool-tip')
+    //   .style('opacity', 1e-6)
+      
+
 
     let t = d3.transition().duration(1000);
     
-    let x_axis = this.svgContainer.append('g')
+    this.svgContainer.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + (this.height + 5) + ')')
-    let y_axis = this.svgContainer.append('g')
+    this.svgContainer.append('g')
       .attr('class', 'y axis');
+ 
 
     x.domain(sortedTracks.map(function(d){ return d.title }))
     y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
     graph.enter()
         .append('rect')
+        // .on('mouseover', d => {
+        //   console.log(d3.event.srcElement.attributes.x)
+        //   toolTip.html(`<div><p>title: ${d.title}</p></div>`)
+        //     // .attr('x', d3.event.srcElement.attributes.x)
+        //     // .attr('y', d3.event.srcElement.attributes.y)
+        //     .transition()
+        //       .duration(300)
+        //       .style('opacity', 1)
+        // })
+        // .on('mouseout', d => {
+        //   toolTip.transition()
+        //     .duration(300)
+        //     .style('opacity', 1e-6)
+        // })
       .merge(graph)
       .transition(t)
         .attr('class', 'bar')
@@ -72,7 +95,9 @@ class TempoGraph extends Component {
         .attr('width', x.bandwidth())
         .attr('y', function(d) { return y(d[param]); })
         .attr('height', function(d) { return height - y(d[param]); })
-        .style('fill', 'steelblue')
+        .style('fill', 'steelblue');
+
+
 
     d3.select('.x').transition(t)
         .call(d3.axisBottom().scale(x));
