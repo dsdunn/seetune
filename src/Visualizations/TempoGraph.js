@@ -60,17 +60,27 @@ class TempoGraph extends Component {
 
     y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
-    this.svgContainer.selectAll('.bar')
-      .data(sortedTracks)
-      .enter().append('rect')
-      .attr('class', 'bar')
-      .attr('x', function(d) { return x(d.title); })
-      .attr('width', x.bandwidth())
-      .attr('y', function(d) { return y(d[param]); })
-      .attr('height', function(d) { return height - y(d[param]); })
-      .style('fill', 'steelblue')
+    let graph = this.svgContainer.selectAll('.bar')
+      .data(sortedTracks, d => { return d.title; });
 
-    // this.svgContainer.selectAll('g').remove().exit();
+    let t = d3.transition().duration(1000);
+
+    graph.exit()
+      .transition(t)
+      .style('opacity', 1e-6)
+      .remove()
+
+    graph.enter()
+        .append('rect')
+      .merge(graph)
+      .transition(t)
+        .attr('class', 'bar')
+        .attr('x', function(d) { return x(d.title); })
+        .attr('width', x.bandwidth())
+        .attr('y', function(d) { return y(d[param]); })
+        .attr('height', function(d) { return height - y(d[param]); })
+        .style('fill', 'steelblue')
+
 
     this.svgContainer.append('g')
         .attr('transform', 'translate(0,' + (this.height + 5) + ')')
