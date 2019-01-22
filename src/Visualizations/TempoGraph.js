@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import * as d3 from 'd3';
 
 import './Visualizations.css';
+import logo from '../loading.gif';
 
 class TempoGraph extends Component {
   constructor(props){
@@ -129,11 +130,16 @@ class TempoGraph extends Component {
   }
 
   render(){
+
     return (
       <div className='TempoGraph'>
         <h4>Top Tracks sorted by {this.state.param}</h4>
+        {
+          this.props.loading &&
+            <img className="loading" src={ logo }/>  
+        }
         <div ref={ this.viz }>
-        </div> 
+        </div>
       </div> 
     )
   }

@@ -83,7 +83,10 @@ class App extends Component {
   handleRangeChange = (event) => {
     let range = event.target.value;
 
-    this.setState({ range });
+    this.setState({ 
+      range,
+      loading: true 
+    });
     this.setTopTracks(this.state.token, range)
   }
 
@@ -113,7 +116,8 @@ class App extends Component {
           <TempoGraph 
             topTracks={ this.state.topTracks } 
             param={ this.state.param }
-            range={ this.state.range }/>
+            range={ this.state.range }
+            loading= { this.state.loading }/>
         </section>
       </div>
     );
