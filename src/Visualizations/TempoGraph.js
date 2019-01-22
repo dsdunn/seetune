@@ -9,7 +9,7 @@ class TempoGraph extends Component {
     super(props);
     this.viz = React.createRef();
     this.state = {
-      param: 'popularity',
+      param: 'popularity'
     }
   }
 
@@ -74,20 +74,22 @@ class TempoGraph extends Component {
 
     graph.enter()
         .append('rect')
-        // .on('mouseover', d => {
-        //   console.log(d3.event.srcElement.attributes.x)
+        .on('mouseover', function(d) {
+          d3.select(this)
+            .style('fill', '#a62c19')
         //   toolTip.html(`<div><p>title: ${d.title}</p></div>`)
         //     // .attr('x', d3.event.srcElement.attributes.x)
         //     // .attr('y', d3.event.srcElement.attributes.y)
-        //     .transition()
-        //       .duration(300)
-        //       .style('opacity', 1)
-        // })
-        // .on('mouseout', d => {
-        //   toolTip.transition()
-        //     .duration(300)
+            .transition()
+              .duration(300)
+        })
+        .on('mouseout', function(d) {
+          d3.select(this)
+            .style('fill', 'steelblue')
+          .transition()
+            .duration(300)
         //     .style('opacity', 1e-6)
-        // })
+        })
       .merge(graph)
       .transition(t)
         .attr('class', 'bar')
