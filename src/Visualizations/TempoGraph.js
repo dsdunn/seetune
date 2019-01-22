@@ -9,7 +9,7 @@ class TempoGraph extends Component {
     super(props);
     this.viz = React.createRef();
     this.state = {
-      param: 'popularity'
+      param: this.props.param
     }
   }
 
@@ -32,9 +32,20 @@ class TempoGraph extends Component {
 
   componentDidUpdate(prevProps, prevState) {
 
-    if (!prevProps.topTracks && this.props.topTracks) {
-      this.drawGraph();
-    }               
+    if (!this.props.topTracks) {
+      return;
+    }
+
+    if (prevProps.param !== this.props.param || prevProps.range !== this.props.range) {
+      console.log('update graph state')
+      this.setState({
+        param: this.props.param,
+        range: this.props.range
+      })
+    }
+
+    this.drawGraph(this.props.topTracks, this.props.param);
+             
   }
 
   sortTracks = (tracks, param = 'popularity') => {
@@ -99,6 +110,11 @@ class TempoGraph extends Component {
         .attr('height', function(d) { return height - y(d[param]); })
         .style('fill', 'steelblue');
 
+      graph.exit()
+        .transition(t)
+        .attr('opacity', 0)
+        .remove()
+
 
 
     d3.select('.x').transition(t)
@@ -112,20 +128,9 @@ class TempoGraph extends Component {
         .call(d3.axisLeft().scale(y));
   }
 
-  handleParamChange = (event) => {
-    let param = event.target.value;
-
-    this.drawGraph(undefined, param);
-    this.setState({ param });
-  }
-
   render(){
     return (
       <div className='TempoGraph'>
-        <select name='graph_parameter' value={this.param} onChange={this.handleParamChange}>
-          <option value='popularity' >Popularity</option>
-          <option value='tempo'>Tempo</option>   
-        </select>
         <h4>Top Tracks sorted by {this.state.param}</h4>
         <div ref={ this.viz }>
         </div> 
