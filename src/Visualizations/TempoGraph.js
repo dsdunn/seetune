@@ -10,7 +10,7 @@ class TempoGraph extends Component {
     super(props);
     this.viz = React.createRef();
     this.state = {
-      param: this.props.param
+      param: 'popularity'
     }
   }
 
@@ -37,10 +37,9 @@ class TempoGraph extends Component {
       return;
     }
 
-    if (prevProps.param !== this.props.param || prevProps.range !== this.props.range) {
-      console.log('update graph state')
+    if (prevProps.range !== this.props.range) {
+
       this.setState({
-        param: this.props.param,
         range: this.props.range
       })
     }
@@ -149,11 +148,21 @@ class TempoGraph extends Component {
         .call(d3.axisLeft().scale(y));
   }
 
+  handleParamChange = (event) => {
+    let param = event.target.value;
+
+    this.setState({ param });
+  }
+
   render(){
 
     return (
       <div className='TempoGraph'>
         <h4>Top Tracks sorted by {this.state.param}</h4>
+        <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
+          <option value='popularity' >Popularity</option>
+          <option value='tempo'>Tempo</option>   
+        </select>
         {
           this.props.loading &&
             <img className="loading" src={ logo }/>  
