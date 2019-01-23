@@ -15,8 +15,7 @@ class App extends Component {
     genres: {},
     user: {},
     topTracks: [],
-    range: 'short_term',
-    param: 'popularity'
+    range: 'short_term'
   }
 
   componentDidMount() {
@@ -26,13 +25,6 @@ class App extends Component {
       this.setUser(token);
     }
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.range !== this.state.range) {
-  //     console.log('update')
-  //     this.setTopTracks(this.state.token);
-  //   }
-  // }
 
   async setUser (token) {
     let user = await getUser(token);
@@ -56,12 +48,12 @@ class App extends Component {
   }
 
   async setTrackDetails (topTracks) {
-    console.log('set tracks')
     asyncForEach(topTracks, async (track) => {
       let audioFeatures = await getAudioFeatures(this.state.token, track.id);
-      // track.audioFeatures = await audioFeatures;
+
       Object.assign(track, await audioFeatures);
       let genres = await getGenres(this.state.token, track.artistId);
+
       track.genres = await genres;
     })
     return topTracks;
@@ -71,13 +63,6 @@ class App extends Component {
     let genres = tracksByGenre(topTracks);
 
     this.setState({genres});
-  }
-
-  handleParamChange = (event) => {
-    let param = event.target.value;
-
-    // this.drawGraph(undefined, param);
-    this.setState({ param });
   }
 
   handleRangeChange = (event) => {
@@ -106,16 +91,11 @@ class App extends Component {
             <option value='medium_term'>Meduim</option>
             <option value='long_term'>Long</option>
           </select>
-          <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
-            <option value='popularity' >Popularity</option>
-            <option value='tempo'>Tempo</option>   
-          </select>
         </form>
 
         <section className='visualizations'>
           <TempoGraph 
-            topTracks={ this.state.topTracks } 
-            param={ this.state.param }
+            topTracks={ this.state.topTracks.length > 49 && this.state.topTracks } 
             range={ this.state.range }
             loading= { this.state.loading }/>
         </section>
