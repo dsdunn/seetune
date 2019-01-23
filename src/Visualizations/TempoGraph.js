@@ -66,9 +66,10 @@ class TempoGraph extends Component {
       .range([this.height, 0])
     let graph = this.svgContainer.selectAll('.bar')
       .data(sortedTracks, d => { return d.title; });
-    // let toolTip = this.svgContainer.append('g')
-    //   .attr('class', 'tool-tip')
-    //   .style('opacity', 1e-6)
+    let toolTip = d3.select('body').append('div')
+      .attr('class', 'tool-tip')
+      .style('opacity', 1e-6)
+      .style('background', 'white')
       
 
 
@@ -80,11 +81,11 @@ class TempoGraph extends Component {
 
     d3.select('.y-label')
       .remove()
-      
+
     this.svgContainer.append('text')
       .attr('class', 'y-label')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - this.margin.left)
+      .attr('y', -5 - this.margin.left)
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
@@ -102,18 +103,24 @@ class TempoGraph extends Component {
         .on('mouseover', function(d) {
           d3.select(this)
             .style('fill', '#a62c19')
-        //   toolTip.html(`<div><p>title: ${d.title}</p></div>`)
-        //     // .attr('x', d3.event.srcElement.attributes.x)
-        //     // .attr('y', d3.event.srcElement.attributes.y)
+          toolTip.html(`<div>
+            <p>${d.title}</p>
+            <p>by: ${d.artistName} </p>
+            </div>`)
+            .style("left", (d3.event.pageX - 113) + "px")   
+            .style("top", (d3.event.pageY - 190) + "px")
             .transition()
               .duration(300)
+              .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
-            .style('fill', 'steelblue')
           .transition()
             .duration(300)
-        //     .style('opacity', 1e-6)
+            .style('fill', 'steelblue')
+          toolTip.transition()
+            .duration(300)
+            .style('opacity', 1e-6)
         })
       .merge(graph)
       .transition(t)
