@@ -19,7 +19,7 @@ class TempoGraph extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 20, bottom: 200, left: 40};
+    this.margin = {top: 20, right: 80, bottom: 200, left: 80};
     this.width = 1000 - this.margin.left - this.margin.right;
     this.height = 650 - this.margin.top - this.margin.bottom;
 
@@ -32,6 +32,7 @@ class TempoGraph extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.param)
 
     if (!this.props.topTracks) {
       return;
@@ -44,7 +45,7 @@ class TempoGraph extends Component {
       })
     }
 
-    this.drawGraph(this.props.topTracks, this.props.param);
+    this.drawGraph(this.props.topTracks, this.state.param);
              
   }
 
@@ -70,7 +71,22 @@ class TempoGraph extends Component {
       .style('opacity', 1e-6)
       .style('background', 'white')
       
-
+    const setYDomain = (tracks, param) => {
+      switch(param) {
+        case 'popularity':
+          return [-1, d3.max(tracks, function(d) { return d.popularity }) + 20 ];
+          break;
+        case 'tempo':
+          return [d3.min(tracks, function(d) { return d.tempo }) - 15 , d3.max(tracks, function(d) { return d.tempo}) + 15 ];
+          break;
+        case 'duration_ms':
+          return [ 0, d3.max(tracks, function(d) { return d.duration_ms }) + 5000 ]
+          break;
+        case 'danceability':
+          return [0, 1];
+          break;
+      }
+    }
 
     let t = d3.transition().duration(1000);
     
@@ -95,7 +111,8 @@ class TempoGraph extends Component {
  
 
     x.domain(sortedTracks.map((d) => { return this.titleSlice(d.title) }))
-    y.domain([-1, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
+    // y.domain([-1, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
+    y.domain(setYDomain(sortedTracks, param))
 
     graph.enter()
         .append('rect')
@@ -107,16 +124,14 @@ class TempoGraph extends Component {
             <p>${d.title}</p>
             <p>by: ${d.artistName} </p>
             </div>`)
-            .style('left', this.getAttribute('x') + 'px')
-            .style('top', (+this.getAttribute('y') + +200) + 'px')
+            .style('left', +this.getAttribute('x') + 40 + 'px')
+            .style('top', +this.getAttribute('y')  + 200 + 'px')
             .transition()
               .duration(300)
               .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
-          .transition()
-            .duration(300)
             .style('fill', 'steelblue')
           toolTip.transition()
             .duration(300)
@@ -127,7 +142,8 @@ class TempoGraph extends Component {
         .attr('class', 'bar')
         .attr('x', (d) => { return x(this.titleSlice(d.title)); })
         .attr('width', x.bandwidth())
-        .attr('y', function(d) { return y(d[param]); })
+        .attr('y', function(d) { 
+          return y(d[param]); })
         .attr('height', function(d) { return height - y(d[param]); })
         .style('fill', 'steelblue');
 
@@ -169,7 +185,9 @@ class TempoGraph extends Component {
         <h4>Top Tracks sorted by {this.state.param}</h4>
         <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
           <option value='popularity' >Popularity</option>
-          <option value='tempo'>Tempo</option>   
+          <option value='tempo'>Tempo</option>
+          <option value='duration_ms'>Length in miliseconds</option>
+          <option value='danceability'>Determined Danceabiltiy</option>   
         </select>
         {
           this.props.loading &&

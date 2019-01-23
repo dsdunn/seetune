@@ -95,7 +95,7 @@ class App extends Component {
 
         <section className='visualizations'>
           <TempoGraph 
-            topTracks={ this.state.topTracks } 
+            topTracks={ this.state.topTracks.length > 49 && this.state.topTracks } 
             range={ this.state.range }
             loading= { this.state.loading }/>
         </section>
