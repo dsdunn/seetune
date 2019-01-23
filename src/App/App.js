@@ -14,7 +14,9 @@ class App extends Component {
     token: '',
     genres: {},
     user: {},
-    topTracks: []
+    topTracks: [],
+    range: 'short_term',
+    param: 'popularity'
   }
 
   componentDidMount() {
@@ -25,6 +27,13 @@ class App extends Component {
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.range !== this.state.range) {
+  //     console.log('update')
+  //     this.setTopTracks(this.state.token);
+  //   }
+  // }
+
   async setUser (token) {
     let user = await getUser(token);
 
@@ -32,8 +41,8 @@ class App extends Component {
     this.setTopTracks(token);
   }
 
-  async setTopTracks (token) {
-    let topTracks = await getTopTracks(token);
+  async setTopTracks (token, range=this.state.range) {
+    let topTracks = await getTopTracks(token, range);
     topTracks = await this.setTrackDetails(topTracks);
 
     let interval = setInterval(() => {
@@ -47,6 +56,7 @@ class App extends Component {
   }
 
   async setTrackDetails (topTracks) {
+    console.log('set tracks')
     asyncForEach(topTracks, async (track) => {
       let audioFeatures = await getAudioFeatures(this.state.token, track.id);
       // track.audioFeatures = await audioFeatures;
@@ -63,6 +73,23 @@ class App extends Component {
     this.setState({genres});
   }
 
+  handleParamChange = (event) => {
+    let param = event.target.value;
+
+    // this.drawGraph(undefined, param);
+    this.setState({ param });
+  }
+
+  handleRangeChange = (event) => {
+    let range = event.target.value;
+
+    this.setState({ 
+      range,
+      loading: true 
+    });
+    this.setTopTracks(this.state.token, range)
+  }
+
   render() {
     return (
       <div>
@@ -70,9 +97,28 @@ class App extends Component {
         {this.state.user && <User user={this.state.user} />}
         <h1 className='title'>SeeTune</h1>
         <p className='subtitle'>Graphs to visualize your listening habits and preferences.</p>
+        <form>
+          <select 
+            name="range" 
+            value={ this.state.range } 
+            onChange={ this.handleRangeChange }>
+            <option value='short_term'>Short</option>
+            <option value='medium_term'>Meduim</option>
+            <option value='long_term'>Long</option>
+          </select>
+          <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
+            <option value='popularity' >Popularity</option>
+            <option value='tempo'>Tempo</option>   
+          </select>
+        </form>
 
-        <section className='visualizations'></section>
-        <TempoGraph topTracks={ this.state.topTracks.length && this.state.topTracks[59].tempo ? this.state.topTracks : null }/>
+        <section className='visualizations'>
+          <TempoGraph 
+            topTracks={ this.state.topTracks } 
+            param={ this.state.param }
+            range={ this.state.range }
+            loading= { this.state.loading }/>
+        </section>
       </div>
     );
   }

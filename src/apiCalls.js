@@ -10,16 +10,16 @@ export const getUser = async (token) => {
   return user;
 }
 
-export const getTopTracks = async (token, nextUrl) => {
+export const getTopTracks = async (token, range='short_term', nextUrl) => {
   let topTracks = [];
-  let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks?time_range=long_term';
+  let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks?time_range=' + range;
   let rawTracks = await fetchData(url, token);
   let trackSet = await topTracksCleaner(token, rawTracks);
   
   topTracks = [...topTracks, ...trackSet];
 
   if (rawTracks.next){
-    trackSet = await getTopTracks(token, rawTracks.next);
+    trackSet = await getTopTracks(token, range, rawTracks.next);
     topTracks = [...topTracks, ...trackSet];
   }
   return topTracks
