@@ -32,21 +32,17 @@ class TempoGraph extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.param)
 
     if (!this.props.topTracks) {
       return;
     }
 
     if (prevProps.range !== this.props.range) {
-
       this.setState({
         range: this.props.range
       })
     }
-
-    this.drawGraph(this.props.topTracks, this.state.param);
-             
+    this.drawGraph(this.props.topTracks, this.state.param);          
   }
 
   sortTracks = (tracks, param = 'popularity') => {
@@ -70,24 +66,6 @@ class TempoGraph extends Component {
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
       .style('background', 'white')
-      
-    const setYDomain = (tracks, param) => {
-      switch(param) {
-        case 'popularity':
-          return [-1, d3.max(tracks, function(d) { return d.popularity }) + 20 ];
-          break;
-        case 'tempo':
-          return [d3.min(tracks, function(d) { return d.tempo }) - 15 , d3.max(tracks, function(d) { return d.tempo}) + 15 ];
-          break;
-        case 'duration_ms':
-          return [ 0, d3.max(tracks, function(d) { return d.duration_ms }) + 5000 ]
-          break;
-        case 'danceability':
-          return [0, 1];
-          break;
-      }
-    }
-
     let t = d3.transition().duration(1000);
     
     this.svgContainer.append('g')
@@ -104,18 +82,18 @@ class TempoGraph extends Component {
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .text(this.state.param == 'popularity' ? 'Popularity': 'Beats Per Minute')
+      .text(this.state.param)
 
     this.svgContainer.append('g')
       .attr('class', 'y axis');
  
 
     x.domain(sortedTracks.map((d) => { return this.titleSlice(d.title) }))
-    // y.domain([-1, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
-    y.domain(setYDomain(sortedTracks, param))
+    y.domain(this.setYDomain(sortedTracks, param))
 
     graph.enter()
         .append('rect')
+      .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
             .style('fill', '#a62c19')
@@ -123,6 +101,7 @@ class TempoGraph extends Component {
           toolTip.html(`<div>
             <p>${d.title}</p>
             <p>by: ${d.artistName} </p>
+            <p>${param}: ${param === 'tempo' ? Math.round(d[param]) : d[param]}</p>
             </div>`)
             .style('left', +this.getAttribute('x') + 40 + 'px')
             .style('top', +this.getAttribute('y')  + 200 + 'px')
@@ -137,7 +116,6 @@ class TempoGraph extends Component {
             .duration(300)
             .style('opacity', 1e-6)
         })
-      .merge(graph)
       .transition(t)
         .attr('class', 'bar')
         .attr('x', (d) => { return x(this.titleSlice(d.title)); })
@@ -165,6 +143,23 @@ class TempoGraph extends Component {
         .call(d3.axisLeft().scale(y));
   }
 
+  setYDomain = (tracks, param) => {
+    switch(param) {
+      case 'popularity':
+        return [-1, d3.max(tracks, function(d) { return d.popularity }) + 5 ];
+        break;
+      case 'tempo':
+        return [d3.min(tracks, function(d) { return d.tempo }) - 15 , d3.max(tracks, function(d) { return d.tempo}) + 15 ];
+        break;
+      case 'duration_ms':
+        return [ 0, d3.max(tracks, function(d) { return d.duration_ms }) + 5000 ]
+        break;
+      case 'danceability':
+        return [0, 1];
+        break;
+    }
+  }
+
   handleParamChange = (event) => {
     let param = event.target.value;
 
@@ -186,8 +181,8 @@ class TempoGraph extends Component {
         <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
           <option value='popularity' >Popularity</option>
           <option value='tempo'>Tempo</option>
-          <option value='duration_ms'>Length in miliseconds</option>
-          <option value='danceability'>Determined Danceabiltiy</option>   
+          <option value='duration_ms'>Duration</option>
+          <option value='danceability'>Danceabiltiy</option>   
         </select>
         {
           this.props.loading &&

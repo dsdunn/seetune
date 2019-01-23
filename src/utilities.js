@@ -10,7 +10,7 @@ export const topTracksCleaner = async (token, rawTracks) => {
       artistId: album.artists[0].id,
       artistName: album.artists[0].name,
       popularity,
-      duration_ms,
+      duration_ms
     })
   });
 
