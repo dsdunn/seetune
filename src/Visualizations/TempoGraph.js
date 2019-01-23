@@ -77,6 +77,19 @@ class TempoGraph extends Component {
     this.svgContainer.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + (this.height + 5) + ')')
+
+    d3.select('.y-label')
+      .remove()
+      
+    this.svgContainer.append('text')
+      .attr('class', 'y-label')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 0 - this.margin.left)
+      .attr('x', 0 - (height / 2))
+      .attr('dy', '1em')
+      .style('text-anchor', 'middle')
+      .text(this.state.param == 'popularity' ? 'Popularity': 'Beats Per Minute')
+
     this.svgContainer.append('g')
       .attr('class', 'y axis');
  
