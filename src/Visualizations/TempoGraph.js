@@ -94,20 +94,21 @@ class TempoGraph extends Component {
       .attr('class', 'y axis');
  
 
-    x.domain(sortedTracks.map(function(d){ return d.title }))
-    y.domain([0, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
+    x.domain(sortedTracks.map((d) => { return this.titleSlice(d.title) }))
+    y.domain([-1, d3.max(sortedTracks, function(d) { return d[param] }) + 20])
 
     graph.enter()
         .append('rect')
         .on('mouseover', function(d) {
           d3.select(this)
             .style('fill', '#a62c19')
+
           toolTip.html(`<div>
             <p>${d.title}</p>
             <p>by: ${d.artistName} </p>
             </div>`)
-            .style("left", (d3.event.pageX - 113) + "px")   
-            .style("top", (d3.event.pageY - 190) + "px")
+            .style('left', this.getAttribute('x') + 'px')
+            .style('top', (+this.getAttribute('y') + +200) + 'px')
             .transition()
               .duration(300)
               .style('opacity', .9)
@@ -124,7 +125,7 @@ class TempoGraph extends Component {
       .merge(graph)
       .transition(t)
         .attr('class', 'bar')
-        .attr('x', function(d) { return x(d.title); })
+        .attr('x', (d) => { return x(this.titleSlice(d.title)); })
         .attr('width', x.bandwidth())
         .attr('y', function(d) { return y(d[param]); })
         .attr('height', function(d) { return height - y(d[param]); })
@@ -152,6 +153,13 @@ class TempoGraph extends Component {
     let param = event.target.value;
 
     this.setState({ param });
+  }
+
+  titleSlice = (str) => {
+    if ( str.length > 30 ) {
+      str = "..." + str.slice(str.length - 30)
+    }
+    return str;
   }
 
   render(){
