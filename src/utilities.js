@@ -7,6 +7,8 @@ export const topTracksCleaner = async (token, rawTracks) => {
       id,
       title: name,
       album: album.name,
+      releaseDate: album.release_date,
+      coverArt: album.images[2],
       artistId: album.artists[0].id,
       artistName: album.artists[0].name,
       popularity,
@@ -18,7 +20,15 @@ export const topTracksCleaner = async (token, rawTracks) => {
 }
 
 export const audioFeaturesCleaner = (rawFeatures) => {
+  let { key, mode, time_signature, danceability, tempo } = rawFeatures;
 
+  return ({
+    key,
+    mode,
+    time_signature,
+    danceability,
+    tempo
+  })
 }
 
 export const tracksByGenre = (tracks) => {

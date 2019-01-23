@@ -1,5 +1,5 @@
 import  { fetchData } from './fetch'
-import { topTracksCleaner } from './utilities'
+import { topTracksCleaner, audioFeaturesCleaner } from './utilities'
 
 const baseUrl = 'https://api.spotify.com/v1/';
 
@@ -35,6 +35,6 @@ export const getGenres = async (token, id) => {
 export const getAudioFeatures = async (token, id) => {
   let features = await fetchData(baseUrl + 'audio-features/' + id, token);
 
-  return features;
+  return audioFeaturesCleaner(features);
 }
 
