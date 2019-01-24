@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
 import * as d3 from 'd3';
 
 import './Visualizations.css';
@@ -37,11 +36,6 @@ class TempoGraph extends Component {
       return;
     }
 
-    if (prevProps.range !== this.props.range) {
-      this.setState({
-        range: this.props.range
-      })
-    }
     this.drawGraph(this.props.topTracks, this.state.param);          
   }
 
@@ -186,7 +180,7 @@ class TempoGraph extends Component {
         </select>
         {
           this.props.loading &&
-            <img className="loading" src={ logo }/>  
+            <img className='loading' src={ logo }/>  
         }
         <div ref={ this.viz }>
         </div>
@@ -195,4 +189,4 @@ class TempoGraph extends Component {
   }
 }
 
-export default withRouter(TempoGraph);
+export default TempoGraph;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+// import { Route } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import './App.css';
@@ -7,6 +7,7 @@ import './App.css';
 import Login from '../Login/Login';
 import User from '../User/User';
 import TempoGraph from '../Visualizations/TempoGraph';
+import ScatterPlot from '../Visualizations/ScatterPlot';
 
 class App extends Component {
   state = {
@@ -98,6 +99,10 @@ class App extends Component {
             topTracks={ this.state.topTracks.length > 49 && this.state.topTracks } 
             range={ this.state.range }
             loading= { this.state.loading }/>
+          <ScatterPlot
+            topTacks={ this.state.topTracks.length > 49 && this.state.topTracks }
+            loading= { this.state.loading }/>
+
         </section>
       </div>
     );
