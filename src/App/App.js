@@ -100,7 +100,7 @@ class App extends Component {
             range={ this.state.range }
             loading= { this.state.loading }/>
           <ScatterPlot
-            topTacks={ this.state.topTracks.length > 49 && this.state.topTracks }
+            topTracks={ this.state.topTracks.length > 49 && this.state.topTracks }
             loading= { this.state.loading }/>
 
         </section>

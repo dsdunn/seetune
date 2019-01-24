@@ -20,14 +20,15 @@ export const topTracksCleaner = async (token, rawTracks) => {
 }
 
 export const audioFeaturesCleaner = (rawFeatures) => {
-  let { key, mode, time_signature, danceability, tempo } = rawFeatures;
+  let { key, mode, time_signature, danceability, tempo, energy } = rawFeatures;
 
   return ({
     key,
     mode,
     time_signature,
     danceability,
-    tempo
+    tempo,
+    energy
   })
 }
 
