@@ -1,9 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 const Login = () => {
   const handleLogin = async () => {
-    window.location = 'http://localhost:8888/login';
+    window.location = process.env.BACKEND_URI || 'http://localhost:8888/login';
   }
 
   return (
@@ -13,4 +12,4 @@ const Login = () => {
     )
 }
 
-export default withRouter(Login);
+export default Login;

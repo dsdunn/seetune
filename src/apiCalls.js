@@ -10,6 +10,11 @@ export const getUser = async (token) => {
   return user;
 }
 
+export const refreshAuth = async () => {
+  let url = process.env.REFRESH_URI || 'http://localhost:8888/refresh';
+  return await fetchData(url, null)
+}
+
 export const getTopTracks = async (token, range='short_term', nextUrl) => {
   let topTracks = [];
   let url = nextUrl ? nextUrl : baseUrl + 'me/top/tracks?time_range=' + range;
@@ -37,4 +42,6 @@ export const getAudioFeatures = async (token, id) => {
 
   return audioFeaturesCleaner(features);
 }
+
+
 
