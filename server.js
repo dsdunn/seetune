@@ -12,6 +12,8 @@ const redirect_uri = process.env.REDIRECT_URI || 'http://localhost:8888/callback
 const client_id = process.env.SPOTIFY_CLIENT_ID || credentials.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET || credentials.SPOTIFY_CLIENT_SECRET;
 
+let refreshToken = 'come on';
+
 
 app.use(cors())
 
@@ -47,9 +49,38 @@ app.get('/callback', (req, res) => {
     let access_token = body.access_token;
     let uri = process.env.FRONTEND_URI || 'http://localhost:3000';
 
+    refreshToken = body.refresh_token;
+
     res.redirect(uri + '?access_token=' + access_token)
   })
 });
+
+app.get('/refresh', (req, res) => {
+  let authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      refresh_token: refreshToken,
+      redirect_uri: redirect_uri,
+      grant_type: 'refresh_token'
+    },
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer(
+        client_id + ':' + client_secret
+        ).toString('base64'))
+    },
+    json: true
+  }
+
+  request.post(authOptions, (error, response, body) => {
+    console.log(body, refreshToken)
+    let access_token = body.access_token;
+    if (body.refresh_token) {
+      refreshToken = body.refresh_token;
+    }
+    res.json(access_token);
+  })
+  
+})
 
 let port = process.env.PORT || 8888;
 
