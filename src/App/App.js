@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Route } from 'react-router-dom';
-import { getUser, getTopTracks, getAudioFeatures, getGenres } from '../apiCalls';
+import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import './App.css';
 
@@ -19,11 +19,18 @@ class App extends Component {
     range: 'short_term'
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let token = window.location.href.split('=')[1] || '';
 
     if (token) {
       this.setUser(token);
+
+      window.setInterval(async () => {
+        let token = await refreshAuth()
+        this.setState({
+          token
+        })
+      }, 45 * 60000)
     }
   }
 
@@ -35,17 +42,25 @@ class App extends Component {
   }
 
   async setTopTracks (token, range=this.state.range) {
-    let topTracks = await getTopTracks(token, range);
-    topTracks = await this.setTrackDetails(topTracks);
+    try {
+      let topTracks = await getTopTracks(token, range);
+      topTracks = await this.setTrackDetails(topTracks);
 
-    let interval = setInterval(() => {
-      if (topTracks[topTracks.length - 1].genres) {     
-        this.setState({topTracks});
-        // this.setGenres(topTracks);
-        window.clearInterval(interval);
-        this.setState({ loading: false });
-      };
-    }, 500)
+      let interval = setInterval(() => {
+        if (topTracks[topTracks.length - 1].genres) {     
+          this.setState({topTracks});
+          // this.setGenres(topTracks);
+          window.clearInterval(interval);
+          this.setState({ loading: false });
+        };
+      }, 500)
+    } catch(error) {
+      console.error(error);
+      let token = await refreshAuth()
+        this.setState({
+          token
+        })
+    }
   }
 
   async setTrackDetails (topTracks) {
