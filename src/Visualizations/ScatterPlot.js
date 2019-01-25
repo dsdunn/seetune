@@ -54,10 +54,8 @@ class ScatterPlot extends Component {
     x.domain([
       d3.min(tracks, function(d) {
         return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
-      }), 
-      d3.max(tracks, function(d) { 
-        return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
-      })
+      }) - 94608000000, 
+      new Date()
     ]);
 
     y.domain([0, 1])
