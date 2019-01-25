@@ -35,10 +35,27 @@ class ScatterPlot extends Component {
   }
 
   drawGraph = (tracks) => {
+
     let x = d3.scaleTime()
       .range([0, this.width]);
     let y = d3.scaleLinear()
       .range([this.height, 0]);
+    let colorScale = d3.scaleLinear()
+      .range(['#3944c7','#f12d0e','#881503'])
+      .domain([d3.min(tracks, function(d) {
+        return d.tempo;
+      }),
+      d3.max(tracks, function(d) {
+        return d.tempo
+      }) + 10]);
+    let sizeScale = d3.scaleLinear()
+      .range([7, 35])
+      .domain([d3.min(tracks, function(d) {
+        return d.duration_ms;
+      }),
+      d3.max(tracks, function(d) {
+        return d.duration_ms;
+      })]);
     let plot = this.svgContainer.selectAll('.node')
       .data(tracks, d => { return d.title; });
 
@@ -74,7 +91,7 @@ class ScatterPlot extends Component {
       .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)); }).strength(1))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
-      .force("collide", d3.forceCollide(10))
+      .force("collide", d3.forceCollide(function(d) { return sizeScale(d.duration_ms)  }))
       .stop()
 
        for (var i = 0; i < 120; ++i) {
@@ -87,14 +104,18 @@ class ScatterPlot extends Component {
           .append('circle')
         .merge(plot)
           .attr('class', 'node')
-          .attr('r', '10px')
+          .attr('r', function(d) {
+            return sizeScale(d.duration_ms)
+          })
           .attr('cx', function(d) {
             return d.x
           })
           .attr('cy', function(d) {
             return d.y
           })
-          .style('fill', 'orange')
+          .style('fill', function(d) {
+            return colorScale(d.tempo);
+          })
           .on('mouseover', function(d) {
             console.log(d)
           })
