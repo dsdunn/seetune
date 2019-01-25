@@ -15,7 +15,8 @@ class ScatterPlot extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.props.topTracks) {
+
+    if (!this.props.topTracks ) {
       return;
     }
     this.drawGraph(this.props.topTracks);
@@ -26,7 +27,7 @@ class ScatterPlot extends Component {
     this.width = 1000 - this.margin.left - this.margin.right;
     this.height = 650 - this.margin.top - this.margin.bottom;
 
-    this.scatContainer = d3.select(this.scat.current).append("svg")
+    this.svgContainer = d3.select(this.scat.current).append("svg")
         .attr("width", this.width + this.margin.right + this.margin.left)
         .attr("height", this.height + this.margin.top + this.margin.bottom)
       .append('g')
@@ -38,16 +39,27 @@ class ScatterPlot extends Component {
       .range([0, this.width]);
     let y = d3.scaleLinear()
       .range([this.height, 0]);
-    let plot = this.scatContainer.selectAll('.node')
+    let plot = this.svgContainer.selectAll('.node')
       .data(tracks, d => { return d.title; });
 
-    this.scatContainer.append('g')
+    this.svgContainer.append('g')
       .attr('class', 'x2 axis')
       .attr('transform', 'translate(0,' + (this.height + 5) + ')');
-    this.scatContainer.append('g')
+    this.svgContainer.append('g')
       .attr('class', 'y2 axis')
 
-    x.domain([d3.min(tracks, function(d) {return d.tempo; }), d3.max(tracks, function(d) { return d.tempo; })]);
+    const parseTime = d3.timeParse("%Y-%m-%d");
+    const parseYear = d3.timeParse('%Y');
+
+    x.domain([
+      d3.min(tracks, function(d) {
+        return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
+      }), 
+      d3.max(tracks, function(d) { 
+        return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
+      })
+    ]);
+
     y.domain([d3.min(tracks, function(d) {return d.energy; }), d3.max(tracks, function(d) { return d.energy; })])
 
     plot.enter()
@@ -56,18 +68,21 @@ class ScatterPlot extends Component {
         .attr('class', 'node')
         .attr('r', '10px')
         .attr('cx', function(d) {
-          return x(d.tempo)
+          return x(parseTime(d.releaseDate) || parseYear(d.releaseDate))
         })
         .attr('cy', function(d) {
           return y(d.energy)
         })
-        .style('fill', 'orange');
+        .style('fill', 'orange')
+        .on('mouseover', function(d) {
+          console.log(d)
+        })
 
 
     plot.exit().remove()
 
     d3.select('.x2')
-      .call(d3.axisBottom().scale(x));
+      .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
 
     d3.select('.y2')
       .call(d3.axisLeft().scale(y));
