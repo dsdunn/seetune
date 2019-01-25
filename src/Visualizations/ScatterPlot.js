@@ -44,9 +44,19 @@ class ScatterPlot extends Component {
 
     this.svgContainer.append('g')
       .attr('class', 'x2 axis')
-      .attr('transform', 'translate(0,' + (this.height + 5) + ')');
-    this.svgContainer.append('g')
-      .attr('class', 'y2 axis')
+      .attr('transform', 'translate(0,' + (this.height / 2) + ')');
+    this.svgContainer.append('text')
+      .attr('class', 'major-label')
+      .text('Major Key')
+      .attr('transform', 'translate(' + this.width / 10 + ', ' + this.height / 10 + ')')
+    this.svgContainer.append('text')
+      .attr('class', 'major-label')
+      .text('Minor Key')
+      .attr('transform', 'translate(' + this.width / 10 + ', ' + this.height * .9 + ')')
+    this.svgContainer.append('text')
+      .attr('class', 'major-label')
+      .text('Release Date')
+      .attr('transform', 'translate(' + this.width / 10 + ', ' + this.height * .47 + ')')
 
     const parseTime = d3.timeParse("%Y-%m-%d");
     const parseYear = d3.timeParse('%Y');
@@ -97,9 +107,6 @@ class ScatterPlot extends Component {
 
     d3.select('.x2')
       .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
-
-    d3.select('.y2')
-      .call(d3.axisLeft().scale(y));
 
   }
 

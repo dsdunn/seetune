@@ -30,7 +30,7 @@ class App extends Component {
         this.setState({
           token
         })
-      }, 45 * 60000)
+      }, 30 * 60000)
     }
   }
 
