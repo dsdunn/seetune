@@ -60,15 +60,18 @@ class ScatterPlot extends Component {
       })
     ]);
 
-    y.domain([-1, 2])
+    y.domain([0, 1])
 
     let simulation = d3.forceSimulation(tracks)
       .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)); }).strength(1))
-      .force("y", d3.forceY(function(d) { return y(d.mode); }))
+      .force("y", d3.forceY(y(0.5)))
+      .force("y2", d3.forceY(function(d) { return y(d.mode); }))
       .force("collide", d3.forceCollide(10))
       .stop()
 
-       for (var i = 0; i < 120; ++i) simulation.tick();
+       for (var i = 0; i < 120; ++i) {
+        simulation.tick();
+      }
 
       function ticked() {
 
