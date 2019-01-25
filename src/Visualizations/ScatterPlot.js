@@ -35,7 +35,7 @@ class ScatterPlot extends Component {
   }
 
   drawGraph = (tracks) => {
-    let x = d3.scaleLinear()
+    let x = d3.scaleTime()
       .range([0, this.width]);
     let y = d3.scaleLinear()
       .range([this.height, 0]);
@@ -60,26 +60,39 @@ class ScatterPlot extends Component {
       })
     ]);
 
-    y.domain([d3.min(tracks, function(d) {return d.energy; }), d3.max(tracks, function(d) { return d.energy; })])
+    y.domain([-1, 2])
 
-    plot.enter()
-        .append('circle')
-      .merge(plot)
-        .attr('class', 'node')
-        .attr('r', '10px')
-        .attr('cx', function(d) {
-          return x(parseTime(d.releaseDate) || parseYear(d.releaseDate))
-        })
-        .attr('cy', function(d) {
-          return y(d.energy)
-        })
-        .style('fill', 'orange')
-        .on('mouseover', function(d) {
-          console.log(d)
-        })
+    let simulation = d3.forceSimulation(tracks)
+      .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)); }).strength(1))
+      .force("y", d3.forceY(function(d) { return y(d.mode); }))
+      .force("collide", d3.forceCollide(10))
+      .stop()
+
+       for (var i = 0; i < 120; ++i) simulation.tick();
+
+      function ticked() {
+
+      plot.enter()
+          .append('circle')
+        .merge(plot)
+          .attr('class', 'node')
+          .attr('r', '10px')
+          .attr('cx', function(d) {
+            return d.x
+          })
+          .attr('cy', function(d) {
+            return d.y
+          })
+          .style('fill', 'orange')
+          .on('mouseover', function(d) {
+            console.log(d)
+          })
+      }
 
 
     plot.exit().remove()
+
+    ticked()
 
     d3.select('.x2')
       .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
