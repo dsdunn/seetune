@@ -15,8 +15,8 @@ class ScatterPlot extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
-    if (!this.props.topTracks ) {
+    console.log('update')
+    if (this.props.loading) {
       return;
     }
     this.drawGraph(this.props.topTracks);
@@ -108,60 +108,42 @@ class ScatterPlot extends Component {
       .on('tick', ticked);
 
 
+    // let defs = d3.select('.scatter')
+    //   .append('def')
+
+    // tracks.forEach(function(d) {
+    //   defs.append('clip-path')
+    //   .attr('id', d.title)
+    //   .append('circle')
+    //     .attr('r', 18)
+    //     .attr('cx', d.x)
+    //     .attr('cy', d.y)
+    // })
+
     function ticked() {
 
       let node = d3.select('.scatter')
-        .selectAll('circle')
-        .data(tracks);
-
+        .selectAll('image')
+        .data(tracks, function(d) { return d.title })
+        
       node.enter()
-        .append('circle')
+        .append('image')
         .merge(node)
-        .attr('r', function(d) {
-          return 18;
-        })
-        .attr('cx', function(d) {
+        .attr('class', 'circle')
+        .attr('height', 36)
+        .attr('width', 36)
+        .attr('x', function(d) {
           return d.x
         })
-        .attr('cy', function(d) {
+        .attr('y', function(d) {
           return d.y
         })
-        .style('fill', function(d) {
-          return colorScale(d.tempo);
-        })
+        .attr('xlink:href', function(d) { return d.coverArt.url })
         .on('mouseover', function(d) {
           console.log(d)
         })
-       
-
-        // plot
-        //   .append('g')
-        //   .attr('class', 'node')
-        //   .enter()
-        //   .append('circle')
-        //   .merge(plot)
-        //   .attr('r', function(d) {
-        //     return sizeScale(d.duration_ms)
-        //   })
-        //   .attr('cx', function(d) {
-        //     return d.x
-        //   })
-        //   .attr('cy', function(d) {
-        //     return d.y
-        //   })
-        //   .style('fill', function(d) {
-        //     return colorScale(d.tempo);
-        //   })
-        //   .on('mouseover', function(d) {
-        //     console.log(d)
-        //   })    
-          // .append('text')
-          // .text('Ab')
-
-        node.exit().remove()
+        node.exit().remove();
       }
-
-
 
     d3.select('.x2')
       .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
