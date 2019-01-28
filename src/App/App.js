@@ -30,7 +30,7 @@ class App extends Component {
         this.setState({
           token
         })
-      }, 45 * 60000)
+      }, 30 * 60000)
     }
   }
 
@@ -111,11 +111,11 @@ class App extends Component {
 
         <section className='visualizations'>
           <TempoGraph 
-            topTracks={ this.state.topTracks.length > 49 && this.state.topTracks } 
+            topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
             range={ this.state.range }
             loading= { this.state.loading }/>
           <ScatterPlot
-            topTracks={ this.state.topTracks.length > 49 && this.state.topTracks }
+            topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
             loading= { this.state.loading }/>
 
         </section>
