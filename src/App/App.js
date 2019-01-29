@@ -21,14 +21,25 @@ class App extends Component {
 
   async componentDidMount() {
     let token = window.location.href.split('=')[1] || '';
+    let refresh_token = window.location.href.split('=')[2] || '';
 
     if (token) {
       this.setUser(token);
+      this.setState({
+        token,
+        refresh_token,
+        loading: true
+      })
 
       window.setInterval(async () => {
-        let token = await refreshAuth()
+        let response = await refreshAuth(this.state.refresh_token);
+        let result = await response.json();
+        let token = result.access_token;
+        let refresh_token = result.refresh_token;
+
         this.setState({
-          token
+          token,
+          refresh_token
         })
       }, 30 * 60000)
     }
@@ -37,7 +48,7 @@ class App extends Component {
   async setUser (token) {
     let user = await getUser(token);
 
-    this.setState({ token, user, loading: true })
+    this.setState({ user })
     this.setTopTracks(token);
   }
 
@@ -56,9 +67,12 @@ class App extends Component {
       }, 500)
     } catch(error) {
       console.error(error);
-      let token = await refreshAuth()
+      let response = await refreshAuth(this.state.refresh_token);
+      let result = response.json();
+      let { token, refresh_token } = result;
         this.setState({
-          token
+          token,
+          refresh_token
         })
     }
   }
