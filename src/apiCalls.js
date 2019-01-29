@@ -10,9 +10,10 @@ export const getUser = async (token) => {
   return user;
 }
 
-export const refreshAuth = async () => {
+export const refreshAuth = async (refresh_token) => {
   let url = process.env.REFRESH_URI || 'http://localhost:8888/refresh';
-  return await fetchData(url, null)
+
+  return await fetch(url + '?refresh_token=' + refresh_token )
 }
 
 export const getTopTracks = async (token, range='short_term', nextUrl) => {
