@@ -85,6 +85,11 @@ class ScatterPlot extends Component {
       .text('Release')
       .attr('transform', 'translate(-60,' + this.height * .5 + ')')
 
+    let toolTip = d3.select('body').append('div')
+      .attr('class', 'tool-tip')
+      .style('opacity', 1e-6)
+      .style('background', 'white')
+
     x.domain([
       d3.min(tracks, function(d) {
         return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
@@ -116,7 +121,21 @@ class ScatterPlot extends Component {
         .attr('width', 36)
         .attr('xlink:href', function(d) { return d.coverArt.url })
         .on('mouseover', function(d) {
-          console.log(d)
+          toolTip.html(`<div>
+            <p>${d.title}</p>
+            <p>by: ${d.artistName} </p>
+            </div>`)
+            .style('left', +this.getAttribute('x') + 'px')
+            .style('top', +this.getAttribute('y') + 800 + 'px')
+            .transition()
+              .duration(300)
+              .style('opacity', .9)
+        })
+        .on('mouseout', function(d) {
+          toolTip
+            .transition()
+              .duration(300)
+              .style('opacity', 1e-6)
         })
         .merge(node)
 
