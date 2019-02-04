@@ -55,7 +55,7 @@ class TempoGraph extends Component {
     let y = d3.scaleLinear()
       .range([this.height, 0])
     let graph = this.svgContainer.selectAll('.bar')
-      .data(sortedTracks, d => { return d.title; });
+      .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
@@ -80,10 +80,10 @@ class TempoGraph extends Component {
 
     this.svgContainer.append('g')
       .attr('class', 'y axis');
- 
 
-    x.domain(sortedTracks.map((d) => { return this.titleSlice(d.title) }))
-    y.domain(this.setYDomain(sortedTracks, param))
+
+    x.domain(sortedTracks.map(d => { return d.title } ));
+    y.domain(this.setYDomain(sortedTracks, param));
 
     graph.enter()
         .append('rect')
@@ -112,7 +112,7 @@ class TempoGraph extends Component {
         })
       .transition(t)
         .attr('class', 'bar')
-        .attr('x', (d) => { return x(this.titleSlice(d.title)); })
+        .attr('x', (d) => { return x(d.title); })
         .attr('width', x.bandwidth())
         .attr('y', function(d) { 
           return y(d[param]); })
@@ -124,10 +124,10 @@ class TempoGraph extends Component {
         .attr('opacity', 0)
         .remove()
 
-
-
     d3.select('.x').transition(t)
-        .call(d3.axisBottom().scale(x));
+        .call(d3.axisBottom().scale(x).tickFormat((d) => {
+          return this.titleSlice(d);
+        }))
 
     d3.selectAll('.x text')
       .attr('transform', 'translate(-11,3) rotate(290)')
@@ -162,7 +162,7 @@ class TempoGraph extends Component {
 
   titleSlice = (str) => {
     if ( str.length > 30 ) {
-      str = "..." + str.slice(str.length - 30)
+      str = str.slice(0,30) + '...';
     }
     return str;
   }
