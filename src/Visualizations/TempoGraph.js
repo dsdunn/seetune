@@ -76,7 +76,7 @@ class TempoGraph extends Component {
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .text(this.state.param)
+      .text(this.state.param == 'duration_ms' ? 'duration' : this.state.param )
 
     this.svgContainer.append('g')
       .attr('class', 'y axis');
@@ -134,7 +134,12 @@ class TempoGraph extends Component {
       .style('text-anchor', 'end');
       
     d3.select('.y').transition(t)
-        .call(d3.axisLeft().scale(y));
+        .call(d3.axisLeft().scale(y).tickFormat((d) => {
+          let formatMinutes = d3.timeFormat('%M:%S')
+          if (param === 'duration_ms') {
+            return formatMinutes(d);
+          } else { return d }
+        }));
   }
 
   setYDomain = (tracks, param) => {
@@ -161,8 +166,8 @@ class TempoGraph extends Component {
   }
 
   titleSlice = (str) => {
-    if ( str.length > 30 ) {
-      str = str.slice(0,30) + '...';
+    if ( str.length > 25 ) {
+      str = str.slice(0,22) + '...';
     }
     return str;
   }
