@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from 'd3';
-
+import { withRouter } from 'react-router-dom';
 import './Visualizations.css';
 import logo from '../loading.gif';
 
@@ -14,7 +14,11 @@ class TempoGraph extends Component {
   }
 
   componentDidMount() {
+    console.log('tempograph mount')
     this.makeSvg();
+    if(this.props.topTracks) {
+      this.drawGraph(this.props.topTracks)
+    }
   }
 
   makeSvg = () => {
@@ -55,7 +59,7 @@ class TempoGraph extends Component {
     let y = d3.scaleLinear()
       .range([this.height, 0])
     let graph = this.svgContainer.selectAll('.bar')
-      .data(sortedTracks, d => { return d.title; });
+      .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
@@ -76,14 +80,14 @@ class TempoGraph extends Component {
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .text(this.state.param)
+      .text(this.state.param == 'duration_ms' ? 'duration' : this.state.param )
 
     this.svgContainer.append('g')
       .attr('class', 'y axis');
- 
 
-    x.domain(sortedTracks.map((d) => { return this.titleSlice(d.title) }))
-    y.domain(this.setYDomain(sortedTracks, param))
+
+    x.domain(sortedTracks.map(d => { return d.title } ));
+    y.domain(this.setYDomain(sortedTracks, param));
 
     graph.enter()
         .append('rect')
@@ -112,7 +116,7 @@ class TempoGraph extends Component {
         })
       .transition(t)
         .attr('class', 'bar')
-        .attr('x', (d) => { return x(this.titleSlice(d.title)); })
+        .attr('x', (d) => { return x(d.title); })
         .attr('width', x.bandwidth())
         .attr('y', function(d) { 
           return y(d[param]); })
@@ -124,17 +128,22 @@ class TempoGraph extends Component {
         .attr('opacity', 0)
         .remove()
 
-
-
     d3.select('.x').transition(t)
-        .call(d3.axisBottom().scale(x));
+        .call(d3.axisBottom().scale(x).tickFormat((d) => {
+          return this.titleSlice(d);
+        }))
 
     d3.selectAll('.x text')
       .attr('transform', 'translate(-11,3) rotate(290)')
       .style('text-anchor', 'end');
       
     d3.select('.y').transition(t)
-        .call(d3.axisLeft().scale(y));
+        .call(d3.axisLeft().scale(y).tickFormat((d) => {
+          let formatMinutes = d3.timeFormat('%M:%S')
+          if (param === 'duration_ms') {
+            return formatMinutes(d);
+          } else { return d }
+        }));
   }
 
   setYDomain = (tracks, param) => {
@@ -161,8 +170,8 @@ class TempoGraph extends Component {
   }
 
   titleSlice = (str) => {
-    if ( str.length > 30 ) {
-      str = "..." + str.slice(str.length - 30)
+    if ( str.length > 25 ) {
+      str = str.slice(0,22) + '...';
     }
     return str;
   }
@@ -189,4 +198,4 @@ class TempoGraph extends Component {
   }
 }
 
-export default TempoGraph;
+export default withRouter(TempoGraph);

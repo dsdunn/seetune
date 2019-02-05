@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-
+import { withRouter } from 'react-router-dom'
 import './Visualizations.css';
 import logo from '../loading.gif';
 
@@ -11,7 +11,11 @@ class ScatterPlot extends Component {
   }
 
   componentDidMount() {
+    console.log('scatter mount')
     this.makeSvg();
+    if(this.props.topTracks) {
+      this.drawGraph(this.props.topTracks)
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -42,23 +46,18 @@ class ScatterPlot extends Component {
     let y = d3.scaleLinear()
       .range([this.height, 0]);
 
-    // let colorScale = d3.scaleLinear()
-    //   .range(['#3944c7','#f12d0e','#881503'])
-    //   .domain([d3.min(tracks, function(d) {
-    //     return d.tempo;
-    //   }),
-    //   d3.max(tracks, function(d) {
-    //     return d.tempo
-    //   }) + 10]);
+    let colorScale = d3.scaleLinear()
+      .range(['#3944c7','#f12d0e','#881503'])
+      .domain([0, 1]);
 
-    // let sizeScale = d3.scaleLinear()
-    //   .range([7, 20])
-    //   .domain([d3.min(tracks, function(d) {
-    //     return d.duration_ms;
-    //   }),
-    //   d3.max(tracks, function(d) {
-    //     return d.duration_ms;
-    //   })]);
+    let sizeScale = d3.scaleLinear()
+      .range([7, 20])
+      .domain([d3.min(tracks, function(d) {
+        return d.popularity;
+      }),
+      d3.max(tracks, function(d) {
+        return d.popularity;
+      })]);
 
     const parseTime = d3.timeParse("%Y-%m-%d");
     const parseYear = d3.timeParse('%Y');
@@ -104,7 +103,7 @@ class ScatterPlot extends Component {
       .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
-      .force("collide", d3.forceCollide().radius(function(d) { return 20 }))
+      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }))
       .on('tick', ticked);
 
     let node = d3.select('.scatter')
@@ -115,23 +114,28 @@ class ScatterPlot extends Component {
       .remove();
 
     node = node.enter()
-        .append('image')
+        .append('circle')
         .attr('class', 'track')
-        .attr('height', 36)
-        .attr('width', 36)
-        .attr('xlink:href', function(d) { return d.coverArt.url })
+        .attr('r', function(d) { return sizeScale(d.popularity); })
+        .style('fill', function(d) { return colorScale(d.energy)})
         .on('mouseover', function(d) {
+          d3.select(this).transition()
           toolTip.html(`<div>
+            <img src='${d.coverArt.url}'/>
             <p>${d.title}</p>
             <p>by: ${d.artistName} </p>
+            <p>popularity: ${d.popularity}</p>
+            <p>energy: ${d.energy}</p>
+            <p>released: ${d.releaseDate}</p>
             </div>`)
-            .style('left', +this.getAttribute('x') + 'px')
-            .style('top', +this.getAttribute('y') + 800 + 'px')
+            .style('left', '530px')
+            .style('top', '900px')
             .transition()
               .duration(300)
               .style('opacity', .9)
         })
         .on('mouseout', function(d) {
+          d3.select(this).transition().duration(200)
           toolTip
             .transition()
               .duration(300)
@@ -141,10 +145,10 @@ class ScatterPlot extends Component {
 
 
     function ticked() {
-      node.attr('x', function(d) {
+      node.attr('cx', function(d) {
         return d.x
       })
-      .attr('y', function(d) {
+      .attr('cy', function(d) {
         return d.y
       })
     }
@@ -169,7 +173,7 @@ class ScatterPlot extends Component {
   }
 }
 
-export default ScatterPlot;
+export default withRouter(ScatterPlot);
 
 
 
