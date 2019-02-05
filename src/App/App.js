@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import './App.css';
@@ -127,8 +127,8 @@ class App extends Component {
         <section className='visualizations'>
           <Router>
             <div>
-              <Link to='/bar'>Bar Chart</Link>
-              <Link to='/scatter'>Scatter Plot</Link>
+              <NavLink to='/bar'>Bar Chart</NavLink>
+              <NavLink to='/scatter'>Scatter Plot</NavLink>
               <Route path='/bar' render={ (props) => (
                   <TempoGraph 
                     {...props}
@@ -150,4 +150,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default App;
