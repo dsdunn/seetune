@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-
+import { withRouter } from 'react-router-dom'
 import './Visualizations.css';
 import logo from '../loading.gif';
 
@@ -11,7 +11,11 @@ class ScatterPlot extends Component {
   }
 
   componentDidMount() {
+    console.log('scatter mount')
     this.makeSvg();
+    if(this.props.topTracks) {
+      this.drawGraph(this.props.topTracks)
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -99,7 +103,7 @@ class ScatterPlot extends Component {
       .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
-      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) }))
+      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }))
       .on('tick', ticked);
 
     let node = d3.select('.scatter')
@@ -169,7 +173,7 @@ class ScatterPlot extends Component {
   }
 }
 
-export default ScatterPlot;
+export default withRouter(ScatterPlot);
 
 
 

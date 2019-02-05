@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import './App.css';
@@ -74,6 +74,7 @@ class App extends Component {
           token,
           refresh_token
         })
+      this.setUser(token);
     }
   }
 
@@ -124,18 +125,29 @@ class App extends Component {
         </form>
 
         <section className='visualizations'>
-          <TempoGraph 
-            topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
-            range={ this.state.range }
-            loading= { this.state.loading }/>
-          <ScatterPlot
-            topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
-            loading= { this.state.loading }/>
-
+          <Router>
+            <div>
+              <Link to='/bar'>Bar Chart</Link>
+              <Link to='/scatter'>Scatter Plot</Link>
+              <Route path='/bar' render={ (props) => (
+                  <TempoGraph 
+                    {...props}
+                    topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
+                    range={ this.state.range }
+                    loading= { this.state.loading }/>
+              )}/>
+              <Route path='/scatter' render={ (props) => (
+                  <ScatterPlot
+                    {...props}
+                    topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
+                    loading= { this.state.loading }/>
+              )}/>
+            </div>
+          </Router>
         </section>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

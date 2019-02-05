@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from 'd3';
-
+import { withRouter } from 'react-router-dom';
 import './Visualizations.css';
 import logo from '../loading.gif';
 
@@ -14,7 +14,11 @@ class TempoGraph extends Component {
   }
 
   componentDidMount() {
+    console.log('tempograph mount')
     this.makeSvg();
+    if(this.props.topTracks) {
+      this.drawGraph(this.props.topTracks)
+    }
   }
 
   makeSvg = () => {
@@ -194,4 +198,4 @@ class TempoGraph extends Component {
   }
 }
 
-export default TempoGraph;
+export default withRouter(TempoGraph);
