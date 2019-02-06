@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import './User.css';
 
 const User = ( {user} ) => {
   if(user.display_name) {

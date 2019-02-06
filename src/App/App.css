@@ -1,17 +1,57 @@
 body {
-  padding: 1.5em;
+  background-color: #191414;
+  color: white;
+  font-family: sans-serif;
 }
 
-.App {
+header {
+  height: 20vh;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  background: url('../assets/headphones_banner.jpg') no-repeat;
+  background-size: cover;
+  background-position: 50% 40%;
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.login img {
+  height: 3em;
+}
+
+.app {
   text-align: center;
 }
 
 .title {
   text-align: center;
+  font-size: 4em;
+  font-weight: bold;
+  padding: .5em;
+  color: #fede5a;
 }
 
 .subtitle {
   text-align: center;
+  font-size: 1.2em;
+}
+
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.user-image {
+  height: 5em;
 }
 
 
