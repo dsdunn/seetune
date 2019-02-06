@@ -149,6 +149,10 @@ class App extends Component {
             </Router>
           </section>
         }
+        <footer>
+          <p>Built with D3.js and powered by the Spotify API</p>
+          <p>&copy; dsdunn 2019</p>
+        </footer>
       </div>
     );
   }

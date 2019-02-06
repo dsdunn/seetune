@@ -8,9 +8,16 @@ const Login = () => {
 
   return (
     <div className="login">
-      <p>Do you use Spotify? Do you prefer faster tempos and/or more danceable songs? How about music from a specific era? Are you going through a listening phase right now? Login to explore info about your short-, medium-, and long-term top tracks!
-      </p>
-      <button onClick={handleLogin}>Login with <img src={logo_green}/></button>
+      <ul>
+        <li>Do you use Spotify?</li>
+        <li>Do you prefer faster tempos and/or more danceable songs?</li>
+        <li>How about music from a specific era?</li>
+        <li>Are you going through a listening phase right now?</li> 
+      </ul>
+      <div className='login-button' onClick={handleLogin}>
+        <p>Login with</p>
+        <img src={logo_green}/>
+      </div>
     </div>
     )
 }
