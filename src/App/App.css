@@ -1,13 +1,21 @@
 body {
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
   background-color: #191414;
   color: white;
   font-family: sans-serif;
 }
 
+.app-body {
+  max-width: 1600px;
+}
+
 /*--------header styles------------------------*/
 
 header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   height: 17vh;
   position: relative;
 }
@@ -30,7 +38,6 @@ header::after {
   text-align: center;
   font-size: 4em;
   font-weight: bold;
-  padding: .5em;
   color: #fede5a;
 }
 
@@ -42,25 +49,24 @@ header::after {
 /*--------app styles------------------------------*/
 
 .app {
-  padding: 2em;
+  padding: 2vh;
   padding-bottom: 0;
 }
+
+/*-------------login--------*/
 
 .login {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 50vh;
+  height: 75vh;
   font-size: 1.2em;
   padding: 2em;
 }
 
 .login-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
+  text-align: center;
   width: 50%;
   margin: 1em;
   padding-top: 1em;
@@ -83,6 +89,8 @@ header::after {
   font-style: italic;
 }
 
+/*---------------user------------*/
+
 .user {
   display: flex;
   justify-content: flex-end;
@@ -92,18 +100,19 @@ header::after {
 .user-text {
   padding-right: .5em;
   text-align: right;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .user-image {
   height: 4em;
 }
 
+/*-----------controls----------------*/
+
 .range-form {
   width: 50%;
   margin: -3em auto 1em auto;
   text-align: center;
-  font-size: 1.2em;
 }
 
 select {
@@ -120,7 +129,7 @@ nav {
 }
 
 .nav-link {
-  padding: 1em;
+  padding: .5em;
   border-radius: 5px;
   width: 8em;
   font-size: 1.2em;
@@ -130,7 +139,7 @@ nav {
   text-align: center;
 }
 
-.nab-link:visited {
+.nav-link:visited {
   color: white;
 }
 
@@ -150,6 +159,7 @@ nav {
 .graph {
   display: flex;
   justify-content: center;
+  margin: 3em 0 3em 0;
 }
 
 .graph-parameter {
@@ -159,15 +169,16 @@ nav {
     font-size: 1.2em;
 }
 
-svg {
-  margin-top: 2em;
+.legend {
+  /*border: 1px solid #fede5a;*/
 }
 
 .tool-tip {
   display: flex;
   position: absolute;
+  width: 50vw;
   top: 35vh;
-  left: 30vw;
+  left: 25vw;
   color: #191414;
 
 }
@@ -191,9 +202,10 @@ svg {
 }
 
 footer {
-  position: absolute;
+  /*position: absolute;*/
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   justify-content: space-around;
   align-items: center;
   width: 100%;

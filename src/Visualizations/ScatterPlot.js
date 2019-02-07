@@ -25,9 +25,9 @@ class ScatterPlot extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 80, bottom: 200, left: 80};
-    this.width = 1000 - this.margin.left - this.margin.right;
-    this.height = 800 - this.margin.top - this.margin.bottom;
+    this.margin = {top: 40, right: 60, bottom: 150, left: 60};
+    this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
+    this.height = (window.innerHeight * .9) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")
         .attr("width", this.width + this.margin.right + this.margin.left)
@@ -46,7 +46,7 @@ class ScatterPlot extends Component {
       .range([this.height, 0]);
 
     let colorScale = d3.scaleLinear()
-      .range(['#3944c7','#f12d0e','#881503'])
+      .range(['#3944c7','#f12d0e'])
       .domain([0, 1]);
 
     let sizeScale = d3.scaleLinear()
@@ -58,14 +58,14 @@ class ScatterPlot extends Component {
         return d.popularity;
       })]);
 
-    const parseTime = d3.timeParse("%Y-%m-%d");
+    const parseDay = d3.timeParse('%Y-%m-%d');
     const parseYear = d3.timeParse('%Y');
 
-    // function keyMap(num) {
-    //   let keys = ['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+    function keyMap(num) {
+      let keys = ['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
 
-    //   return keys[num];
-    // }
+      return keys[num];
+    }
 
     this.svgContainer.append('g')
       .attr('class', 'x2 axis')
@@ -73,14 +73,17 @@ class ScatterPlot extends Component {
     this.svgContainer.append('text')
       .attr('class', 'major-label')
       .text('Major Key')
+      .style('fill', 'white')
       .attr('transform', 'translate(-40,' + this.height * .3 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'minor-label')
       .text('Minor Key')
+      .style('fill', 'white')
       .attr('transform', 'translate(-40,' + this.height * .75 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'x-label')
       .text('Release')
+      .style('fill', 'white')
       .attr('transform', 'translate(-60,' + this.height * .5 + ')')
 
     let toolTip = d3.select('body').append('div')
@@ -90,7 +93,7 @@ class ScatterPlot extends Component {
 
     x.domain([
       d3.min(tracks, function(d) {
-        return parseTime(d.releaseDate) || parseYear(d.releaseDate); 
+        return parseDay(d.releaseDate) || parseYear(d.releaseDate); 
       }), 
       new Date()
     ]);
@@ -99,7 +102,7 @@ class ScatterPlot extends Component {
 
     let simulation = d3.forceSimulation(tracks)
       .velocityDecay(0.7)
-      .force("x", d3.forceX(function(d) { return x(parseTime(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
+      .force("x", d3.forceX(function(d) { return x(parseDay(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
       .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }))
@@ -119,22 +122,45 @@ class ScatterPlot extends Component {
         .style('fill', function(d) { return colorScale(d.energy)})
         .on('mouseover', function(d) {
           d3.select(this).transition()
-          toolTip.html(`<div>
+            .duration(300)
+            .style('stroke', '#1DB954');
+          toolTip.html(`
             <img src='${d.coverArt.url}'/>
-            <p>${d.title}</p>
-            <p>by: ${d.artistName} </p>
-            <p>popularity: ${d.popularity}</p>
-            <p>energy: ${d.energy}</p>
-            <p>released: ${d.releaseDate}</p>
-            </div>`)
-            .style('left', '530px')
-            .style('top', '900px')
+            <table>
+              <tr class='tip-title'>
+                <td class='category'>title: </td>
+                <td> ${d.title}</td>
+              <tr>
+              <tr class='tip-artist'>
+                <td class='category'>artist: </td>
+                <td> ${d.artistName}</td>
+              </tr>
+              <tr class='tip-tempo'>
+                <td class='category'>energy: </td>
+                <td> ${d.energy}</td>
+              </tr>
+              <tr class='tip-popularity'>
+                <td class='category'>release date: </td>
+                <td> ${d.releaseDate}</td>
+              </tr>
+              <tr class='tip-dancability'>
+                <td class='category'>key: </td>
+                <td> ${keyMap(d.key) + (d.mode === 1 ? " Major" : " Minor")}</td>
+              </tr>
+              <tr class='tip-duration'>
+                <td class='category'>genres: </td>
+                <td> ${d.genres.join(', ')}</td>
+              </tr>
+            </table>
+            `)
             .transition()
               .duration(300)
-              .style('opacity', .9)
+              .style('opacity', .8)
         })
         .on('mouseout', function(d) {
-          d3.select(this).transition().duration(200)
+          d3.select(this).transition()
+            .duration(200)
+            .style('stroke', 'none')
           toolTip
             .transition()
               .duration(300)
@@ -160,12 +186,30 @@ class ScatterPlot extends Component {
   render() {
     return (
         <div className='ScatterPlot'>
-          <h4>Scatter Plot with collision detection</h4>
           {
             this.props.loading && 
             <img className='loading' src={logo}/>
           }
-          <div className='plot' ref={ this.scat }>
+          <div className='legend'>
+            <svg height='100' width='200'>
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3944c7" />
+                  <stop offset="100%" stopColor="#f12d0e" />
+                </linearGradient>
+              </defs>
+              <text fill='white' x='4' y='25'>popularity: </text>
+              <circle r='7' cx='96' cy='20' stroke='#fede5a'/>
+              <text fill='white' x='106' y='25'> 0</text>
+              <circle r='20' cx='155' cy='20' stroke='#fede5a'/>
+              <text fill='white' x='140' y='25'> 100</text>
+              <text fill='white' x='4' y='70'>energy: </text>
+              <rect x='65' y='50' height='30' width='150' fill='url(#grad1)'/>
+              <text fill='white' x='75' y='70'>0</text>
+              <text fill='white' x='180' y='70'>1</text>
+            </svg>
+          </div>
+          <div className='graph' ref={ this.scat }>
           </div>
         </div>
       )

@@ -21,9 +21,9 @@ class TempoGraph extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 40, right: 60, bottom: 250, left: 60};
-    this.width = (window.innerWidth * .8) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .56) - this.margin.top - this.margin.bottom;
+    this.margin = {top: 20, right: 60, bottom: 150, left: 60};
+    this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
+    this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
          .attr("width", this.width + this.margin.right + this.margin.left)
@@ -126,8 +126,6 @@ class TempoGraph extends Component {
               </tr>
             </table>`
             )
-            // .style("left", (d3.event.pageX - 65) + "px")   
-            // .style("top", (d3.event.pageY - 200) + "px")
             .transition()
               .duration(300)
               .style('opacity', .8)
@@ -208,8 +206,8 @@ class TempoGraph extends Component {
           <label htmlFor='param'>Y-Axis: </label>
           <select name='param' value={this.state.param} onChange={this.handleParamChange}>
             <option value='popularity' >Popularity</option>
-            <option value='tempo'>Tempo</option>
-            <option value='duration_ms'>Duration</option>
+            <option value='tempo'>Tempo (bpm)</option>
+            <option value='duration_ms'>Duration (mm:ss)</option>
             <option value='danceability'>Danceabiltiy</option>   
           </select>
         </div>
