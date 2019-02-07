@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import * as d3 from 'd3';
 import { withRouter } from 'react-router-dom';
-import './Visualizations.css';
-import logo from '../loading.gif';
+import logo from '../assets/loading.gif';
 
 class TempoGraph extends Component {
   constructor(props){
@@ -22,9 +21,9 @@ class TempoGraph extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 80, bottom: 200, left: 80};
-    this.width = 1000 - this.margin.left - this.margin.right;
-    this.height = 650 - this.margin.top - this.margin.bottom;
+    this.margin = {top: 40, right: 60, bottom: 250, left: 60};
+    this.width = (window.innerWidth * .8) - this.margin.left - this.margin.right;
+    this.height = (window.innerHeight * .56) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
          .attr("width", this.width + this.margin.right + this.margin.left)
@@ -62,9 +61,10 @@ class TempoGraph extends Component {
       .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
-      .style('opacity', 1e-6)
       .style('background', 'white')
-    let t = d3.transition().duration(1000);
+      .style('opacity', 1e-6)
+    const t = d3.transition().duration(1000);
+    const formatMinutes = d3.timeFormat('%M:%S')
     
     this.svgContainer.append('g')
       .attr('class', 'x axis')
@@ -80,6 +80,7 @@ class TempoGraph extends Component {
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
+      .style('fill', 'white')
       .text(this.state.param == 'duration_ms' ? 'duration' : this.state.param )
 
     this.svgContainer.append('g')
@@ -96,22 +97,46 @@ class TempoGraph extends Component {
           d3.select(this)
             .style('fill', '#a62c19')
 
-          toolTip.html(`<div>
-            <p>${d.title}</p>
-            <p>by: ${d.artistName} </p>
-            <p>${param}: ${param === 'tempo' ? Math.round(d[param]) : d[param]}</p>
-            </div>`)
-            .style('left', +this.getAttribute('x') + 40 + 'px')
-            .style('top', +this.getAttribute('y')  + 200 + 'px')
+          toolTip.html(
+            `<img src='${d.coverArt.url}'/>
+            <table>
+              <tr class='tip-title'>
+                <td class='category'>title: </td>
+                <td> ${d.title}</td>
+              <tr>
+              <tr class='tip-artist'>
+                <td class='category'>artist: </td>
+                <td> ${d.artistName}</td>
+              </tr>
+              <tr class='tip-tempo'>
+                <td class='category'>tempo: </td>
+                <td> ${Math.round(d.tempo)}</td>
+              </tr>
+              <tr class='tip-popularity'>
+                <td class='category'>popularity: </td>
+                <td> ${d.popularity}</td>
+              </tr>
+              <tr class='tip-dancability'>
+                <td class='category'>danceability: </td>
+                <td> ${d.danceability}</td>
+              </tr>
+              <tr class='tip-duration'>
+                <td class='category'>duration: </td>
+                <td> ${formatMinutes(d.duration_ms)}</td>
+              </tr>
+            </table>`
+            )
+            // .style("left", (d3.event.pageX - 65) + "px")   
+            // .style("top", (d3.event.pageY - 200) + "px")
             .transition()
               .duration(300)
-              .style('opacity', .9)
+              .style('opacity', .8)
         })
         .on('mouseout', function(d) {
           d3.select(this)
             .style('fill', 'steelblue')
           toolTip.transition()
-            .duration(300)
+            .duration(100)
             .style('opacity', 1e-6)
         })
       .transition(t)
@@ -139,7 +164,6 @@ class TempoGraph extends Component {
       
     d3.select('.y').transition(t)
         .call(d3.axisLeft().scale(y).tickFormat((d) => {
-          let formatMinutes = d3.timeFormat('%M:%S')
           if (param === 'duration_ms') {
             return formatMinutes(d);
           } else { return d }
@@ -180,18 +204,20 @@ class TempoGraph extends Component {
 
     return (
       <div className='TempoGraph'>
-        <h4>Top Tracks sorted by {this.state.param}</h4>
-        <select name='graph_parameter' value={this.state.param} onChange={this.handleParamChange}>
-          <option value='popularity' >Popularity</option>
-          <option value='tempo'>Tempo</option>
-          <option value='duration_ms'>Duration</option>
-          <option value='danceability'>Danceabiltiy</option>   
-        </select>
+        <div className='graph-parameter'>
+          <label htmlFor='param'>Y-Axis: </label>
+          <select name='param' value={this.state.param} onChange={this.handleParamChange}>
+            <option value='popularity' >Popularity</option>
+            <option value='tempo'>Tempo</option>
+            <option value='duration_ms'>Duration</option>
+            <option value='danceability'>Danceabiltiy</option>   
+          </select>
+        </div>
         {
           this.props.loading &&
             <img className='loading' src={ logo }/>  
         }
-        <div ref={ this.viz }>
+        <div className='graph' ref={ this.viz }>
         </div>
       </div> 
     )

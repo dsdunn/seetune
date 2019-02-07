@@ -1,22 +1,210 @@
 body {
-  padding: 1.5em;
+  height: 100vh;
+  background-color: #191414;
+  color: white;
+  font-family: sans-serif;
 }
 
-.App {
-  text-align: center;
+/*--------header styles------------------------*/
+
+header {
+  height: 17vh;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  background: url('../assets/headphones_banner.jpg') no-repeat;
+  background-size: cover;
+  background-position: 50% 40%;
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.4;
+  z-index: -1;
 }
 
 .title {
   text-align: center;
+  font-size: 4em;
+  font-weight: bold;
+  padding: .5em;
+  color: #fede5a;
 }
 
 .subtitle {
   text-align: center;
+  font-size: 1.2em;
 }
 
+/*--------app styles------------------------------*/
 
+.app {
+  padding: 2em;
+  padding-bottom: 0;
+}
 
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 50vh;
+  font-size: 1.2em;
+  padding: 2em;
+}
 
+.login-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+  margin: 1em;
+  padding-top: 1em;
+  border: 1px solid white;
+}
+
+.login-button:hover {
+  cursor: pointer;
+  border-color: #1DB954;
+  box-shadow: 0 0 2px 1px #1DB954;
+}
+
+.login img {
+  height: 2.5em;
+  margin: 1.25em;
+}
+
+.login li {
+  margin: 1em 0 1em 0;
+  font-style: italic;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.user-text {
+  padding-right: .5em;
+  text-align: right;
+  font-size: 1.2em;
+}
+
+.user-image {
+  height: 4em;
+}
+
+.range-form {
+  width: 50%;
+  margin: -3em auto 1em auto;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+select {
+  color: white;
+  background: none;
+  font-size: 1em;
+}
+
+nav {
+    margin: 1em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.nav-link {
+  padding: 1em;
+  border-radius: 5px;
+  width: 8em;
+  font-size: 1.2em;
+  border: 1px solid #fede5a;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+.nab-link:visited {
+  color: white;
+}
+
+.active {
+  background: #7e2b39;
+}
+
+.loading {
+  position: absolute;
+  left: 50vw;
+  top: 400px;
+  height: 4em;
+  width: 4em;
+  margin: auto;
+}
+
+.graph {
+  display: flex;
+  justify-content: center;
+}
+
+.graph-parameter {
+    position: relative;
+    top: 4vh;
+    left: 5vw;
+    font-size: 1.2em;
+}
+
+svg {
+  margin-top: 2em;
+}
+
+.tool-tip {
+  display: flex;
+  position: absolute;
+  top: 35vh;
+  left: 30vw;
+  color: #191414;
+
+}
+
+.tool-tip table {
+  width: 100%;
+  max-width: 30em;
+  height: 11em;
+}
+
+.tool-tip td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: .4em;
+  text-align: center;
+}
+
+.tool-tip img {
+  width: 11em;
+  height: 11em;
+}
+
+footer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 7vh;
+  bottom: 0;
+  padding: .5em;
+  background: lightgray;
+  opacity: .6;
+  color: #191414;
+
+}
 
 @keyframes App-logo-spin {
   from {

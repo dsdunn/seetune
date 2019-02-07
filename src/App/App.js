@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
+import '../reset.css';
 import './App.css';
 
 import Login from '../Login/Login';
@@ -109,42 +110,54 @@ class App extends Component {
   render() {
     return (
       <div>
-        { !this.state.token && <Login/> }
-        {this.state.user && <User user={this.state.user} />}
-        <h1 className='title'>SeeTune</h1>
-        <p className='subtitle'>Graphs to visualize your listening habits and preferences.</p>
-        <form>
-          <select 
-            name="range" 
-            value={ this.state.range } 
-            onChange={ this.handleRangeChange }>
-            <option value='short_term'>Short</option>
-            <option value='medium_term'>Meduim</option>
-            <option value='long_term'>Long</option>
-          </select>
-        </form>
-
-        <section className='visualizations'>
-          <Router>
-            <div>
-              <NavLink to='/bar'>Bar Chart</NavLink>
-              <NavLink to='/scatter'>Scatter Plot</NavLink>
-              <Route path='/bar' render={ (props) => (
-                  <TempoGraph 
-                    {...props}
-                    topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
-                    range={ this.state.range }
-                    loading= { this.state.loading }/>
-              )}/>
-              <Route path='/scatter' render={ (props) => (
-                  <ScatterPlot
-                    {...props}
-                    topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
-                    loading= { this.state.loading }/>
-              )}/>
-            </div>
-          </Router>
-        </section>
+        <header>
+          <h1 className='title'>SeeTune</h1>
+          <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare charactaristics of their top tracks.</p>
+        </header>
+        <div className='app'>
+          {this.state.user && <User user={this.state.user} />}
+          {!this.state.token && <Login/>}
+          { this.state.token && 
+            <section className='visualizations'>
+              <form className='range-form'>
+                <label htmlFor='range'>Time Range: </label>
+                <select 
+                  name='range'
+                  value={ this.state.range } 
+                  onChange={ this.handleRangeChange }>
+                  <option value='short_term'>Short</option>
+                  <option value='medium_term'>Meduim</option>
+                  <option value='long_term'>Long</option>
+                </select>
+              </form>
+              <Router>
+                <div>
+                  <nav>  
+                    <NavLink className='nav-link' to='/bar'>Bar Chart</NavLink>
+                    <NavLink className='nav-link' to='/scatter'>Scatter Plot</NavLink>
+                  </nav>
+                  <Route path='/bar' render={ (props) => (
+                      <TempoGraph 
+                        {...props}
+                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
+                        range={ this.state.range }
+                        loading= { this.state.loading }/>
+                  )}/>
+                  <Route path='/scatter' render={ (props) => (
+                      <ScatterPlot
+                        {...props}
+                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
+                        loading= { this.state.loading }/>
+                  )}/>
+                </div>
+              </Router>
+            </section>
+          }
+        </div>
+        <footer>
+          <p>Built with D3.js and powered by the Spotify API</p>
+          <p>&copy; dsdunn 2019</p>
+        </footer>
       </div>
     );
   }

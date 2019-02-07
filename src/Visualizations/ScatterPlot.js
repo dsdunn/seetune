@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import { withRouter } from 'react-router-dom'
-import './Visualizations.css';
-import logo from '../loading.gif';
+import logo from '../assets/loading.gif';
 
 class ScatterPlot extends Component {
   constructor(props){
@@ -166,7 +165,7 @@ class ScatterPlot extends Component {
             this.props.loading && 
             <img className='loading' src={logo}/>
           }
-          <div ref={ this.scat }>
+          <div className='plot' ref={ this.scat }>
           </div>
         </div>
       )
