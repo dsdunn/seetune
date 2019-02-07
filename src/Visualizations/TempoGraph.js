@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from 'd3';
 import { withRouter } from 'react-router-dom';
-import './Visualizations.css';
 import logo from '../assets/loading.gif';
 
 class TempoGraph extends Component {
@@ -99,7 +98,8 @@ class TempoGraph extends Component {
             .style('fill', '#a62c19')
 
           toolTip.html(
-            `<table>
+            `<img src='${d.coverArt.url}'/>
+            <table>
               <tr class='tip-title'>
                 <td class='category'>title: </td>
                 <td> ${d.title}</td>
@@ -126,8 +126,8 @@ class TempoGraph extends Component {
               </tr>
             </table>`
             )
-            .style("left", (d3.event.pageX - 65) + "px")   
-            .style("top", (d3.event.pageY - 200) + "px")
+            // .style("left", (d3.event.pageX - 65) + "px")   
+            // .style("top", (d3.event.pageY - 200) + "px")
             .transition()
               .duration(300)
               .style('opacity', .8)
