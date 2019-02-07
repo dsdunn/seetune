@@ -109,46 +109,51 @@ class App extends Component {
 
   render() {
     return (
-      <div className='app'>
+      <div>
         <header>
-          {this.state.user && <User user={this.state.user} />}
           <h1 className='title'>SeeTune</h1>
           <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare charactaristics of their top tracks.</p>
         </header>
-        { !this.state.token && <Login/> }
-        { this.state.token && 
-          <section className='visualizations'>
-            <form>
-              <select 
-                name="range" 
-                value={ this.state.range } 
-                onChange={ this.handleRangeChange }>
-                <option value='short_term'>Short</option>
-                <option value='medium_term'>Meduim</option>
-                <option value='long_term'>Long</option>
-              </select>
-            </form>
-            <Router>
-              <div>
-                <NavLink to='/bar'>Bar Chart</NavLink>
-                <NavLink to='/scatter'>Scatter Plot</NavLink>
-                <Route path='/bar' render={ (props) => (
-                    <TempoGraph 
-                      {...props}
-                      topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
-                      range={ this.state.range }
-                      loading= { this.state.loading }/>
-                )}/>
-                <Route path='/scatter' render={ (props) => (
-                    <ScatterPlot
-                      {...props}
-                      topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
-                      loading= { this.state.loading }/>
-                )}/>
-              </div>
-            </Router>
-          </section>
-        }
+        <div className='app'>
+          {this.state.user && <User user={this.state.user} />}
+          {!this.state.token && <Login/>}
+          { this.state.token && 
+            <section className='visualizations'>
+              <form className='range-form'>
+                <label htmlFor='range'>Time Range: </label>
+                <select 
+                  name='range'
+                  value={ this.state.range } 
+                  onChange={ this.handleRangeChange }>
+                  <option value='short_term'>Short</option>
+                  <option value='medium_term'>Meduim</option>
+                  <option value='long_term'>Long</option>
+                </select>
+              </form>
+              <Router>
+                <div>
+                  <nav>  
+                    <NavLink className='nav-link' to='/bar'>Bar Chart</NavLink>
+                    <NavLink className='nav-link' to='/scatter'>Scatter Plot</NavLink>
+                  </nav>
+                  <Route path='/bar' render={ (props) => (
+                      <TempoGraph 
+                        {...props}
+                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
+                        range={ this.state.range }
+                        loading= { this.state.loading }/>
+                  )}/>
+                  <Route path='/scatter' render={ (props) => (
+                      <ScatterPlot
+                        {...props}
+                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
+                        loading= { this.state.loading }/>
+                  )}/>
+                </div>
+              </Router>
+            </section>
+          }
+        </div>
         <footer>
           <p>Built with D3.js and powered by the Spotify API</p>
           <p>&copy; dsdunn 2019</p>

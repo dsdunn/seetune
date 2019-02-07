@@ -1,11 +1,14 @@
 body {
+  height: 100vh;
   background-color: #191414;
   color: white;
   font-family: sans-serif;
 }
 
+/*--------header styles------------------------*/
+
 header {
-  height: 20vh;
+  height: 17vh;
   position: relative;
 }
 
@@ -34,6 +37,13 @@ header::after {
 .subtitle {
   text-align: center;
   font-size: 1.2em;
+}
+
+/*--------app styles------------------------------*/
+
+.app {
+  padding: 2em;
+  padding-bottom: 0;
 }
 
 .login {
@@ -75,21 +85,93 @@ header::after {
 
 .user {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-start;
 }
 
-.user-image {
-  height: 5em;
+.user-text {
+  padding-right: .5em;
+  text-align: right;
+  font-size: 1.2em;
 }
 
+.user-image {
+  height: 4em;
+}
+
+.range-form {
+  width: 50%;
+  margin: -3em auto 1em auto;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+select {
+  color: white;
+  background: none;
+  font-size: 1em;
+}
+
+nav {
+    margin: 1em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.nav-link {
+  padding: 1em;
+  border-radius: 5px;
+  width: 8em;
+  font-size: 1.2em;
+  border: 1px solid #fede5a;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+.nab-link:visited {
+  color: white;
+}
+
+.active {
+  background: #7e2b39;
+}
+
+.graph {
+  display: flex;
+  justify-content: center;
+}
+
+.graph-parameter {
+    position: relative;
+    top: 4vh;
+    left: 5vw;
+    font-size: 1.2em;
+}
+
+svg {
+  margin-top: 2em;
+}
+
+.tool-tip {
+  max-width: 30em;
+  color: #191414;
+}
+
+.tool-tip td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: .4em;
+  text-align: center;
+}
 
 footer {
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  position: absolute;
   width: 100%;
   height: 7vh;
   bottom: 0;
