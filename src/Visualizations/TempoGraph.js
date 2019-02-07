@@ -95,7 +95,7 @@ class TempoGraph extends Component {
       .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
-            .style('fill', '#a62c19')
+            .style('fill', '#7e2b39')
 
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
@@ -128,7 +128,7 @@ class TempoGraph extends Component {
             )
             .transition()
               .duration(300)
-              .style('opacity', .8)
+              .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
@@ -202,6 +202,7 @@ class TempoGraph extends Component {
 
     return (
       <div className='TempoGraph'>
+      <p className='instructions'>Hover over bars for track details.</p>
         <div className='graph-parameter'>
           <label htmlFor='param'>Y-Axis: </label>
           <select name='param' value={this.state.param} onChange={this.handleParamChange}>

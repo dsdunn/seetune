@@ -25,9 +25,9 @@ class ScatterPlot extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 40, right: 60, bottom: 150, left: 60};
+    this.margin = {top: 20, right: 60, bottom: 150, left: 70};
     this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .9) - this.margin.top - this.margin.bottom;
+    this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")
         .attr("width", this.width + this.margin.right + this.margin.left)
@@ -74,17 +74,17 @@ class ScatterPlot extends Component {
       .attr('class', 'major-label')
       .text('Major Key')
       .style('fill', 'white')
-      .attr('transform', 'translate(-40,' + this.height * .3 + ') rotate(270)')
+      .attr('transform', 'translate(-50,' + this.height * .3 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'minor-label')
       .text('Minor Key')
       .style('fill', 'white')
-      .attr('transform', 'translate(-40,' + this.height * .75 + ') rotate(270)')
+      .attr('transform', 'translate(-50,' + this.height * .75 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'x-label')
       .text('Release')
       .style('fill', 'white')
-      .attr('transform', 'translate(-60,' + this.height * .5 + ')')
+      .attr('transform', 'translate(-65,' + this.height * .5 + ')')
 
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
@@ -101,11 +101,11 @@ class ScatterPlot extends Component {
     y.domain([0, 1])
 
     let simulation = d3.forceSimulation(tracks)
-      .velocityDecay(0.7)
+      .velocityDecay(0.4)
       .force("x", d3.forceX(function(d) { return x(parseDay(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
-      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }))
+      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }).strength(1))
       .on('tick', ticked);
 
     let node = d3.select('.scatter')
@@ -120,10 +120,11 @@ class ScatterPlot extends Component {
         .attr('class', 'track')
         .attr('r', function(d) { return sizeScale(d.popularity); })
         .style('fill', function(d) { return colorScale(d.energy)})
+        .style('stroke', '#191414')
         .on('mouseover', function(d) {
           d3.select(this).transition()
             .duration(300)
-            .style('stroke', '#1DB954');
+            .style('stroke', '#fede5a');
           toolTip.html(`
             <img src='${d.coverArt.url}'/>
             <table>
@@ -155,12 +156,12 @@ class ScatterPlot extends Component {
             `)
             .transition()
               .duration(300)
-              .style('opacity', .8)
+              .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this).transition()
             .duration(200)
-            .style('stroke', 'none')
+            .style('stroke', '#191414')
           toolTip
             .transition()
               .duration(300)
@@ -190,6 +191,7 @@ class ScatterPlot extends Component {
             this.props.loading && 
             <img className='loading' src={logo}/>
           }
+          <p className='instructions'>Hover over spots for track details.</p>
           <div className='legend'>
             <svg height='100' width='200'>
               <defs>

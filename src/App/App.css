@@ -92,13 +92,13 @@ header::after {
 /*---------------user------------*/
 
 .user {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  position: absolute;
+  right: 1em;
+  float: right;
+  text-align: right;
 }
 
 .user-text {
-  padding-right: .5em;
   text-align: right;
   font-size: 1em;
 }
@@ -110,8 +110,9 @@ header::after {
 /*-----------controls----------------*/
 
 .range-form {
-  width: 50%;
-  margin: -3em auto 1em auto;
+  position: relative;
+  top: 1em;
+  z-index: -1;
   text-align: center;
 }
 
@@ -122,10 +123,10 @@ select {
 }
 
 nav {
-    margin: 1em;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    margin-top: -1em;
 }
 
 .nav-link {
@@ -147,6 +148,14 @@ nav {
   background: #7e2b39;
 }
 
+.instructions {
+  position: relative;
+  top: 3em;
+  text-align: center;
+  opacity: .3;
+  font-size: 1.2em;
+}
+
 .loading {
   position: absolute;
   left: 50vw;
@@ -159,7 +168,7 @@ nav {
 .graph {
   display: flex;
   justify-content: center;
-  margin: 3em 0 3em 0;
+  margin: 1em 0 3em 0;
 }
 
 .graph-parameter {
@@ -170,14 +179,18 @@ nav {
 }
 
 .legend {
-  /*border: 1px solid #fede5a;*/
+  position: relative;
+  top: 5em;
+  left: 2em;
 }
+
+/*----------------tool-tip------------*/
 
 .tool-tip {
   display: flex;
   position: absolute;
   width: 50vw;
-  top: 35vh;
+  top: 25vh;
   left: 25vw;
   color: #191414;
 
@@ -185,7 +198,6 @@ nav {
 
 .tool-tip table {
   width: 100%;
-  max-width: 30em;
   height: 11em;
 }
 

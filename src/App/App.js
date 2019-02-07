@@ -133,8 +133,8 @@ class App extends Component {
               <Router>
                 <div>
                   <nav>  
-                    <NavLink className='nav-link' to='/bar'>Bar Chart</NavLink>
-                    <NavLink className='nav-link' to='/scatter'>Scatter Plot</NavLink>
+                    <NavLink className='nav-link' to={`/bar`}>Bar Chart</NavLink>
+                    <NavLink className='nav-link' to={`/scatter`}>Scatter Plot</NavLink>
                   </nav>
                   <Route path='/bar' render={ (props) => (
                       <TempoGraph 
