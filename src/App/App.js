@@ -109,7 +109,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className='app-body'>
         <header>
           <h1 className='title'>SeeTune</h1>
           <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare charactaristics of their top tracks.</p>
