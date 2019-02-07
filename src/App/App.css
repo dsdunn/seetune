@@ -60,7 +60,7 @@ header::after {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 50vh;
+  height: 75vh;
   font-size: 1.2em;
   padding: 2em;
 }
@@ -159,7 +159,7 @@ nav {
 .graph {
   display: flex;
   justify-content: center;
-  margin-top: 4em;
+  margin: 3em 0 3em 0;
 }
 
 .graph-parameter {
@@ -169,14 +169,8 @@ nav {
     font-size: 1.2em;
 }
 
-svg {
-  margin: 2em 0 3em 0;
-}
-
 .legend {
-  height: 2em;
-  width: 2em;
-  background: white;
+  /*border: 1px solid #fede5a;*/
 }
 
 .tool-tip {
@@ -208,7 +202,7 @@ svg {
 }
 
 footer {
-  position: absolute;
+  /*position: absolute;*/
   display: flex;
   flex-direction: column;
   flex-shrink: 0;

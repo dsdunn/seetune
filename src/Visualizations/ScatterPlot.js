@@ -46,7 +46,7 @@ class ScatterPlot extends Component {
       .range([this.height, 0]);
 
     let colorScale = d3.scaleLinear()
-      .range(['#3944c7','#f12d0e','#881503'])
+      .range(['#3944c7','#f12d0e'])
       .domain([0, 1]);
 
     let sizeScale = d3.scaleLinear()
@@ -191,7 +191,23 @@ class ScatterPlot extends Component {
             <img className='loading' src={logo}/>
           }
           <div className='legend'>
-            <svg viewbox='0 0 300 200'><circle radius='7' cx='50' cy='50' fill='red'/></svg>
+            <svg height='100' width='200'>
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3944c7" />
+                  <stop offset="100%" stopColor="#f12d0e" />
+                </linearGradient>
+              </defs>
+              <text fill='white' x='4' y='25'>popularity: </text>
+              <circle r='7' cx='96' cy='20' stroke='#fede5a'/>
+              <text fill='white' x='106' y='25'> 0</text>
+              <circle r='20' cx='155' cy='20' stroke='#fede5a'/>
+              <text fill='white' x='140' y='25'> 100</text>
+              <text fill='white' x='4' y='70'>energy: </text>
+              <rect x='65' y='50' height='30' width='150' fill='url(#grad1)'/>
+              <text fill='white' x='75' y='70'>0</text>
+              <text fill='white' x='180' y='70'>1</text>
+            </svg>
           </div>
           <div className='graph' ref={ this.scat }>
           </div>
