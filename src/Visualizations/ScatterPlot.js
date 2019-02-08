@@ -7,6 +7,12 @@ class ScatterPlot extends Component {
   constructor(props){
     super(props);
     this.scat = React.createRef();
+    this.parseDay = d3.timeParse('%Y-%m-%d');
+    this.parseYear = d3.timeParse('%Y');
+    this.keys = ['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
+    this.state = {
+      param: 'releaseDate'
+    }
   }
 
   componentDidMount() {
@@ -25,9 +31,9 @@ class ScatterPlot extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 40, right: 60, bottom: 150, left: 60};
+    this.margin = {top: 20, right: 60, bottom: 150, left: 70};
     this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .9) - this.margin.top - this.margin.bottom;
+    this.height = (window.innerHeight * .8) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")
         .attr("width", this.width + this.margin.right + this.margin.left)
@@ -37,13 +43,38 @@ class ScatterPlot extends Component {
         .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
   }
 
-  drawGraph = (tracks) => {
+  drawGraph = (tracks, param = this.state.param) => {
 
-    let x = d3.scaleTime()
-      .range([0, this.width]);
+    d3.select('.x-label')
+      .remove()
+    
+    this.svgContainer.append('g')
+      .attr('class', 'x2 axis')
+      .attr('transform', 'translate(0,' + (this.height / 2) + ')');
+    this.svgContainer.append('text')
+      .attr('class', 'major-label')
+      .text('Major Key')
+      .style('fill', 'white')
+      .attr('transform', 'translate(-50,' + this.height * .3 + ') rotate(270)')
+    this.svgContainer.append('text')
+      .attr('class', 'minor-label')
+      .text('Minor Key')
+      .style('fill', 'white')
+      .attr('transform', 'translate(-50,' + this.height * .75 + ') rotate(270)')
+    this.svgContainer.append('text')
+      .attr('class', 'x-label')
+      .text(param === 'releaseDate' ? 'Released' : 'Key')
+      .style('fill', 'white')
+      .attr('transform', 'translate(-65,' + this.height * .5 + ')')
+
+    let x = (param === 'releaseDate' ? d3.scaleTime() : d3.scaleBand().align([1]))
+      .range([50, this.width - this.margin.right]);
+
+    x.domain(this.setXDomain(tracks, this.state.param));
 
     let y = d3.scaleLinear()
-      .range([this.height, 0]);
+      .range([this.height, 0])
+      .domain([0, 1])
 
     let colorScale = d3.scaleLinear()
       .range(['#3944c7','#f12d0e'])
@@ -58,54 +89,25 @@ class ScatterPlot extends Component {
         return d.popularity;
       })]);
 
-    const parseDay = d3.timeParse('%Y-%m-%d');
-    const parseYear = d3.timeParse('%Y');
-
-    function keyMap(num) {
-      let keys = ['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
-
-      return keys[num];
+    const keyMap = (num) => {
+      return this.keys[num];
     }
 
-    this.svgContainer.append('g')
-      .attr('class', 'x2 axis')
-      .attr('transform', 'translate(0,' + (this.height / 2) + ')');
-    this.svgContainer.append('text')
-      .attr('class', 'major-label')
-      .text('Major Key')
-      .style('fill', 'white')
-      .attr('transform', 'translate(-40,' + this.height * .3 + ') rotate(270)')
-    this.svgContainer.append('text')
-      .attr('class', 'minor-label')
-      .text('Minor Key')
-      .style('fill', 'white')
-      .attr('transform', 'translate(-40,' + this.height * .75 + ') rotate(270)')
-    this.svgContainer.append('text')
-      .attr('class', 'x-label')
-      .text('Release')
-      .style('fill', 'white')
-      .attr('transform', 'translate(-60,' + this.height * .5 + ')')
 
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
       .style('background', 'white')
 
-    x.domain([
-      d3.min(tracks, function(d) {
-        return parseDay(d.releaseDate) || parseYear(d.releaseDate); 
-      }), 
-      new Date()
-    ]);
-
-    y.domain([0, 1])
 
     let simulation = d3.forceSimulation(tracks)
-      .velocityDecay(0.7)
-      .force("x", d3.forceX(function(d) { return x(parseDay(d.releaseDate) || parseYear(d.releaseDate)) - 18; }).strength(1))
+      .velocityDecay(.6)
+      .force("x", d3.forceX((d) => { 
+        return param === 'key' ? x(keyMap(d.key)) + 40 : x(this.parseDay(d.releaseDate) || this.parseYear(d.releaseDate)); 
+      }).strength(.5))
       .force("y", d3.forceY(y(0.5)))
       .force("y2", d3.forceY(function(d) { return y(d.mode); }))
-      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }))
+      .force("collide", d3.forceCollide().radius(function(d) { return sizeScale(d.popularity) + .5 }).iterations(16))
       .on('tick', ticked);
 
     let node = d3.select('.scatter')
@@ -120,10 +122,11 @@ class ScatterPlot extends Component {
         .attr('class', 'track')
         .attr('r', function(d) { return sizeScale(d.popularity); })
         .style('fill', function(d) { return colorScale(d.energy)})
+        .style('stroke', '#191414')
         .on('mouseover', function(d) {
           d3.select(this).transition()
             .duration(300)
-            .style('stroke', '#1DB954');
+            .style('stroke', '#fede5a');
           toolTip.html(`
             <img src='${d.coverArt.url}'/>
             <table>
@@ -155,12 +158,12 @@ class ScatterPlot extends Component {
             `)
             .transition()
               .duration(300)
-              .style('opacity', .8)
+              .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this).transition()
             .duration(200)
-            .style('stroke', 'none')
+            .style('stroke', '#191414')
           toolTip
             .transition()
               .duration(300)
@@ -178,9 +181,35 @@ class ScatterPlot extends Component {
       })
     }
 
-    d3.select('.x2')
-      .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
+    if (this.state.param === 'releaseDate') {
+      d3.select('.x2')
+        .call(d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%Y")));
+    } else {
+      d3.select('.x2')
+        .call(d3.axisBottom().scale(x))
+    }
+  }
 
+  setXDomain = (tracks, param) => {
+    switch(param) {
+      case 'releaseDate':
+        return [
+          d3.min(tracks, (d) => {
+            return this.parseDay(d.releaseDate) || this.parseYear(d.releaseDate); 
+          }), 
+          new Date()
+        ];
+        break;
+      case 'key':
+        return this.keys;
+        break;
+    }
+  }
+
+  handleParamChange = (event) => {
+    let param = event.target.value;
+
+    this.setState({ param });
   }
 
   render() {
@@ -190,6 +219,14 @@ class ScatterPlot extends Component {
             this.props.loading && 
             <img className='loading' src={logo}/>
           }
+          <p className='instructions'>Hover over spots for track details.</p>
+          <div className='graph-parameter'>
+            <label htmlFor='param'>X-Axis: </label>
+            <select name='param' value={this.state.param} onChange={this.handleParamChange}>
+              <option value='releaseDate' >Release Date</option>
+              <option value='key'>Key</option>   
+            </select>
+          </div>
           <div className='legend'>
             <svg height='100' width='200'>
               <defs>

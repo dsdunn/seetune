@@ -92,10 +92,16 @@ class TempoGraph extends Component {
 
     graph.enter()
         .append('rect')
+        .attr('class', 'bar')
+        .attr('y', this.height)
+        .attr('x', function(d) { return x(d.title); })
+        .attr('height', 0)
+        .style('fill', 'steelblue')
+        .attr('width', x.bandwidth())
       .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
-            .style('fill', '#a62c19')
+            .style('fill', '#7e2b39')
 
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
@@ -128,7 +134,7 @@ class TempoGraph extends Component {
             )
             .transition()
               .duration(300)
-              .style('opacity', .8)
+              .style('opacity', .9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
@@ -138,13 +144,16 @@ class TempoGraph extends Component {
             .style('opacity', 1e-6)
         })
       .transition(t)
-        .attr('class', 'bar')
-        .attr('x', (d) => { return x(d.title); })
-        .attr('width', x.bandwidth())
+        // .duration(500)
+        .delay(function(d, i) {
+          return i * 6;
+        })
+        .attr('height', function(d) { return height - y(d[param]); })
         .attr('y', function(d) { 
           return y(d[param]); })
-        .attr('height', function(d) { return height - y(d[param]); })
-        .style('fill', 'steelblue');
+        .transition(t)
+        .delay(400)
+        .attr('x', (d) => { return x(d.title); })
 
       graph.exit()
         .transition(t)
@@ -152,9 +161,10 @@ class TempoGraph extends Component {
         .remove()
 
     d3.select('.x').transition(t)
-        .call(d3.axisBottom().scale(x).tickFormat((d) => {
-          return this.titleSlice(d);
-        }))
+      .delay(1477) 
+      .call(d3.axisBottom().scale(x).tickFormat((d) => {
+        return this.titleSlice(d);
+      }))
 
     d3.selectAll('.x text')
       .attr('transform', 'translate(-11,3) rotate(290)')
@@ -202,22 +212,23 @@ class TempoGraph extends Component {
 
     return (
       <div className='TempoGraph'>
-        <div className='graph-parameter'>
-          <label htmlFor='param'>Y-Axis: </label>
-          <select name='param' value={this.state.param} onChange={this.handleParamChange}>
-            <option value='popularity' >Popularity</option>
-            <option value='tempo'>Tempo (bpm)</option>
-            <option value='duration_ms'>Duration (mm:ss)</option>
-            <option value='danceability'>Danceabiltiy</option>   
-          </select>
-        </div>
-        {
-          this.props.loading &&
-            <img className='loading' src={ logo }/>  
-        }
-        <div className='graph' ref={ this.viz }>
-        </div>
-      </div> 
+      <p className='instructions'>Hover over bars for track details.</p>
+      <div className='graph-parameter'>
+        <label htmlFor='param'>Y-Axis: </label>
+        <select name='param' value={this.state.param} onChange={this.handleParamChange}>
+          <option value='popularity' >Popularity</option>
+          <option value='tempo'>Tempo (bpm)</option>
+          <option value='duration_ms'>Duration (mm:ss)</option>
+          <option value='danceability'>Danceabiltiy</option>   
+        </select>
+      </div>
+      {
+        this.props.loading &&
+          <img className='loading' src={ logo }/>  
+      }
+      <div className='graph' ref={ this.viz }>
+      </div>
+    </div> 
     )
   }
 }
