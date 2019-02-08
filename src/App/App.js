@@ -119,21 +119,21 @@ class App extends Component {
           {!this.state.token && <Login/>}
           { this.state.token && 
             <section className='visualizations'>
-              <form className='range-form'>
-                <label htmlFor='range'>Time Range: </label>
-                <select 
-                  name='range'
-                  value={ this.state.range } 
-                  onChange={ this.handleRangeChange }>
-                  <option value='short_term'>Short</option>
-                  <option value='medium_term'>Meduim</option>
-                  <option value='long_term'>Long</option>
-                </select>
-              </form>
               <Router>
                 <div>
                   <nav>  
                     <NavLink className='nav-link' to={`/bar`}>Bar Chart</NavLink>
+                    <form className='range-form'>
+                      <label htmlFor='range'>Time Range: </label>
+                      <select 
+                        name='range'
+                        value={ this.state.range } 
+                        onChange={ this.handleRangeChange }>
+                        <option value='short_term'>Short</option>
+                        <option value='medium_term'>Meduim</option>
+                        <option value='long_term'>Long</option>
+                      </select>
+                    </form>
                     <NavLink className='nav-link' to={`/scatter`}>Scatter Plot</NavLink>
                   </nav>
                   <Route path='/bar' render={ (props) => (

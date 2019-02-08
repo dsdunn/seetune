@@ -109,13 +109,6 @@ header::after {
 
 /*-----------controls----------------*/
 
-.range-form {
-  position: relative;
-  top: 1em;
-  z-index: -1;
-  text-align: center;
-}
-
 select {
   color: white;
   background: none;
@@ -124,9 +117,13 @@ select {
 
 nav {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    margin-top: -1em;
+    margin-top: 1em;
+}
+
+.range-form {
+  margin: 0 4em 0 4em;
 }
 
 .nav-link {
@@ -173,7 +170,6 @@ nav {
 
 .graph-parameter {
     position: relative;
-    top: 4vh;
     left: 5vw;
     font-size: 1.2em;
 }

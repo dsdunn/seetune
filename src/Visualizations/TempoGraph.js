@@ -203,22 +203,22 @@ class TempoGraph extends Component {
     return (
       <div className='TempoGraph'>
       <p className='instructions'>Hover over bars for track details.</p>
-        <div className='graph-parameter'>
-          <label htmlFor='param'>Y-Axis: </label>
-          <select name='param' value={this.state.param} onChange={this.handleParamChange}>
-            <option value='popularity' >Popularity</option>
-            <option value='tempo'>Tempo (bpm)</option>
-            <option value='duration_ms'>Duration (mm:ss)</option>
-            <option value='danceability'>Danceabiltiy</option>   
-          </select>
-        </div>
-        {
-          this.props.loading &&
-            <img className='loading' src={ logo }/>  
-        }
-        <div className='graph' ref={ this.viz }>
-        </div>
-      </div> 
+      <div className='graph-parameter'>
+        <label htmlFor='param'>Y-Axis: </label>
+        <select name='param' value={this.state.param} onChange={this.handleParamChange}>
+          <option value='popularity' >Popularity</option>
+          <option value='tempo'>Tempo (bpm)</option>
+          <option value='duration_ms'>Duration (mm:ss)</option>
+          <option value='danceability'>Danceabiltiy</option>   
+        </select>
+      </div>
+      {
+        this.props.loading &&
+          <img className='loading' src={ logo }/>  
+      }
+      <div className='graph' ref={ this.viz }>
+      </div>
+    </div> 
     )
   }
 }
