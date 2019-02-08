@@ -13,7 +13,6 @@ class TempoGraph extends Component {
   }
 
   componentDidMount() {
-    console.log('tempograph mount')
     this.makeSvg();
     if(this.props.topTracks) {
       this.drawGraph(this.props.topTracks)
@@ -22,7 +21,7 @@ class TempoGraph extends Component {
 
   makeSvg = () => {
     this.margin = {top: 20, right: 60, bottom: 150, left: 60};
-    this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
+    this.width = (window.innerWidth > 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
@@ -81,7 +80,7 @@ class TempoGraph extends Component {
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
       .style('fill', 'white')
-      .text(this.state.param == 'duration_ms' ? 'duration' : this.state.param )
+      .text(this.state.param === 'duration_ms' ? 'duration' : this.state.param )
 
     this.svgContainer.append('g')
       .attr('class', 'y axis');
@@ -132,19 +131,26 @@ class TempoGraph extends Component {
               </tr>
             </table>`
             )
+            .classed('hide', false)
+            .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', .9)
+              .style('opacity', 0.9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
             .style('fill', 'steelblue')
-          toolTip.transition()
-            .duration(100)
-            .style('opacity', 1e-6)
+          toolTip
+            .transition()
+              .duration(300)
+              .style('opacity', 1e-6)
+              .on('end', () => {
+                toolTip
+                  .classed('hide', true)
+                  .classed('show', false)
+              })
         })
       .transition(t)
-        // .duration(500)
         .delay(function(d, i) {
           return i * 6;
         })
@@ -180,18 +186,14 @@ class TempoGraph extends Component {
 
   setYDomain = (tracks, param) => {
     switch(param) {
-      case 'popularity':
-        return [-1, d3.max(tracks, function(d) { return d.popularity }) + 5 ];
-        break;
       case 'tempo':
         return [d3.min(tracks, function(d) { return d.tempo }) - 15 , d3.max(tracks, function(d) { return d.tempo}) + 15 ];
-        break;
       case 'duration_ms':
         return [ 0, d3.max(tracks, function(d) { return d.duration_ms }) + 5000 ]
-        break;
       case 'danceability':
         return [0, 1];
-        break;
+      default:
+        return [-1, d3.max(tracks, function(d) { return d.popularity }) + 5 ];
     }
   }
 
@@ -224,7 +226,7 @@ class TempoGraph extends Component {
       </div>
       {
         this.props.loading &&
-          <img className='loading' src={ logo }/>  
+          <img className='loading' src={ logo } alt='loading gif'/>  
       }
       <div className='graph' ref={ this.viz }>
       </div>

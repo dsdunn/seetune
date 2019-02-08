@@ -94,7 +94,7 @@ class App extends Component {
   async setGenres (topTracks) {
     let genres = tracksByGenre(topTracks);
 
-    this.setState({genres});
+    this.setState({genres}); 
   }
 
   handleRangeChange = (event) => {
@@ -107,6 +107,13 @@ class App extends Component {
     this.setTopTracks(this.state.token, range)
   }
 
+  signOut = () => {
+    this.setState({
+      token: '',
+      user: {}
+    })
+  }
+
   render() {
     return (
       <div className='app-body'>
@@ -115,7 +122,7 @@ class App extends Component {
           <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare charactaristics of their top tracks.</p>
         </header>
         <div className='app'>
-          {this.state.user && <User user={this.state.user} />}
+          {this.state.user && <User user={this.state.user} signOut={this.signOut} />}
           {!this.state.token && <Login/>}
           { this.state.token && 
             <section className='visualizations'>
@@ -129,9 +136,9 @@ class App extends Component {
                         name='range'
                         value={ this.state.range } 
                         onChange={ this.handleRangeChange }>
-                        <option value='short_term'>Short</option>
-                        <option value='medium_term'>Meduim</option>
-                        <option value='long_term'>Long</option>
+                        <option value='short_term'>Short (~1 month)</option>
+                        <option value='medium_term'>Meduim (~6 months)</option>
+                        <option value='long_term'>Long (years)</option>
                       </select>
                     </form>
                     <NavLink className='nav-link' to={`/scatter`}>Scatter Plot</NavLink>
