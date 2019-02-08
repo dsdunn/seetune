@@ -49,6 +49,8 @@ class App extends Component {
   async setUser (token) {
     let user = await getUser(token);
 
+    user.image = user.images[0] ? user.images[0].url : null;
+
     this.setState({ user })
     this.setTopTracks(token);
   }
@@ -119,7 +121,7 @@ class App extends Component {
       <div className='app-body'>
         <header>
           <h1 className='title'>SeeTune</h1>
-          <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare charactaristics of their top tracks.</p>
+          <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare characteristics of their top tracks.</p>
         </header>
         <div className='app'>
           {this.state.user && <User user={this.state.user} signOut={this.signOut} />}
