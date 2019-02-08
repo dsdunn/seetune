@@ -100,7 +100,7 @@ class ScatterPlot extends Component {
       .style('background', 'white')
 
 
-    let simulation = d3.forceSimulation(tracks)
+    d3.forceSimulation(tracks)
       .velocityDecay(.6)
       .force("x", d3.forceX((d) => { 
         return param === 'key' ? x(keyMap(d.key)) + 40 : x(this.parseDay(d.releaseDate) || this.parseYear(d.releaseDate)); 
@@ -156,9 +156,11 @@ class ScatterPlot extends Component {
               </tr>
             </table>
             `)
+            .classed('hide', false)
+            .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', .9)
+              .style('opacity', 0.9)
         })
         .on('mouseout', function(d) {
           d3.select(this).transition()
@@ -168,6 +170,11 @@ class ScatterPlot extends Component {
             .transition()
               .duration(300)
               .style('opacity', 1e-6)
+              .on('end', () => {  
+                toolTip
+                  .classed('hide', true)
+                  .classed('show', false)
+              })
         })
         .merge(node)
 
@@ -199,10 +206,8 @@ class ScatterPlot extends Component {
           }), 
           new Date()
         ];
-        break;
-      case 'key':
+      default:
         return this.keys;
-        break;
     }
   }
 
@@ -217,7 +222,7 @@ class ScatterPlot extends Component {
         <div className='ScatterPlot'>
           {
             this.props.loading && 
-            <img className='loading' src={logo}/>
+            <img className='loading' src={logo} alt='loading gif'/>
           }
           <p className='instructions'>Hover over spots for track details.</p>
           <div className='graph-parameter'>

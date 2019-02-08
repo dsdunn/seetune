@@ -16,7 +16,7 @@ const Login = () => {
       </ul>
       <div className='login-button' onClick={handleLogin}>
         <p>Login with</p>
-        <img src={logo_green}/>
+        <img src={logo_green} alt='spotify logo'/>
       </div>
     </div>
     )

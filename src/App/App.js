@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import '../reset.css';
