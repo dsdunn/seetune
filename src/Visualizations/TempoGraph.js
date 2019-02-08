@@ -92,6 +92,12 @@ class TempoGraph extends Component {
 
     graph.enter()
         .append('rect')
+        .attr('class', 'bar')
+        .attr('y', this.height)
+        .attr('x', function(d) { return x(d.title); })
+        .attr('height', 0)
+        .style('fill', 'steelblue')
+        .attr('width', x.bandwidth())
       .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
@@ -138,13 +144,16 @@ class TempoGraph extends Component {
             .style('opacity', 1e-6)
         })
       .transition(t)
-        .attr('class', 'bar')
-        .attr('x', (d) => { return x(d.title); })
-        .attr('width', x.bandwidth())
+        // .duration(500)
+        .delay(function(d, i) {
+          return i * 6;
+        })
+        .attr('height', function(d) { return height - y(d[param]); })
         .attr('y', function(d) { 
           return y(d[param]); })
-        .attr('height', function(d) { return height - y(d[param]); })
-        .style('fill', 'steelblue');
+        .transition(t)
+        .delay(400)
+        .attr('x', (d) => { return x(d.title); })
 
       graph.exit()
         .transition(t)
@@ -152,9 +161,10 @@ class TempoGraph extends Component {
         .remove()
 
     d3.select('.x').transition(t)
-        .call(d3.axisBottom().scale(x).tickFormat((d) => {
-          return this.titleSlice(d);
-        }))
+      .delay(1477) 
+      .call(d3.axisBottom().scale(x).tickFormat((d) => {
+        return this.titleSlice(d);
+      }))
 
     d3.selectAll('.x text')
       .attr('transform', 'translate(-11,3) rotate(290)')
