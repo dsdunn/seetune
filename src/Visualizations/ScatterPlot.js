@@ -16,7 +16,6 @@ class ScatterPlot extends Component {
   }
 
   componentDidMount() {
-    console.log('scatter mount')
     this.makeSvg();
     if(this.props.topTracks) {
       this.drawGraph(this.props.topTracks)
@@ -32,7 +31,7 @@ class ScatterPlot extends Component {
 
   makeSvg = () => {
     this.margin = {top: 20, right: 60, bottom: 150, left: 70};
-    this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
+    this.width = (window.innerWidth >= 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .8) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")

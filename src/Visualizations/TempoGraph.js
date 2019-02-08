@@ -13,7 +13,6 @@ class TempoGraph extends Component {
   }
 
   componentDidMount() {
-    console.log('tempograph mount')
     this.makeSvg();
     if(this.props.topTracks) {
       this.drawGraph(this.props.topTracks)
@@ -22,7 +21,7 @@ class TempoGraph extends Component {
 
   makeSvg = () => {
     this.margin = {top: 20, right: 60, bottom: 150, left: 60};
-    this.width = (window.innerWidth * .95) - this.margin.left - this.margin.right;
+    this.width = (window.innerWidth > 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
