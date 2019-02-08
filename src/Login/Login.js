@@ -3,7 +3,7 @@ import logo_green from '../assets/logo_green.png';
 
 const Login = () => {
   const handleLogin = async () => {
-    window.location = process.env.BACKEND_URI || 'http://localhost:8888/login';
+    window.location = process.env.BACKEND_URI || 'https://seetune-backend.herokuapp.com/login';
   }
 
   return (
