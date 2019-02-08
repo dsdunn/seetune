@@ -107,6 +107,18 @@ header::after {
   height: 4em;
 }
 
+.sign-out-button {
+  background: none;
+  color: white;
+  padding: .2em;
+  margin: .3em;
+  border-radius: 3px;
+}
+
+.sign-out-button:hover {
+  background: #7e2b39;
+  cursor: pointer;
+}
 /*-----------controls----------------*/
 
 select {
@@ -147,6 +159,8 @@ nav {
 
 .instructions {
   position: relative;
+  width: 50%;
+  margin: auto;
   top: 3em;
   text-align: center;
   opacity: .3;
