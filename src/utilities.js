@@ -48,15 +48,6 @@ export const tracksByGenre = (tracks) => {
   return set;
 }
 
-// const asyncReduce = async (array, callback, startValue) => {
-//   let accumulator = startValue || 0;
-
-//   for (let i = 0; i < array.length; i++) {
-//     accumulator = await callback(accumulator, array[i])
-//   }
-//   return accumulator;
-// }
-
 export const asyncForEach = async (array, callback) => {
   for (let i = 0; i < array.length; i++) {
     await callback(array[i]);
