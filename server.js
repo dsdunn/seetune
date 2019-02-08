@@ -21,7 +21,8 @@ app.get('/login', (req, res) => {
       response_type: 'code',
       client_id,
       scope: 'user-read-private user-read-email user-top-read user-read-recently-played user-library-read',
-      redirect_uri 
+      redirect_uri,
+      show_dialog: true 
     }));
 });
 
