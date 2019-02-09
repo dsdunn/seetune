@@ -163,6 +163,7 @@ nav {
 }
 
 .instructions {
+  display: none;
   position: relative;
   width: 50%;
   margin: auto;
@@ -184,20 +185,23 @@ nav {
 .graph {
   display: flex;
   justify-content: center;
-  margin: 1em 0 3em 0;
   min-width: 800px;
 }
 
 .graph-parameter {
     position: relative;
+    margin-top: .7em;
     left: 4vw;
     font-size: 1em;
 }
 
 .legend {
-  position: relative;
-  top: 5em;
-  left: 2em;
+  display: flex;
+  justify-content: center;
+}
+
+.legend-svg {
+  margin: 0 1em;
 }
 
 /*----------------tool-tip------------*/

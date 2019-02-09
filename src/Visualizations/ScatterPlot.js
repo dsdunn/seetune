@@ -30,9 +30,9 @@ class ScatterPlot extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 35, right: 35, bottom: 35, left: 35};
+    this.margin = {top: 45, right: 35, bottom: 30, left: 35};
     this.width = (window.innerWidth >= 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .8) - this.margin.top - this.margin.bottom;
+    this.height = (window.innerHeight * .75) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")
         .attr("width", this.width + this.margin.right + this.margin.left)
@@ -234,29 +234,29 @@ class ScatterPlot extends Component {
           <div className='graph' ref={ this.scat }>
           </div>
           <div className='legend'>
-            <div>
-              <svg height='80' width='320'>
-                <defs>
-                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#3944c7" />
-                    <stop offset="100%" stopColor="#f12d0e" />
-                  </linearGradient>
-                </defs>
-                {/*<text fill='white' x='106' y='25'> 0</text>*/}
-                {/*<text fill='white' x='140' y='25'> 100</text>*/}
-                <text fill='white' x='4' y='20'>energy: </text>
-                <rect x='65' y='50' height='30' width='300' fill='url(#grad1)'/>
-                {/*<text fill='white' x='75' y='70'>0</text>*/}
-                {/*<text fill='white' x='180' y='70'>1</text>*/}
-              </svg>
-            </div>
-            <div>
-              <svg>
-                <text fill='white' x='4' y='25'>popularity: </text>
-                <circle r='7' cx='96' cy='20' stroke='#fede5a'/>
-                <circle r='21' cx='155' cy='20' stroke='#fede5a'/>
-              </svg>
-            </div>
+              <div className='legend-svg'>
+                <svg height='52' width='195'>
+                  <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#3944c7" />
+                      <stop offset="100%" stopColor="#f12d0e" />
+                    </linearGradient>
+                  </defs>
+                  <text fill='white' x='2' y='29'>energy: </text>
+                  <rect x='62' y='13' height='23' width='130' fill='url(#grad1)'/>
+                  <text x='65' y='30'>low</text>
+                  <text x='158' y='30'>high</text>
+                </svg>
+              </div>
+              <div className='legend-svg'>
+                <svg height='52' width='195'>
+                  <text fill='white' x='2' y='29'>popularity: </text>
+                  <circle r='7' cx='105' cy='25' stroke='#fede5a' fill='none'/>
+                  <text fill='white' x='84' y='30'>0</text>
+                  <circle r='20' cx='145' cy='24' stroke='#fede5a' fill='none'/>
+                  <text fill='white' x='130' y='29'>100</text>
+                </svg>
+              </div>
           </div>
         </div>
       )

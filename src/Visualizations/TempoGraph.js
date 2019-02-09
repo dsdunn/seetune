@@ -20,9 +20,9 @@ class TempoGraph extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 60, bottom: 150, left: 60};
+    this.margin = {top: 45, right: 60, bottom: 150, left: 60};
     this.width = (window.innerWidth > 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
+    this.height = (window.innerHeight * .75) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
          .attr("width", this.width + this.margin.right + this.margin.left)
