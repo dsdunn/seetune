@@ -37,6 +37,7 @@ header::after {
   font-size: 4em;
   font-weight: bold;
   color: #fbe567;
+  font-family: didact-gothic, sans-serif;
 }
 
 .subtitle {
@@ -114,7 +115,7 @@ header::after {
 }
 
 .sign-out-button:hover {
-  background: #7e2b39;
+  background: #b9300e;
   cursor: pointer;
 }
 /*-----------controls----------------*/
@@ -171,6 +172,8 @@ nav {
   font-weight: 200;
   opacity: 0.1;
   color: #fbe567;
+  font-family: didact-gothic, sans-serif;
+
 }
 
 .loading {
@@ -192,6 +195,7 @@ nav {
     position: relative;
     margin-top: .7em;
     left: 4vw;
+    max-width: 50%;
     font-size: 1em;
 }
 
