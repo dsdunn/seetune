@@ -128,32 +128,26 @@ class ScatterPlot extends Component {
             .style('stroke', '#fede5a');
           toolTip.html(`
             <img src='${d.coverArt.url}'/>
-            <table>
-              <tr class='tip-title'>
-                <td class='category'>title: </td>
-                <td> ${d.title}</td>
-              <tr>
-              <tr class='tip-artist'>
-                <td class='category'>artist: </td>
-                <td> ${d.artistName}</td>
-              </tr>
-              <tr class='tip-tempo'>
-                <td class='category'>energy: </td>
-                <td> ${d.energy}</td>
-              </tr>
-              <tr class='tip-popularity'>
-                <td class='category'>release date: </td>
-                <td> ${d.releaseDate}</td>
-              </tr>
-              <tr class='tip-dancability'>
-                <td class='category'>key: </td>
-                <td> ${keyMap(d.key) + (d.mode === 1 ? " Major" : " Minor")}</td>
-              </tr>
-              <tr class='tip-duration'>
-                <td class='category'>genres: </td>
-                <td> ${d.genres.join(', ')}</td>
-              </tr>
-            </table>
+            <ul>
+              <li class='tip-title'>
+                "${d.title}"
+              <li>
+              <li class='tip-artist'>
+                ${d.artistName}
+              </li>
+              <li class='tip-release'>
+                ${d.releaseDate}
+              </li>
+              <li class='tip-dancability'>
+                ${keyMap(d.key) + (d.mode === 1 ? " Major" : " Minor")}
+              </li>
+              <li class='tip-energy'>
+                ${d.energy} energy
+              </li>
+              <li class='tip-genres'>
+                ${d.genres.join(', ')}
+              </li>
+            </ul>
             `)
             .classed('hide', false)
             .classed('show', true)

@@ -104,32 +104,26 @@ class TempoGraph extends Component {
 
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
-            <table>
-              <tr class='tip-title'>
-                <td class='category'>title: </td>
-                <td> ${d.title}</td>
-              <tr>
-              <tr class='tip-artist'>
-                <td class='category'>artist: </td>
-                <td> ${d.artistName}</td>
-              </tr>
-              <tr class='tip-tempo'>
-                <td class='category'>tempo: </td>
-                <td> ${Math.round(d.tempo)}</td>
-              </tr>
-              <tr class='tip-popularity'>
-                <td class='category'>popularity: </td>
-                <td> ${d.popularity}</td>
-              </tr>
-              <tr class='tip-dancability'>
-                <td class='category'>danceability: </td>
-                <td> ${d.danceability}</td>
-              </tr>
-              <tr class='tip-duration'>
-                <td class='category'>duration: </td>
-                <td> ${formatMinutes(d.duration_ms)}</td>
-              </tr>
-            </table>`
+            <ul>
+              <li class='tip-title'>
+                "${d.title}""
+              <li>
+              <li class='tip-artist'>
+                ${d.artistName}
+              </li>
+              <li class='tip-tempo'>
+                ${Math.round(d.tempo)} bpm
+              </li>
+              <li class='tip-duration'>
+                ${formatMinutes(d.duration_ms)}
+              </li>
+              <li class='tip-popularity'>
+                ${d.popularity} popularity
+              </li>
+              <li class='tip-dancability'>
+                ${d.danceability} danceability
+              </li>
+            </ul>`
             )
             .classed('hide', false)
             .classed('show', true)
