@@ -153,7 +153,7 @@ class ScatterPlot extends Component {
             .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', 0.9)
+              .style('opacity', 0.8)
         })
         .on('mouseout', function(d) {
           d3.select(this).transition()
@@ -217,7 +217,6 @@ class ScatterPlot extends Component {
             this.props.loading && 
             <img className='loading' src={logo} alt='loading gif'/>
           }
-          <p className='instructions'>Hover over spots for track details.</p>
           <div className='graph-parameter'>
             <label htmlFor='param'>X-Axis: </label>
             <select name='param' value={this.state.param} onChange={this.handleParamChange}>

@@ -136,6 +136,7 @@ class App extends Component {
                     <NavLink className='nav-link nav-left' to={`/bar`}>Bar Chart</NavLink>
                     <NavLink className='nav-link nav-right' to={`/scatter`}>Scatter Plot</NavLink>
                   </nav>
+                  <h2 className='brand'>SeeTune</h2>
                   <form className='range-form'>
                     <label htmlFor='range'>Time Range: </label>
                     <select 

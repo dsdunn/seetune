@@ -36,7 +36,7 @@ header::after {
   text-align: center;
   font-size: 4em;
   font-weight: bold;
-  color: #fede5a;
+  color: #fbe567;
 }
 
 .subtitle {
@@ -140,7 +140,7 @@ nav {
   padding: .5em;
   width: 8em;
   font-size: 1.2em;
-  border: 1px solid #fede5a;
+  border: 1px solid white;
   color: white;
   text-decoration: none;
   text-align: center;
@@ -159,23 +159,23 @@ nav {
 }
 
 .active {
-  background: #7e2b39;
+  background: #b9300e;
 }
 
-.instructions {
-  display: none;
+.brand {
   position: relative;
-  width: 50%;
-  margin: auto;
-  top: 3em;
+  margin: 0 auto -1em auto;
   text-align: center;
-  opacity: .3;
-  font-size: 1.2em;
+  top: 10vh;
+  font-size: 4em;
+  font-weight: 200;
+  opacity: 0.1;
+  color: #fbe567;
 }
 
 .loading {
   position: absolute;
-  left: 50vw;
+  left: 47vw;
   top: 30vh;
   height: 4em;
   width: 4em;
@@ -217,6 +217,7 @@ nav {
 
 .tool-tip {
   position: absolute;
+  justify-content: center;
   width: 50vw;
   left: 25vw;
   top: 8vh;

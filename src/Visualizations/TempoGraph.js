@@ -95,18 +95,18 @@ class TempoGraph extends Component {
         .attr('y', this.height)
         .attr('x', function(d) { return x(d.title); })
         .attr('height', 0)
-        .style('fill', 'steelblue')
+        .style('fill', '#4b72b6')
         .attr('width', x.bandwidth())
       .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
-            .style('fill', '#7e2b39')
+            .style('fill', '#b4271e')
 
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
             <ul>
               <li class='tip-title'>
-                "${d.title}""
+                "${d.title}"
               <li>
               <li class='tip-artist'>
                 ${d.artistName}
@@ -129,11 +129,11 @@ class TempoGraph extends Component {
             .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', 0.9)
+              .style('opacity', 0.8)
         })
         .on('mouseout', function(d) {
           d3.select(this)
-            .style('fill', 'steelblue')
+            .style('fill', '#4b72b6')
           toolTip
             .transition()
               .duration(300)
@@ -208,7 +208,6 @@ class TempoGraph extends Component {
 
     return (
       <div className='TempoGraph'>
-      <p className='instructions'>Hover over bars for track details.</p>
       <div className='graph-parameter'>
         <label htmlFor='param'>Y-Axis: </label>
         <select name='param' value={this.state.param} onChange={this.handleParamChange}>
