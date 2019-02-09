@@ -119,10 +119,12 @@ class App extends Component {
   render() {
     return (
       <div className='app-body'>
-        <header>
-          <h1 className='title'>SeeTune</h1>
-          <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare characteristics of their top tracks.</p>
-        </header>
+        { !this.state.token &&
+          <header>
+            <h1 className='title'>SeeTune</h1>
+            <p className='subtitle'>Interactive graphs for Spotify users to visualize and compare characteristics of their top tracks.</p>
+          </header>
+        }
         <div className='app'>
           {this.state.user && <User user={this.state.user} signOut={this.signOut} />}
           {!this.state.token && <Login/>}
@@ -131,20 +133,20 @@ class App extends Component {
               <Router>
                 <div>
                   <nav>  
-                    <NavLink className='nav-link' to={`/bar`}>Bar Chart</NavLink>
-                    <form className='range-form'>
-                      <label htmlFor='range'>Time Range: </label>
-                      <select 
-                        name='range'
-                        value={ this.state.range } 
-                        onChange={ this.handleRangeChange }>
-                        <option value='short_term'>Short (~1 month)</option>
-                        <option value='medium_term'>Medium (~6 months)</option>
-                        <option value='long_term'>Long (years)</option>
-                      </select>
-                    </form>
-                    <NavLink className='nav-link' to={`/scatter`}>Scatter Plot</NavLink>
+                    <NavLink className='nav-link nav-left' to={`/bar`}>Bar Chart</NavLink>
+                    <NavLink className='nav-link nav-right' to={`/scatter`}>Scatter Plot</NavLink>
                   </nav>
+                  <form className='range-form'>
+                    <label htmlFor='range'>Time Range: </label>
+                    <select 
+                      name='range'
+                      value={ this.state.range } 
+                      onChange={ this.handleRangeChange }>
+                      <option value='short_term'>Short (~1 month)</option>
+                      <option value='medium_term'>Medium (~6 months)</option>
+                      <option value='long_term'>Long (years)</option>
+                    </select>
+                  </form>
                   <Route path='/bar' render={ (props) => (
                       <TempoGraph 
                         {...props}

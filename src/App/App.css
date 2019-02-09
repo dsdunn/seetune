@@ -1,7 +1,7 @@
 body {
   position: relative;
   min-height: 100vh;
-  min-width: 900px;
+  min-width: 700px;
   overflow: scroll;
   background-color: #191414;
   color: white;
@@ -129,22 +129,29 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1em;
+    margin: -.7em auto 2em auto;
 }
 
 .range-form {
-  margin: 0 4em 0 4em;
+  margin: 0 4em 0 1em;
 }
 
 .nav-link {
   padding: .5em;
-  border-radius: 5px;
   width: 8em;
   font-size: 1.2em;
   border: 1px solid #fede5a;
   color: white;
   text-decoration: none;
   text-align: center;
+}
+
+.nav-left {
+  border-radius: 0 0 0 5em;
+}
+
+.nav-right {
+  border-radius: 0 0 5em 0;
 }
 
 .nav-link:visited {
@@ -183,8 +190,8 @@ nav {
 
 .graph-parameter {
     position: relative;
-    left: 5vw;
-    font-size: 1.2em;
+    left: 4vw;
+    font-size: 1em;
 }
 
 .legend {

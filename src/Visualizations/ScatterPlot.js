@@ -30,7 +30,7 @@ class ScatterPlot extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 60, bottom: 150, left: 70};
+    this.margin = {top: 35, right: 35, bottom: 35, left: 35};
     this.width = (window.innerWidth >= 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .8) - this.margin.top - this.margin.bottom;
 
@@ -49,25 +49,25 @@ class ScatterPlot extends Component {
     
     this.svgContainer.append('g')
       .attr('class', 'x2 axis')
-      .attr('transform', 'translate(0,' + (this.height / 2) + ')');
+      .attr('transform', 'translate(0,' + (this.height / 2 - 10) + ')');
     this.svgContainer.append('text')
       .attr('class', 'major-label')
       .text('Major Key')
       .style('fill', 'white')
-      .attr('transform', 'translate(-50,' + this.height * .3 + ') rotate(270)')
+      .attr('transform', 'translate(0,' + this.height * .4 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'minor-label')
       .text('Minor Key')
       .style('fill', 'white')
-      .attr('transform', 'translate(-50,' + this.height * .75 + ') rotate(270)')
+      .attr('transform', 'translate(0,' + this.height * .76 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'x-label')
-      .text(param === 'releaseDate' ? 'Released' : 'Key')
+      .text(param === 'releaseDate' ? 'Date' : 'Key')
       .style('fill', 'white')
-      .attr('transform', 'translate(-65,' + this.height * .5 + ')')
+      .attr('transform', 'translate(-25,' + this.height * .5 + ')')
 
     let x = (param === 'releaseDate' ? d3.scaleTime() : d3.scaleBand().align([1]))
-      .range([50, this.width - this.margin.right]);
+      .range([this.margin.left, this.width - this.margin.right]);
 
     x.domain(this.setXDomain(tracks, this.state.param));
 
@@ -231,26 +231,32 @@ class ScatterPlot extends Component {
               <option value='key'>Key</option>   
             </select>
           </div>
-          <div className='legend'>
-            <svg height='100' width='200'>
-              <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#3944c7" />
-                  <stop offset="100%" stopColor="#f12d0e" />
-                </linearGradient>
-              </defs>
-              <text fill='white' x='4' y='25'>popularity: </text>
-              <circle r='7' cx='96' cy='20' stroke='#fede5a'/>
-              <text fill='white' x='106' y='25'> 0</text>
-              <circle r='20' cx='155' cy='20' stroke='#fede5a'/>
-              <text fill='white' x='140' y='25'> 100</text>
-              <text fill='white' x='4' y='70'>energy: </text>
-              <rect x='65' y='50' height='30' width='150' fill='url(#grad1)'/>
-              <text fill='white' x='75' y='70'>0</text>
-              <text fill='white' x='180' y='70'>1</text>
-            </svg>
-          </div>
           <div className='graph' ref={ this.scat }>
+          </div>
+          <div className='legend'>
+            <div>
+              <svg height='80' width='320'>
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#3944c7" />
+                    <stop offset="100%" stopColor="#f12d0e" />
+                  </linearGradient>
+                </defs>
+                {/*<text fill='white' x='106' y='25'> 0</text>*/}
+                {/*<text fill='white' x='140' y='25'> 100</text>*/}
+                <text fill='white' x='4' y='20'>energy: </text>
+                <rect x='65' y='50' height='30' width='300' fill='url(#grad1)'/>
+                {/*<text fill='white' x='75' y='70'>0</text>*/}
+                {/*<text fill='white' x='180' y='70'>1</text>*/}
+              </svg>
+            </div>
+            <div>
+              <svg>
+                <text fill='white' x='4' y='25'>popularity: </text>
+                <circle r='7' cx='96' cy='20' stroke='#fede5a'/>
+                <circle r='21' cx='155' cy='20' stroke='#fede5a'/>
+              </svg>
+            </div>
           </div>
         </div>
       )
