@@ -20,9 +20,9 @@ class TempoGraph extends Component {
   }
 
   makeSvg = () => {
-    this.margin = {top: 20, right: 60, bottom: 150, left: 60};
+    this.margin = {top: 45, right: 60, bottom: 150, left: 60};
     this.width = (window.innerWidth > 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
-    this.height = (window.innerHeight * .7) - this.margin.top - this.margin.bottom;
+    this.height = (window.innerHeight * .75) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
          .attr("width", this.width + this.margin.right + this.margin.left)
@@ -95,51 +95,45 @@ class TempoGraph extends Component {
         .attr('y', this.height)
         .attr('x', function(d) { return x(d.title); })
         .attr('height', 0)
-        .style('fill', 'steelblue')
+        .style('fill', '#4b72b6')
         .attr('width', x.bandwidth())
       .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
-            .style('fill', '#7e2b39')
+            .style('fill', '#b4271e')
 
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
-            <table>
-              <tr class='tip-title'>
-                <td class='category'>title: </td>
-                <td> ${d.title}</td>
-              <tr>
-              <tr class='tip-artist'>
-                <td class='category'>artist: </td>
-                <td> ${d.artistName}</td>
-              </tr>
-              <tr class='tip-tempo'>
-                <td class='category'>tempo: </td>
-                <td> ${Math.round(d.tempo)}</td>
-              </tr>
-              <tr class='tip-popularity'>
-                <td class='category'>popularity: </td>
-                <td> ${d.popularity}</td>
-              </tr>
-              <tr class='tip-dancability'>
-                <td class='category'>danceability: </td>
-                <td> ${d.danceability}</td>
-              </tr>
-              <tr class='tip-duration'>
-                <td class='category'>duration: </td>
-                <td> ${formatMinutes(d.duration_ms)}</td>
-              </tr>
-            </table>`
+            <ul>
+              <li class='tip-title'>
+                "${d.title}"
+              <li>
+              <li class='tip-artist'>
+                ${d.artistName}
+              </li>
+              <li class='tip-tempo'>
+                ${Math.round(d.tempo)} bpm
+              </li>
+              <li class='tip-duration'>
+                ${formatMinutes(d.duration_ms)}
+              </li>
+              <li class='tip-popularity'>
+                ${d.popularity} popularity
+              </li>
+              <li class='tip-dancability'>
+                ${d.danceability} danceability
+              </li>
+            </ul>`
             )
             .classed('hide', false)
             .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', 0.9)
+              .style('opacity', 0.8)
         })
         .on('mouseout', function(d) {
           d3.select(this)
-            .style('fill', 'steelblue')
+            .style('fill', '#4b72b6')
           toolTip
             .transition()
               .duration(300)
@@ -214,7 +208,6 @@ class TempoGraph extends Component {
 
     return (
       <div className='TempoGraph'>
-      <p className='instructions'>Hover over bars for track details.</p>
       <div className='graph-parameter'>
         <label htmlFor='param'>Y-Axis: </label>
         <select name='param' value={this.state.param} onChange={this.handleParamChange}>
