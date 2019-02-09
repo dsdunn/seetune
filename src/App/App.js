@@ -139,7 +139,7 @@ class App extends Component {
                         value={ this.state.range } 
                         onChange={ this.handleRangeChange }>
                         <option value='short_term'>Short (~1 month)</option>
-                        <option value='medium_term'>Meduim (~6 months)</option>
+                        <option value='medium_term'>Medium (~6 months)</option>
                         <option value='long_term'>Long (years)</option>
                       </select>
                     </form>
