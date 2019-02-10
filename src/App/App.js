@@ -143,9 +143,9 @@ class App extends Component {
                       name='range'
                       value={ this.state.range } 
                       onChange={ this.handleRangeChange }>
-                      <option value='short_term'>Short (~1 month)</option>
-                      <option value='medium_term'>Medium (~6 months)</option>
-                      <option value='long_term'>Long (years)</option>
+                      <option value='short_term'>~1 month</option>
+                      <option value='medium_term'>~6 months</option>
+                      <option value='long_term'>years</option>
                     </select>
                   </form>
                   <Route path='/bar' render={ (props) => (

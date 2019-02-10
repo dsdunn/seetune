@@ -21,7 +21,7 @@ class TempoGraph extends Component {
 
   makeSvg = () => {
     this.margin = {top: 45, right: 60, bottom: 150, left: 60};
-    this.width = (window.innerWidth > 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
+    this.width = (window.innerWidth <= 1800 ? window.innerWidth * .95 : 1800) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .75) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.viz.current).append("svg")
@@ -60,7 +60,7 @@ class TempoGraph extends Component {
       .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
-      .style('background', 'white')
+      .style('background', '#d5cdc6')
       .style('opacity', 1e-6)
     const t = d3.transition().duration(1000);
     const formatMinutes = d3.timeFormat('%M:%S')
@@ -79,7 +79,7 @@ class TempoGraph extends Component {
       .attr('x', 0 - (height / 2))
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
-      .style('fill', 'white')
+      .style('fill', '#d5cdc6')
       .text(this.state.param === 'duration_ms' ? 'duration' : this.state.param )
 
     this.svgContainer.append('g')
@@ -111,17 +111,17 @@ class TempoGraph extends Component {
               <li class='tip-artist'>
                 ${d.artistName}
               </li>
-              <li class='tip-tempo'>
-                ${Math.round(d.tempo)} bpm
-              </li>
               <li class='tip-duration'>
-                ${formatMinutes(d.duration_ms)}
+                ${formatMinutes(d.duration_ms)}<span> min.</span>
+              </li>
+              <li class='tip-tempo'>
+                ${Math.round(d.tempo)}<span> bpm</span>
               </li>
               <li class='tip-popularity'>
-                ${d.popularity} popularity
+                ${d.popularity}<span> pop.</span>
               </li>
               <li class='tip-dancability'>
-                ${d.danceability} danceability
+                ${d.danceability}<span> dan.</span> 
               </li>
             </ul>`
             )
