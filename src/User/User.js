@@ -1,6 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-
 
 const User = ( {user, signOut} ) => {
   if(user.display_name) {
@@ -17,4 +15,4 @@ const User = ( {user, signOut} ) => {
   } return null;
 }
 
-export default withRouter(User);
+export default User;
