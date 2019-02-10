@@ -54,23 +54,17 @@ export const asyncForEach = async (array, callback) => {
   }
 }
 
-export const cleanUser = (user) => {
+export const cleanUser = (rawUser) => {
+  let { display_name } = rawUser;
+  let image = rawUser.images.length ? rawUser.images[0].url : null;
 
+  return ({ image, display_name });
 }
 
 
-// export const tracksByGenre = async (tracks) => {
-//   let set =  await tracks.reduce(async (genreObj, track) => {
-//     let genres = await track.genres;
 
-//     asyncForEach(genres, async (genre) => {
-//       if (!genreObj[genre]) {
-//         genreObj[genre] = [];
-//       }
-//       genreObj[genre].push(track)
-//     })
-//     return genreObj;
-//   }, {})
-//   console.log(set)
-//   return set;
-// }
+
+
+
+
+
