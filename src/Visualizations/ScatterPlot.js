@@ -90,7 +90,6 @@ class ScatterPlot extends Component {
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
-      .style('background', '#d5cdc6')
 
     d3.forceSimulation(tracks)
       .velocityDecay(.6)
@@ -121,32 +120,32 @@ class ScatterPlot extends Component {
             .style('stroke', '#fede5a');
           toolTip.html(`
             <img src='${d.coverArt.url}'/>
-            <ul>
-              <li class='tip-title'>
+            <div class='tool-tip-info'>
+              <p class='tip-title'>
                 "${d.title}"
-              <li>
-              <li class='tip-artist'>
+              <p>
+              <p class='tip-artist'>
                 ${d.artistName}
-              </li>
-              <li class='tip-release'>
+              </p>
+              <p class='tip-release'>
                 ${d.releaseDate}
-              </li>
-              <li class='tip-dancability'>
+              </p>
+              <p class='tip-dancability'>
                 ${keyMap(d.key) + (d.mode === 1 ? " Major" : " Minor")}
               </li>
-              <li class='tip-energy'>
+              <p class='tip-energy'>
                 ${d.energy} energy
-              </li>
-              <li class='tip-genres'>
+              </p>
+              <p class='tip-genres'>
                 ${d.genres.join(', ')}
-              </li>
-            </ul>
+              </p>
+            </div>
             `)
             .classed('hide', false)
             .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', 0.8)
+              .style('opacity', 0.9)
         })
         .on('mouseout', function(d) {
           d3.select(this).transition()

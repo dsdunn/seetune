@@ -179,11 +179,12 @@ nav {
   position: relative;
   margin: 0 auto -1em auto;
   text-align: center;
-  top: 10vh;
+  top: 31vh;
   font-size: 4em;
   opacity: 0.15;
   color: #fbe567;
   font-family: didact-gothic, sans-serif;
+  pointer-events: none;
 
 }
 
@@ -231,31 +232,33 @@ nav {
 
 .tool-tip {
   position: absolute;
+  display: flex;
   justify-content: center;
-  width: 50vw;
-  left: 25vw;
+  width: 100%;
   top: 8vh;
-  color: #191414;
-  opacity: 0.1;
+  color: #d5cdc6;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.tool-tip ul {
+.tool-tip-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: space-around;
-  padding: .5em;
-  width: 100%;
+  padding: .5em 1.5em;
+  max-width: 500px;
 }
 
-.tool-tip li {
+.tool-tip p {
   padding: .2em;
   text-align: center;
+  text-shadow: 10px 0 0 rgba(0,0,0,.3);
 }
 
 .tool-tip img {
   display: block;
-  margin: auto;
+  margin: auto 0 auto 0;
   max-width: 11em;
   max-height: 11em;
 }
@@ -284,9 +287,10 @@ footer {
 
 @media only screen and (max-width: 730px) {
 
-    .tool-tip {
-      left: 0;
-      width: 100vw;
+    
+    .tool-tip p, .tool-tip img {
+      background:#191414;
+      opacity: 1;
     }
 
     .x .tick {
@@ -304,6 +308,10 @@ footer {
 }
 
 @media only screen and (max-width: 600px) {
+
+  .tool-tip {
+    justify-content: space-evenly;
+  }
 
   .x2 .tick {
     display: none;
