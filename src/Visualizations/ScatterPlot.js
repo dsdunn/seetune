@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import { withRouter } from 'react-router-dom'
 import logo from '../assets/loading.gif';
 
 class ScatterPlot extends Component {
@@ -250,7 +249,7 @@ class ScatterPlot extends Component {
   }
 }
 
-export default withRouter(ScatterPlot);
+export default ScatterPlot;
 
 
 

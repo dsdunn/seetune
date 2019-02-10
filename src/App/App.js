@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
 import { tracksByGenre, asyncForEach } from '../utilities';
 import '../reset.css';
@@ -17,7 +16,8 @@ class App extends Component {
     genres: {},
     user: {},
     topTracks: [],
-    range: 'short_term'
+    range: 'short_term',
+    graph: 'bar'
   }
 
   async componentDidMount() {
@@ -109,6 +109,12 @@ class App extends Component {
     this.setTopTracks(this.state.token, range)
   }
 
+  changeGraph = (type) => {
+    this.setState({
+      graph: type
+    })
+  }
+
   signOut = () => {
     this.setState({
       token: '',
@@ -130,39 +136,34 @@ class App extends Component {
           {!this.state.token && <Login/>}
           { this.state.token && 
             <section className='visualizations'>
-              <Router>
-                <div>
-                  <nav>  
-                    <NavLink className='nav-link nav-left' to={`/bar`}>Bar Chart</NavLink>
-                    <NavLink className='nav-link nav-right' to={`/scatter`}>Scatter Plot</NavLink>
-                  </nav>
-                  <h2 className='brand'>SeeTune</h2>
-                  <form className='range-form'>
-                    <label htmlFor='range'>Time Range: </label>
-                    <select 
-                      name='range'
-                      value={ this.state.range } 
-                      onChange={ this.handleRangeChange }>
-                      <option value='short_term'>~1 month</option>
-                      <option value='medium_term'>~6 months</option>
-                      <option value='long_term'>years</option>
-                    </select>
-                  </form>
-                  <Route path='/bar' render={ (props) => (
-                      <TempoGraph 
-                        {...props}
-                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
-                        range={ this.state.range }
-                        loading= { this.state.loading }/>
-                  )}/>
-                  <Route path='/scatter' render={ (props) => (
-                      <ScatterPlot
-                        {...props}
-                        topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
-                        loading= { this.state.loading }/>
-                  )}/>
-                </div>
-              </Router>
+              <nav>  
+                <div className={`nav-link nav-left ${this.state.graph === 'bar' && 'active'}`}
+                  onClick={() => this.changeGraph('bar')}>Bar Chart</div>
+                <div className={`nav-link nav-right ${this.state.graph === 'scatter' && 'active'}`}
+                  onClick={() => this.changeGraph('scatter')}>Scatter Plot</div>
+              </nav>
+              <h2 className='brand'>SeeTune</h2>
+              <form className='range-form'>
+                <label htmlFor='range'>Time Range: </label>
+                <select 
+                  name='range'
+                  value={ this.state.range } 
+                  onChange={ this.handleRangeChange }>
+                  <option value='short_term'>~1 month</option>
+                  <option value='medium_term'>~6 months</option>
+                  <option value='long_term'>years</option>
+                </select>
+              </form>
+              { this.state.graph === 'bar' ?
+                <TempoGraph 
+                  topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
+                  range={ this.state.range }
+                  loading= { this.state.loading }/>
+                :
+                <ScatterPlot
+                  topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
+                  loading= { this.state.loading }/>
+              }      
             </section>
           }
         </div>

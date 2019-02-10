@@ -161,7 +161,8 @@ nav {
 }
 
 .nav-link:hover {
-  text-shadow: 1px #a32328
+  text-shadow: 1px #a32328;
+  cursor: pointer;
 }
 
 .nav-link:visited {
