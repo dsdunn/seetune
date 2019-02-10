@@ -56,7 +56,7 @@ export const asyncForEach = async (array, callback) => {
 
 export const cleanUser = (rawUser) => {
   let { display_name } = rawUser;
-  let image = rawUser.images.length ? rawUser.images[0].url : null;
+  let image = rawUser.images ? rawUser.images[0].url : null;
 
   return ({ image, display_name });
 }

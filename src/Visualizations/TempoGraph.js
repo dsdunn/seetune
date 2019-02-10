@@ -59,7 +59,6 @@ class TempoGraph extends Component {
       .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
-      .style('background', '#d5cdc6')
       .style('opacity', 1e-6)
     const t = d3.transition().duration(1000);
     const formatMinutes = d3.timeFormat('%M:%S')
@@ -101,38 +100,49 @@ class TempoGraph extends Component {
           d3.select(this)
             .style('fill', '#b4271e')
 
+          d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', 0)
+
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
-            <ul>
-              <li class='tip-title'>
+            <div class='tool-tip-info'>
+              <p class='tip-title'>
                 "${d.title}"
-              <li>
-              <li class='tip-artist'>
+              <p>
+              <p class='tip-artist'>
                 ${d.artistName}
-              </li>
-              <li class='tip-duration'>
+              </p>
+              <p class='tip-duration'>
                 ${formatMinutes(d.duration_ms)}<span> min.</span>
-              </li>
-              <li class='tip-tempo'>
+              </p>
+              <p class='tip-tempo'>
                 ${Math.round(d.tempo)}<span> bpm</span>
-              </li>
-              <li class='tip-popularity'>
+              </p>
+              <p class='tip-popularity'>
                 ${d.popularity}<span> pop.</span>
-              </li>
-              <li class='tip-dancability'>
+              </p>
+              <p class='tip-dancability'>
                 ${d.danceability}<span> dan.</span> 
-              </li>
-            </ul>`
+              </p>
+            </div>`
             )
             .classed('hide', false)
             .classed('show', true)
             .transition()
               .duration(300)
-              .style('opacity', 0.8)
+              .style('opacity', 0.9)
         })
         .on('mouseout', function(d) {
           d3.select(this)
             .style('fill', '#4b72b6')
+
+           d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', .1)
+
           toolTip
             .transition()
               .duration(300)
