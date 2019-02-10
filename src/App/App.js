@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getUser, getTopTracks, getAudioFeatures, getGenres, refreshAuth } from '../apiCalls';
-import { tracksByGenre, asyncForEach } from '../utilities';
+import { tracksByGenre, asyncForEach, cleanUser } from '../utilities';
 import '../reset.css';
 import './App.css';
 
@@ -49,7 +49,7 @@ class App extends Component {
   async setUser (token) {
     let user = await getUser(token);
 
-    user.image = user.images[0] ? user.images[0].url : null;
+    user = cleanUser(user)
 
     this.setState({ user })
     this.setTopTracks(token);
