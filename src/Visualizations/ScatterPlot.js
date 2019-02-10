@@ -118,6 +118,12 @@ class ScatterPlot extends Component {
           d3.select(this).transition()
             .duration(300)
             .style('stroke', '#fede5a');
+
+          d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', 0)
+
           toolTip.html(`
             <img src='${d.coverArt.url}'/>
             <div class='tool-tip-info'>
@@ -151,6 +157,12 @@ class ScatterPlot extends Component {
           d3.select(this).transition()
             .duration(200)
             .style('stroke', '#191414')
+
+          d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', .1)
+
           toolTip
             .transition()
               .duration(300)

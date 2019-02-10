@@ -179,8 +179,8 @@ nav {
   position: relative;
   margin: 0 auto -1em auto;
   text-align: center;
-  top: 31vh;
-  font-size: 4em;
+  top: 7vh;
+  font-size: 4.5em;
   opacity: 0.15;
   color: #fbe567;
   font-family: didact-gothic, sans-serif;
@@ -190,8 +190,8 @@ nav {
 
 .loading {
   position: absolute;
-  left: 47vw;
-  top: 30vh;
+  left: calc(50% - 25px);
+  top: 25vh;
   height: 4em;
   width: 4em;
   margin: auto;
@@ -285,12 +285,11 @@ footer {
   color: #d5cdc6;
 }
 
-@media only screen and (max-width: 730px) {
+@media only screen and (max-width: 850px) {
 
     
-    .tool-tip p, .tool-tip img {
+    .tool-tip {
       background:#191414;
-      opacity: 1;
     }
 
     .x .tick {

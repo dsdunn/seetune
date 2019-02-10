@@ -100,6 +100,11 @@ class TempoGraph extends Component {
           d3.select(this)
             .style('fill', '#b4271e')
 
+          d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', 0)
+
           toolTip.html(
             `<img src='${d.coverArt.url}'/>
             <div class='tool-tip-info'>
@@ -132,6 +137,12 @@ class TempoGraph extends Component {
         .on('mouseout', function(d) {
           d3.select(this)
             .style('fill', '#4b72b6')
+
+           d3.select('.brand')
+            .transition()
+            .duration(300)
+            .style('opacity', .1)
+
           toolTip
             .transition()
               .duration(300)
