@@ -31,7 +31,7 @@ class ScatterPlot extends Component {
 
   makeSvg = () => {
     this.margin = {top: 45, right: 35, bottom: 30, left: 35};
-    this.width = (window.innerWidth >= 900 ? window.innerWidth * .95 : 850) - this.margin.left - this.margin.right;
+    this.width = (window.innerWidth <= 1800 ? window.innerWidth * .95 : 1800) - this.margin.left - this.margin.right;
     this.height = (window.innerHeight * .75) - this.margin.top - this.margin.bottom;
 
     this.svgContainer = d3.select(this.scat.current).append("svg")
@@ -53,17 +53,17 @@ class ScatterPlot extends Component {
     this.svgContainer.append('text')
       .attr('class', 'major-label')
       .text('Major Key')
-      .style('fill', 'white')
+      .style('fill', '#d5cdc6')
       .attr('transform', 'translate(0,' + this.height * .4 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'minor-label')
       .text('Minor Key')
-      .style('fill', 'white')
+      .style('fill', '#d5cdc6')
       .attr('transform', 'translate(0,' + this.height * .76 + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'x-label')
       .text(param === 'releaseDate' ? 'Date' : 'Key')
-      .style('fill', 'white')
+      .style('fill', '#d5cdc6')
       .attr('transform', 'translate(-25,' + this.height * .5 + ')')
 
     let x = (param === 'releaseDate' ? d3.scaleTime() : d3.scaleBand().align([1]))
@@ -74,11 +74,9 @@ class ScatterPlot extends Component {
     let y = d3.scaleLinear()
       .range([this.height, 0])
       .domain([0, 1])
-
     let colorScale = d3.scaleLinear()
       .range(['#3944c7','#f12d0e'])
       .domain([0, 1]);
-
     let sizeScale = d3.scaleLinear()
       .range([7, 20])
       .domain([d3.min(tracks, function(d) {
@@ -87,17 +85,13 @@ class ScatterPlot extends Component {
       d3.max(tracks, function(d) {
         return d.popularity;
       })]);
-
     const keyMap = (num) => {
       return this.keys[num];
     }
-
-
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
-      .style('background', 'white')
-
+      .style('background', '#d5cdc6')
 
     d3.forceSimulation(tracks)
       .velocityDecay(.6)
@@ -237,7 +231,7 @@ class ScatterPlot extends Component {
                   </defs>
                   <text fill='white' x='2' y='29'>energy: </text>
                   <rect x='62' y='13' height='23' width='130' fill='url(#grad1)'/>
-                  <text x='65' y='30'>low</text>
+                  <text x='66' y='30'>low</text>
                   <text x='158' y='30'>high</text>
                 </svg>
               </div>
