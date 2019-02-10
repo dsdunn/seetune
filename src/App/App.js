@@ -21,13 +21,23 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let token = window.location.href.split('=')[1] || '';
-    let refresh_token = window.location.href.split('=')[2] || '';
+    // let token = window.location.href.split('=')[1] || '';
+    // let refresh_token = window.location.href.split('=')[2] || '';
 
-    if (token) {
-      this.setUser(token);
+    let hashes = window.location.hash.substring(1).split('&');
+    let params = {}
+
+    hashes.map(hash => {
+        let [key, val] = hash.split('=')
+        params[key] = decodeURIComponent(val)
+    })
+
+    let { access_token, refresh_token } = params || '';
+
+    if (access_token) {
+      this.setUser(access_token);
       this.setState({
-        token,
+        token: access_token,
         refresh_token,
         loading: true
       })
