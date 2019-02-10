@@ -93,7 +93,7 @@ header::after {
 
 .user {
   text-align: right;
-  margin-bottom: -9.2em;
+  margin-bottom: -8.9em;
 }
 
 .user-text {
@@ -161,7 +161,8 @@ nav {
 }
 
 .nav-link:hover {
-  text-shadow: 1px #a32328
+  text-shadow: 1px #a32328;
+  cursor: pointer;
 }
 
 .nav-link:visited {

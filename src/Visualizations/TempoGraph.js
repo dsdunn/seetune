@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import * as d3 from 'd3';
-import { withRouter } from 'react-router-dom';
 import logo from '../assets/loading.gif';
 
 class TempoGraph extends Component {
@@ -228,4 +227,4 @@ class TempoGraph extends Component {
   }
 }
 
-export default withRouter(TempoGraph);
+export default TempoGraph;
