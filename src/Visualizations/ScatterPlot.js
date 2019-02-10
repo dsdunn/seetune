@@ -237,9 +237,9 @@ class ScatterPlot extends Component {
               <div className='legend-svg'>
                 <svg height='52' width='195'>
                   <text fill='white' x='2' y='29'>popularity: </text>
-                  <circle r='7' cx='105' cy='25' stroke='#fede5a' fill='none'/>
+                  <circle r='6' cx='105' cy='25' stroke='#fede5a' fill='none'/>
                   <text fill='white' x='84' y='30'>0</text>
-                  <circle r='20' cx='145' cy='24' stroke='#fede5a' fill='none'/>
+                  <circle r='19' cx='145' cy='24' stroke='#fede5a' fill='none'/>
                   <text fill='white' x='130' y='29'>100</text>
                 </svg>
               </div>
