@@ -67,6 +67,8 @@ class App extends Component {
     if (user.displayName) {
       this.setState({ user })
       this.setTopTracks(token); 
+    } else {
+      this.setState({ token: null})
     }
 
   }
