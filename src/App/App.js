@@ -24,7 +24,7 @@ class App extends Component {
     let hashes = window.location.hash.substring(1).split('&');
     let params = {}
 
-    hashes.map(hash => {
+    hashes.forEach(hash => {
         let [key, val] = hash.split('=')
         params[key] = decodeURIComponent(val)
     })
@@ -61,10 +61,10 @@ class App extends Component {
       user = cleanUser(user)
 
     } catch(error) {
-      throw(error);
       this.setState({ 
         user: null,
-        token: null })
+        token: null 
+      })
       return;
     }
 
