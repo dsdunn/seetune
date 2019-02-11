@@ -54,15 +54,16 @@ class App extends Component {
   }
 
   async setUser (token) {
-    let user = await getUser(token);
-
+    let user;
     try {
-      user = cleanUser(user)
+      user = await getUser(token);
 
     } catch(error) {
       throw(error);
+      user = null;
     }
-    
+      user = cleanUser(user)
+
       this.setState({ user })
       this.setTopTracks(token);
       
