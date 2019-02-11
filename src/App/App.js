@@ -61,15 +61,14 @@ class App extends Component {
       user = cleanUser(user)
 
     } catch(error) {
-      this.setState({ 
-        user: null,
-        token: null 
-      })
-      return;
+      throw(error)
     }
 
-    this.setState({ user })
-    this.setTopTracks(token); 
+    if (user.displayName) {
+      this.setState({ user })
+      this.setTopTracks(token); 
+    }
+
   }
 
   async setTopTracks (token, range=this.state.range) {
