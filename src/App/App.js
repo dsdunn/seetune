@@ -21,9 +21,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    // let token = window.location.href.split('=')[1] || '';
-    // let refresh_token = window.location.href.split('=')[2] || '';
-
     let hashes = window.location.hash.substring(1).split('&');
     let params = {}
 
@@ -59,10 +56,16 @@ class App extends Component {
   async setUser (token) {
     let user = await getUser(token);
 
-    user = cleanUser(user)
+    try {
+      user = cleanUser(user)
 
-    this.setState({ user })
-    this.setTopTracks(token);
+    } catch(error) {
+      throw(error);
+    }
+    
+      this.setState({ user })
+      this.setTopTracks(token);
+      
   }
 
   async setTopTracks (token, range=this.state.range) {
