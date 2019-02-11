@@ -58,13 +58,13 @@ class App extends Component {
 
     try {
       user = await getUser(token);
-      user = cleanUser(user)
+      user = await cleanUser(user)
 
     } catch(error) {
       throw(error)
     }
 
-    if (user.displayName) {
+    if (user.display_name) {
       this.setState({ user })
       this.setTopTracks(token); 
     } else {
