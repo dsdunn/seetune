@@ -10,11 +10,12 @@ body {
 /*--------header styles------------------------*/
 
 header {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 17vh;
-  position: relative;
+  min-height: 17vh;
+  padding: 0.2em;
 }
 
 header::after {
@@ -44,24 +45,6 @@ header::after {
   font-size: 1.2em;
 }
 
-/*--------app styles------------------------------*/
-
-.app {
-  position: relative;
-  max-width: 1800px;
-  margin: auto;
-  padding: 2vh;
-  padding-bottom: 0;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: -1em auto 2em auto;
-    opacity: 0.9;
-}
-
 /*-------------login--------*/
 
 .login {
@@ -70,6 +53,7 @@ nav {
   justify-content: space-around;
   align-items: center;
   height: 69vh;
+  min-height: 400px;
   font-size: 1.2em;
   padding: 2em 2em 6em 2em;
 }
@@ -96,6 +80,24 @@ nav {
 .login li {
   margin: 1em 0 1em 0;
   font-style: italic;
+}
+
+/*--------app styles------------------------------*/
+
+.app {
+  position: relative;
+  max-width: 1800px;
+  margin: auto;
+  padding: 2vh;
+  padding-bottom: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -1em auto 2em auto;
+    opacity: 0.9;
 }
 
 /*---------------user------------*/
@@ -313,6 +315,10 @@ footer {
 
 @media only screen and (max-width: 600px) {
 
+  .login {
+    padding: 0;
+  }
+
   .tool-tip {
     justify-content: space-evenly;
   }
@@ -338,12 +344,16 @@ footer {
 
 @media only screen and (max-width: 465px) {
 
+  .login-button {
+    width: 98%;
+    margin: auto;
+  }
+
   .x-label, 
   .y-label, 
   .legend {
     display: none;
   }
-
 
   .scatter {
     margin-left: 15vw;
