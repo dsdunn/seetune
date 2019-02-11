@@ -4,7 +4,7 @@ const User = ( {user, signOut} ) => {
   if(user.display_name) {
     return (
       <div className='user'>
-        {user.image && <img className='user-image' src={user.image} alt='spotify user'/>}
+        {user.image && <img className='user-image' src={user.image} alt='Spotity User'/>}
         <div className='user-text'>
           <p>Top Tracks for</p>
           <p>{user.display_name}</p>

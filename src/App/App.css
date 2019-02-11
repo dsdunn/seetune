@@ -47,10 +47,19 @@ header::after {
 /*--------app styles------------------------------*/
 
 .app {
+  position: relative;
   max-width: 1800px;
   margin: auto;
   padding: 2vh;
   padding-bottom: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -1em auto 2em auto;
+    opacity: 0.9;
 }
 
 /*-------------login--------*/
@@ -92,8 +101,10 @@ header::after {
 /*---------------user------------*/
 
 .user {
+  position: absolute;
+  top: .75em;
+  right: .75em;
   text-align: right;
-  margin-bottom: -8.9em;
 }
 
 .user-text {
@@ -120,6 +131,7 @@ header::after {
   box-shadow: 0 0 2px 1px #a32328;
   cursor: pointer;
 }
+
 /*-----------controls----------------*/
 
 select {
@@ -128,14 +140,6 @@ select {
   border: 1px solid #d5cdc6;
   background: none;
   font-size: 1em;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: -.7em auto 2em auto;
-    opacity: 0.9;
 }
 
 .range-form {
@@ -222,6 +226,7 @@ nav {
 }
 
 /*----------------tool-tip------------*/
+
 .hide {
   display: none;
 }
