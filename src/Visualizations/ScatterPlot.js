@@ -58,7 +58,7 @@ class ScatterPlot extends Component {
       .attr('class', 'minor-label')
       .text('Minor Key')
       .style('fill', '#d5cdc6')
-      .attr('transform', 'translate(0,' + this.height * .76 + ') rotate(270)')
+      .attr('transform', 'translate(0,' + (this.height * .5 + 124) + ') rotate(270)')
     this.svgContainer.append('text')
       .attr('class', 'x-label')
       .text(param === 'releaseDate' ? 'Date' : 'Key')
