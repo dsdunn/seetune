@@ -69,6 +69,7 @@ class TempoGraph extends Component {
       .data(sortedTracks, d => { return d.id; });
     let toolTip = d3.select('.tool-tip')
       .style('opacity', 1e-6)
+      .html('')
     const t = d3.transition().duration(1000);
     const formatMinutes = d3.timeFormat('%M:%S')
     
