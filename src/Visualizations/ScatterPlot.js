@@ -87,14 +87,7 @@ class ScatterPlot extends Component {
     const keyMap = (num) => {
       return this.keys[num];
     }
-    let toolTip = d3.select('body').append('div')
-      .attr('class', 'tool-tip')
-      .style('opacity', 1e-6)
-      // .on('click', function(){
-      //   d3.select(this)
-      //     .classed('hide', true)
-      //     .classed('show', false)
-      // })
+    let toolTip = d3.select('.tool-tip')
 
     d3.forceSimulation(tracks)
       .velocityDecay(.6)

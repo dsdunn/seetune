@@ -41,13 +41,22 @@ class TempoGraph extends Component {
   }
 
   sortTracks = (tracks, param = 'popularity') => {
-    return tracks.sort((a,b) => {
+    let sortedTracks = tracks.sort((a,b) => {
       return a[param] - b[param];
     })
+    let titles = [];
+    sortedTracks.forEach(track => {
+      if (!titles.includes(track.title)) {
+        titles.push(track.title)
+      } else {
+        track.title = track.title + '1';
+        titles.push(track.title)
+      }
+    })
+    return sortedTracks;
   }
 
   drawGraph = (topTracks = this.props.topTracks, param = this.state.param) => {
-  console.log('tracks ', topTracks)
 
     let sortedTracks = this.sortTracks(topTracks, param);
     let height = this.height;
@@ -58,8 +67,7 @@ class TempoGraph extends Component {
       .range([this.height, 0])
     let graph = this.svgContainer.selectAll('.bar')
       .data(sortedTracks, d => { return d.id; });
-    let toolTip = d3.select('body').append('div')
-      .attr('class', 'tool-tip')
+    let toolTip = d3.select('.tool-tip')
       .style('opacity', 1e-6)
     const t = d3.transition().duration(1000);
     const formatMinutes = d3.timeFormat('%M:%S')
@@ -99,9 +107,9 @@ class TempoGraph extends Component {
         .attr('class', 'bar')
         .attr('y', this.height)
         .attr('height', 0)
-      .merge(graph)
+        .style('fill', 'rgba(251,229,103,0.6)')
         .attr('x', function(d) { return x(d.title); })
-        .style('fill', '#4b72b6')
+      .merge(graph)
         .attr('width', x.bandwidth())
         .on('mouseover', function(d) {
           d3.select(this)
@@ -170,6 +178,7 @@ class TempoGraph extends Component {
         .transition(t)
         .delay(400)
         .attr('x', (d) => { return x(d.title); })
+        .style('fill', '#4b72b6')
 
      
 
