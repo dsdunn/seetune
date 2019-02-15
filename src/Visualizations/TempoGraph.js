@@ -89,7 +89,9 @@ class TempoGraph extends Component {
 
     graph.exit()
       .transition(t)
-      .attr('opacity', 0)
+      .attr('y', this.height)
+      .attr('height', 0)
+      .style('opacity', 1e-6)
       .remove()
 
     graph.enter()
@@ -139,7 +141,7 @@ class TempoGraph extends Component {
               .duration(300)
               .style('opacity', 0.9)
         })
-        .on('mouseout', function(d) {
+        .on('pointerout', function(d) {
           d3.select(this)
             .style('fill', '#4b72b6')
 
