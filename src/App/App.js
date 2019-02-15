@@ -79,7 +79,7 @@ class App extends Component {
       topTracks = await this.setTrackDetails(topTracks);
 
       let interval = setInterval(() => {
-        if (topTracks[topTracks.length - 1].genres) {     
+        if (topTracks && topTracks[topTracks.length - 1].genres) {     
           this.setState({topTracks});
           // this.setGenres(topTracks);
           window.clearInterval(interval);
