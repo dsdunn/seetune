@@ -231,6 +231,7 @@ select {
 
 .hide {
   display: none;
+  pointer-events: none;
 }
 
 .show {
@@ -245,7 +246,6 @@ select {
   top: 8vh;
   color: #d5cdc6;
   opacity: 0;
-  pointer-events: none;
 }
 
 .tool-tip-info {

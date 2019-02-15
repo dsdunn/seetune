@@ -47,6 +47,7 @@ class TempoGraph extends Component {
   }
 
   drawGraph = (topTracks = this.props.topTracks, param = this.state.param) => {
+  console.log('tracks ', topTracks)
 
     let sortedTracks = this.sortTracks(topTracks, param);
     let height = this.height;
@@ -83,19 +84,23 @@ class TempoGraph extends Component {
     this.svgContainer.append('g')
       .attr('class', 'y axis');
 
-
     x.domain(sortedTracks.map(d => { return d.title } ));
     y.domain(this.setYDomain(sortedTracks, param));
+
+    graph.exit()
+      .transition(t)
+      .attr('opacity', 0)
+      .remove()
 
     graph.enter()
         .append('rect')
         .attr('class', 'bar')
         .attr('y', this.height)
-        .attr('x', function(d) { return x(d.title); })
         .attr('height', 0)
+      .merge(graph)
+        .attr('x', function(d) { return x(d.title); })
         .style('fill', '#4b72b6')
         .attr('width', x.bandwidth())
-      .merge(graph)
         .on('mouseover', function(d) {
           d3.select(this)
             .style('fill', '#b4271e')
@@ -164,10 +169,7 @@ class TempoGraph extends Component {
         .delay(400)
         .attr('x', (d) => { return x(d.title); })
 
-      graph.exit()
-        .transition(t)
-        .attr('opacity', 0)
-        .remove()
+     
 
     d3.select('.x').transition(t)
       .delay(1477) 

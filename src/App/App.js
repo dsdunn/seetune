@@ -174,13 +174,13 @@ class App extends Component {
               </form>
               { this.state.graph === 'bar' ?
                 <TempoGraph 
-                  topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks } 
+                  topTracks={ !this.state.loading && this.state.topTracks } 
                   range={ this.state.range }
-                  loading= { this.state.loading }/>
+                  loading={ this.state.loading }/>
                 :
                 <ScatterPlot
-                  topTracks={ this.state.topTracks.length > 59 && this.state.topTracks[59].tempo && this.state.topTracks }
-                  loading= { this.state.loading }/>
+                  topTracks={ !this.state.loading && this.state.topTracks }
+                  loading={ this.state.loading }/>
               }      
             </section>
           }

@@ -90,6 +90,11 @@ class ScatterPlot extends Component {
     let toolTip = d3.select('body').append('div')
       .attr('class', 'tool-tip')
       .style('opacity', 1e-6)
+      // .on('click', function(){
+      //   d3.select(this)
+      //     .classed('hide', true)
+      //     .classed('show', false)
+      // })
 
     d3.forceSimulation(tracks)
       .velocityDecay(.6)
@@ -153,7 +158,7 @@ class ScatterPlot extends Component {
               .duration(300)
               .style('opacity', 0.9)
         })
-        .on('mouseout', function(d) {
+        .on('pointerout', function(d) {
           d3.select(this).transition()
             .duration(200)
             .style('stroke', '#191414')
