@@ -2,6 +2,7 @@
 const express = require('express');
 const querystring = require('querystring');
 const request = require('request');
+const path = require('path');
 const cors = require('cors');
 
 const credentials =  require('./credentials.js');
@@ -14,6 +15,8 @@ const client_secret = process.env.SPOTIFY_CLIENT_SECRET || credentials.SPOTIFY_C
 
 
 app.use(cors())
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/login', (req, res) => {
   res.redirect('https://accounts.spotify.com/authorize?' + 
@@ -47,7 +50,7 @@ app.get('/callback', (req, res) => {
   request.post(authOptions, (error, response, body) => {
     let access_token = body.access_token;
     let refresh_token = body.refresh_token;
-    let uri = (process.env.FRONTEND_URI || 'http://localhost:3000') ;
+    let uri = (process.env.FRONTEND_URI || 'http://localhost:8888') ;
 
 
     res.redirect(uri + '/#' +
