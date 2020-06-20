@@ -1,0 +1,371 @@
+body {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #191414;
+  color: #d5cdc6;
+  font-family: sans-serif;
+}
+
+/*--------header styles------------------------*/
+
+header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 17vh;
+  padding: 0.2em;
+}
+
+header::after {
+  content: '';
+  background: url('../assets/headphones_banner.jpg') no-repeat;
+  background-size: cover;
+  background-position: 50% 40%;
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.title {
+  text-align: center;
+  font-size: 4em;
+  font-weight: bold;
+  color: #fbe567;
+  font-family: didact-gothic, sans-serif;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+/*-------------login--------*/
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 69vh;
+  min-height: 400px;
+  font-size: 1.2em;
+  padding: 2em 2em 6em 2em;
+}
+
+.login-button {
+  text-align: center;
+  width: 50%;
+  margin: 1em;
+  padding-top: 1em;
+  border: 1px solid white;
+}
+
+.login-button:hover {
+  cursor: pointer;
+  border-color: #1DB954;
+  box-shadow: 0 0 2px 1px #1DB954;
+}
+
+.login img {
+  height: 2.5em;
+  margin: 1.25em;
+}
+
+.login li {
+  margin: 1em 0 1em 0;
+  font-style: italic;
+}
+
+/*--------app styles------------------------------*/
+
+.app {
+  position: relative;
+  max-width: 1800px;
+  margin: auto;
+  padding: 2vh;
+  padding-bottom: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: -1em auto 2em auto;
+    opacity: 0.9;
+}
+
+/*---------------user------------*/
+
+.user {
+  position: absolute;
+  top: .75em;
+  right: .75em;
+  text-align: right;
+}
+
+.user-text {
+  text-align: right;
+  font-size: 1em;
+}
+
+.user-image {
+  height: 4em;
+}
+
+.sign-out-button {
+  background: none;
+  color: #d5cdc6;
+  padding: .2em;
+  margin: .3em auto;
+  border: 1px solid #d5cdc6;
+  border-radius: 3px;
+  font-size: .8em;
+}
+
+.sign-out-button:hover {
+  border: 1px solid #a32328;
+  box-shadow: 0 0 2px 1px #a32328;
+  cursor: pointer;
+}
+
+/*-----------controls----------------*/
+
+select {
+  width:8em;
+  color: #d5cdc6;
+  border: 1px solid #d5cdc6;
+  background: none;
+  font-size: 1em;
+}
+
+.range-form {
+  margin: 0 4em 0 1em;
+}
+
+.nav-link {
+  padding: .5em;
+  width: 9.5em;
+  font-size: 1.2em;
+  border: 1px solid #d5cdc6;
+  color: #d5cdc6;
+  text-decoration: none;
+  text-align: center;
+}
+
+.nav-left {
+  border-radius: 0 0 0 5em;
+}
+
+.nav-right {
+  border-radius: 0 0 5em 0;
+}
+
+.nav-link:hover {
+  text-shadow: 1px #a32328;
+  cursor: pointer;
+}
+
+.nav-link:visited {
+  color: #d5cdc6;
+}
+
+.active {
+  background: #a32328;
+}
+
+/*--------------------------graph-----------------*/
+
+.brand {
+  position: relative;
+  margin: 0 auto -1em auto;
+  text-align: center;
+  top: 7vh;
+  font-size: 4.5em;
+  opacity: 0.15;
+  color: #fbe567;
+  font-family: didact-gothic, sans-serif;
+  pointer-events: none;
+
+}
+
+.loading {
+  position: absolute;
+  left: calc(50% - 25px);
+  top: 25vh;
+  height: 4em;
+  width: 4em;
+  margin: auto;
+}
+
+.graph {
+  display: flex;
+  justify-content: center;
+}
+
+.graph-parameter {
+    position: relative;
+    margin-top: .7em;
+    left: 3.6em;
+    max-width: 50%;
+    font-size: 1em;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -3.5em auto 1em 0;
+}
+
+.legend-svg {
+  margin: 0 1em;
+}
+
+/*----------------tool-tip------------*/
+
+.hide {
+  display: none;
+  pointer-events: none;
+}
+
+.show {
+  display: flex;
+}
+
+.tool-tip {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 8vh;
+  color: #d5cdc6;
+  opacity: 0;
+}
+
+.tool-tip-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  padding: .5em 1.5em;
+  max-width: 500px;
+}
+
+.tool-tip p {
+  padding: .2em;
+  text-align: center;
+  text-shadow: 10px 0 0 rgba(0,0,0,.3);
+}
+
+.tool-tip img {
+  display: block;
+  margin: auto 0 auto 0;
+  max-width: 11em;
+  max-height: 11em;
+}
+
+.tip-title {
+  font-size: 1.2em;
+}
+
+.tool-tip span {
+  font-size: .7em;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 8vh;
+  bottom: 0;
+  margin-top: 2em;
+  padding: .7em;
+  opacity: .4;
+  color: #d5cdc6;
+}
+
+@media only screen and (max-width: 850px) {
+
+    
+    .tool-tip {
+      background:#191414;
+    }
+
+    .x .tick {
+      display: none;
+    }
+
+    .graph {
+      margin-bottom: -7em;
+    }
+
+    .legend {
+      margin-top: 4em;
+    }
+  
+}
+
+@media only screen and (max-width: 600px) {
+
+  .login {
+    padding: 0;
+  }
+
+  .tool-tip {
+    justify-content: space-evenly;
+  }
+
+  .x2 .tick {
+    display: none;
+  }
+
+  .user p, 
+  .user-image {
+    visibility: hidden;
+  }
+
+  .sign-out-button {
+    top: 3em;
+  }
+
+  .x2 .tick:nth-child(2), .x2 .tick:last-child {
+    display: block;
+  }
+
+}
+
+@media only screen and (max-width: 465px) {
+
+  .login-button {
+    width: 98%;
+    margin: auto;
+  }
+
+  .x-label, 
+  .y-label, 
+  .legend {
+    display: none;
+  }
+
+  .scatter {
+    margin-left: 15vw;
+  }
+
+  .graph {
+    margin-top: 3.5em;
+    margin-left: -1em;
+  }
+
+  .graph-parameter {
+    left: 1em;
+  }
+ 
+}
