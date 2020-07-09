@@ -40,7 +40,7 @@ app.get('/callback', (req, res) => {
       grant_type: 'authorization_code'
     },
     headers: {
-      'Authorization': 'Basic ' + (new Buffer(
+      'Authorization': 'Basic ' + (new Buffer.from(
         client_id + ':' + client_secret
         ).toString('base64'))
     },
@@ -94,5 +94,6 @@ app.get('/refresh', (req, res) => {
 })
 
 let port = process.env.PORT || 8888;
+console.log(process.env);
 
 app.listen(port, () => console.log('Listening on port:', port));
