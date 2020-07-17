@@ -11,9 +11,10 @@
     "concurrently": "^4.0.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
+    "lodash": "^4.17.19",
     "nodemon": "^2.0.4",
-    "lodash": "^4.17.15",
     "passport": "^0.4.0",
     "passport-spotify": "^1.0.1",
     "request": "^2.88.0"

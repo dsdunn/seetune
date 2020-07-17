@@ -50,7 +50,7 @@ app.get('/callback', (req, res) => {
   request.post(authOptions, (error, response, body) => {
     let access_token = body.access_token;
     let refresh_token = body.refresh_token;
-    let uri = (process.env.FRONTEND_URI || 'http://localhost:8888/') ;
+    let uri = (process.env.FRONTEND_URI || 'http://localhost:8888') ;
 
 
     res.redirect(uri + '/#' +

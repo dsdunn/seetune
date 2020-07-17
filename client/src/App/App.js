@@ -140,7 +140,6 @@ class App extends Component {
     })
     clearInterval(this.refreshInterval);
     window.location.href = window.location.href.split("#")[0];
-    // console.log(window.location);
   }
 
   render() {

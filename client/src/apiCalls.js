@@ -11,7 +11,7 @@ export const getUser = async (token) => {
 }
 
 export const refreshAuth = async (refresh_token) => {
-  let url = process.env.REACT_APP_REFRESH_URI || '/api/v1/refresh';
+  let url = '/refresh';
 
   return await fetch(url + '?refresh_token=' + refresh_token )
 }

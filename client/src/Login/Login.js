@@ -3,7 +3,7 @@ import logo_green from '../assets/logo_green.png';
 
 const Login = () => {
   const handleLogin = async () => {
-    window.location = process.env.REACT_APP_BACKEND_URI || '/login';
+    window.location = '/login';
   }
 
   return (
