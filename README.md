@@ -1,2 +1,4 @@
-# seetune_backend
-This is the backend for a project I'm building on the Spotify API. It goes with this [frontend](https://github.com/dsdunn/seetune).
+# seetune
+SeeTune is an interactice visualiztion app built with d3.js on the Spotify api. Users log in with Spotify OAuth and view graphs that display and compare data related to their top tracks on the platform such as release dates, popularity and audio features.
+
+![Seetune Gif](/seetunedemo.gif)
